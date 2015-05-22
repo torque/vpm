@@ -1,6 +1,7 @@
 TARGET  := vpm
 CC      := clang
 CFLAGS  := -Wall -std=c99
+OCFLAGS := -Wall -fobjc-arc
 LDFLAGS := -lmpv -framework Cocoa -framework WebKit -framework JavaScriptCore -framework OpenGL -pagezero_size 10000 -image_base 100000000
 # DEFS    := -D_XOPEN_SOURCE=600
 
@@ -15,6 +16,7 @@ all: debug
 
 production: DEFS += -DPRODUCTION -DNDEBUG
 production: CFLAGS += -O2
+production: OCFLAGS += -O2
 production: $(TARGET)
 
 debug: CFLAGS += -O0 -g
@@ -26,7 +28,7 @@ $(TARGET): $(OBJECTS)
 
 %.o: %.m
 	@echo OBJC $@
-	@$(CC) $(DEFS) $(CFLAGS) -c $< -o $@
+	@$(CC) $(DEFS) $(OCFLAGS) -c $< -o $@
 
 %.o: %.c
 	@echo CC $@

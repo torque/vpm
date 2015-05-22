@@ -7,7 +7,8 @@
 @interface VpmVideoView : NSOpenGLView
 
 @property mpv_opengl_cb_context *mpv_gl;
-@property(retain) WebView *webView;
+@property(nonatomic, strong) WebView *webView;
+@property(nonatomic, weak, readonly) JSContext *jsCtx;
 
 - (void)drawRect;
 - (void)attachJSContext;

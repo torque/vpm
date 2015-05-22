@@ -4,6 +4,6 @@
 
 @interface VpmWindow : NSWindow
 
-@property (nonatomic, retain) VpmVideoView *mainView;
+@property (nonatomic, strong) VpmVideoView *mainView;
 
 @end

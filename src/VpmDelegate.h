@@ -7,8 +7,8 @@
 @interface VpmDelegate : NSObject <NSApplicationDelegate>
 
 @property mpv_handle *mpv;
-@property(retain) dispatch_queue_t mpvQueue;
-@property(retain) VpmWindow *window;
+@property(strong) dispatch_queue_t mpvQueue;
+@property(nonatomic, strong) VpmWindow *window;
 
 - (void)readEvents;
 

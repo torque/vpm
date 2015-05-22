@@ -4,6 +4,7 @@
 #import <stdlib.h>
 
 #import "VpmDelegate.h"
+#import "VpmJSBridge.h"
 
 static inline void check_error( int status ) {
 	if (status < 0) {
@@ -108,6 +109,11 @@ static void *get_proc_address( void *ctx, const char *name) {
 
 	// webkit calls also cannot be cross-thread
 	[[self.window.mainView.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:htmlpath isDirectory:NO]]];
+
+	self.window.mainView.bridge = [[VpmJSBridge alloc] initWithMpv:self.mpv
+	                                                         queue:self.mpvQueue];
+
+	[self.window.mainView attachJS];
 
 	dispatch_async( self.mpvQueue, ^{
 		// Register to be woken up whenever mpv generates new events.

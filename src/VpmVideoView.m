@@ -32,7 +32,6 @@
 		}
 		// implicitly runs prepareOpenGL
 		[[self openGLContext] makeCurrentContext];
-		[self attachJSContext];
 	}
 
 	return self;
@@ -61,15 +60,21 @@
 	[self drawRect];
 }
 
-- (void)attachJSContext {
-	JSContext *ctx = [JSContext contextWithJSGlobalContextRef:self.webView.mainFrame.globalContext];
-	[ctx setExceptionHandler:^(JSContext *context, JSValue *value) {
+- (void)attachJS {
+	_jsCtx = [JSContext contextWithJSGlobalContextRef:self.webView.mainFrame.globalContext];
+
+	[self.jsCtx setExceptionHandler:^(JSContext *context, JSValue *value) {
 		NSLog( @"%@", value );
 	}];
 
-	ctx[@"console"][@"log"] = ^(JSValue *msg) {
+	self.jsCtx[@"console"][@"log"] = ^(JSValue *msg) {
 		NSLog( @"JavaScript: %@", msg );
 	};
+
+	NSLog(@"bridgeset %p", self.bridge);
+	if (self.bridge) {
+		self.jsCtx[@"vpm"] = self.bridge;
+	}
 }
 
 @end

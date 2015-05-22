@@ -16,11 +16,18 @@
 				opacity: 0;
 			}
 		</style>
-		<script>
-			console.log("Calling Obj-C");
-		</script>
 	</head>
 	<body>
-		<span class='box'>This is some text</span>
+		<span class='box'>Pause</span>
+		<script>
+			var element = document.querySelector("span.box");
+			var upvalue = false;
+			element.addEventListener('click', function(ev) {
+				upvalue = !upvalue;
+				// console.log(upvalue? "yes": "no");
+				element.textContent = upvalue? "Play": "Pause"
+				vpm.setPropertyStringValue("pause", upvalue? "yes": "no");
+			}, false);
+		</script>
 	</body>
 </html>

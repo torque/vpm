@@ -2,6 +2,17 @@
 
 #import "VpmVideoView.h"
 
+static void glUpdate( void *ctx );
+static void *glProbe( void *ctx, const char *name) {
+	NSString *sym = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
+	return CFBundleGetFunctionPointerForName(
+	         CFBundleGetBundleWithIdentifier(
+	           CFSTR( "com.apple.opengl" )
+	         ), (__bridge CFStringRef)sym
+	       );
+}
+
+
 @implementation VpmVideoView
 - (instancetype)initWithFrame:(NSRect)frame {
 	NSOpenGLPixelFormatAttribute attributes[] = {
@@ -19,40 +30,54 @@
 		self.wantsBestResolutionOpenGLSurface = YES;
 		self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		self.wantsLayer = YES;
-		_webView = [[WebView alloc] initWithFrame:[self bounds]
-		                                frameName:@"vpmWekitFrame"
-		                                groupName:@"vpmWebkitGroup"];
+		// Have to explicitly initialize this to nil.
+		self.mpv_gl = nil;
 
-		if (_webView) {
-			_webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-			_webView.drawsBackground = NO;
-			[self addSubview:_webView];
-		} else {
-			// probably crash or something
-		}
-		// implicitly runs prepareOpenGL
+		GLint swapInt = 1;
+		[[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+		self.webView = [[VpmWebView alloc] initWithFrame:self.bounds];
+		[self addSubview:self.webView];
+		// init mpv_gl stuff
+		[self initMpvGL];
 		[[self openGLContext] makeCurrentContext];
 	}
 
 	return self;
 }
 
-- (void)prepareOpenGL
-{
-	GLint swapInt = 1;
-	[[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-	// flush view with black. Looks better on startup.
-	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	// still not sure why flushing twice is necessary to blank the view.
-	[[self openGLContext] flushBuffer];
-	[[self openGLContext] flushBuffer];
-	self.mpv_gl = NULL;
+- (void)initMpvGL {
+	mpv_handle *mpv = self.webView.bridge.mpv;
+	// re-add error checking at some point.
+	mpv_set_option_string( mpv, "vo", "opengl-cb" );
+	self.mpv_gl = mpv_get_sub_api( mpv, MPV_SUB_API_OPENGL_CB );
+	if ( !self.mpv_gl ) {
+		puts( "libmpv does not have the opengl-cb sub-API." );
+		// handle error.
+	}
+
+	int r = mpv_opengl_cb_init_gl( self.mpv_gl, NULL, glProbe, NULL );
+	if ( r < 0 ) {
+		puts( "gl init has failed." );
+		// handle error.
+	}
+
+	mpv_opengl_cb_set_update_callback( self.mpv_gl, glUpdate, (__bridge void *)self );
+}
+
+static void glUpdate( void *ctx ) {
+	VpmVideoView *view = (__bridge VpmVideoView *)ctx;
+	dispatch_async( dispatch_get_main_queue( ), ^{
+		[view drawRect];
+	} );
 }
 
 - (void)drawRect {
-	if (self.mpv_gl)
+	if ( self.mpv_gl ) {
 		mpv_opengl_cb_draw(self.mpv_gl, 0, self.bounds.size.width, -self.bounds.size.height);
+	} else {
+		glClearColor(0, 0, 0, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
 	[[self openGLContext] flushBuffer];
 }
 
@@ -60,21 +85,9 @@
 	[self drawRect];
 }
 
-- (void)attachJS {
-	_jsCtx = [JSContext contextWithJSGlobalContextRef:self.webView.mainFrame.globalContext];
-
-	[self.jsCtx setExceptionHandler:^(JSContext *context, JSValue *value) {
-		NSLog( @"%@", value );
-	}];
-
-	self.jsCtx[@"console"][@"log"] = ^(JSValue *msg) {
-		NSLog( @"JavaScript: %@", msg );
-	};
-
-	NSLog(@"bridgeset %p", self.bridge);
-	if (self.bridge) {
-		self.jsCtx[@"vpm"] = self.bridge;
-	}
+- (void)destroy {
+	mpv_opengl_cb_uninit_gl( self.mpv_gl );
+	[self.webView destroy];
 }
 
 @end

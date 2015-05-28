@@ -6,4 +6,6 @@
 
 @property (nonatomic, strong) VpmVideoView *mainView;
 
+-(void)destroy;
+
 @end

@@ -21,4 +21,8 @@
 	return self;
 }
 
+- (void)destroy {
+	[self.mainView destroy];
+}
+
 @end

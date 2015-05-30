@@ -12,11 +12,18 @@
 @implementation VpmDelegate
 
 - (void)createWindow {
+	int startHeight = 300;
+	NSRect screenFrame = [NSScreen mainScreen].visibleFrame;
+
+	NSRect windowRect = NSMakeRect( (screenFrame.size.width - startHeight)/2 + screenFrame.origin.x,
+		                              (screenFrame.size.height - startHeight)/2 + screenFrame.origin.y,
+		                              startHeight, startHeight );
+
 	int mask = NSTitledWindowMask | NSClosableWindowMask |
 	           NSMiniaturizableWindowMask | NSResizableWindowMask;
 
 	self.window = [[VpmWindow alloc]
-		initWithContentRect:NSMakeRect(0, 0, 200, 200)
+		initWithContentRect:windowRect
 		          styleMask:mask
 		            backing:NSBackingStoreBuffered
 		              defer:NO];

@@ -18,6 +18,7 @@
 	                            defer:deferCreation];
 	if ( self ) {
 		self.mainView = [[VpmVideoView alloc] initWithFrame:[[self contentView] bounds]];
+		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
 		[self.contentView addSubview:self.mainView];
 	}
 

@@ -28,10 +28,6 @@
 		            backing:NSBackingStoreBuffered
 		              defer:NO];
 
-	[self.window makeKeyAndOrderFront:nil];
-	[self.window makeMainWindow];
-	self.window.title = @"vpm";
-
 	NSMenu *m = [[NSMenu alloc] initWithTitle:@"AMainMenu"];
 	NSMenuItem *item = [m addItemWithTitle:@"Apple" action:nil keyEquivalent:@""];
 	NSMenu *sm = [[NSMenu alloc] initWithTitle:@"Apple"];

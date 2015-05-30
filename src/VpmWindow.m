@@ -17,9 +17,12 @@
 	                          backing:bufferingType
 	                            defer:deferCreation];
 	if ( self ) {
-		self.mainView = [[VpmVideoView alloc] initWithFrame:[[self contentView] bounds]];
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
+		self.title = @"vpm";
+		self.mainView = [[VpmVideoView alloc] initWithFrame:[self.contentView frame]];
 		[self.contentView addSubview:self.mainView];
+		[self makeKeyAndOrderFront:nil];
+		[self makeMainWindow];
 	}
 
 	return self;

@@ -1,0 +1,9 @@
+*.o
+*.mp4
+*.mkv
+
+*.pbxuser
+xcuserdata
+*.xccheckout
+DerivedData
+*.xcuserstate

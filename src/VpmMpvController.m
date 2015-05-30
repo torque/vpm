@@ -39,8 +39,8 @@ static void wakeup( void *ctx ) {
 	// exceptions thrown from the javascript executed by a loaded page.
 	// Unfortunately, webkit does not pass a stack trace to this listener,
 	// so a better system should probably be devised.
-	self.ctx[@"window"][@"onerror"] = ^(NSString *msg, NSString *url, NSNumber *line, NSNumber *col) {
-		NSLog(@"%d:%d - %@", [line intValue], [col intValue], msg);
+	self.ctx[@"window"][@"onerror"] = ^( NSString *msg, NSString *url, NSNumber *line, NSNumber *col ) {
+		NSLog( @"%@:%d:%d - %@", url, [line intValue], [col intValue], msg );
 	};
 
 	self.ctx[@"vpm"] = self;

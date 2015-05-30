@@ -10,5 +10,5 @@ int main(int argc, const char * argv[]) {
 		app.delegate = delegate;
 		[app run];
 	}
-	return EXIT_SUCCESS;
+	return 0;
 }

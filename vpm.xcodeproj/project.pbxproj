@@ -1,0 +1,341 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6F49C3261B17E80600826A3D /* libmpv.1.17.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */; };
+		6FFB984B1B17E1C8003C3917 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FFB98491B17E1C8003C3917 /* Images.xcassets */; };
+		6FFB984C1B17E1C8003C3917 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FFB984A1B17E1C8003C3917 /* Info.plist */; };
+		6FFB985A1B17E20A003C3917 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB984E1B17E20A003C3917 /* main.m */; };
+		6FFB985B1B17E20A003C3917 /* VpmDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98511B17E20A003C3917 /* VpmDelegate.m */; };
+		6FFB985C1B17E20A003C3917 /* VpmMpvController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98531B17E20A003C3917 /* VpmMpvController.m */; };
+		6FFB985D1B17E20A003C3917 /* VpmVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98551B17E20A003C3917 /* VpmVideoView.m */; };
+		6FFB985E1B17E20A003C3917 /* VpmWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98571B17E20A003C3917 /* VpmWebView.m */; };
+		6FFB985F1B17E20A003C3917 /* VpmWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98591B17E20A003C3917 /* VpmWindow.m */; };
+		6FFB98631B17E36E003C3917 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB98621B17E36E003C3917 /* Foundation.framework */; };
+		6FFB98651B17E375003C3917 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB98641B17E375003C3917 /* WebKit.framework */; };
+		6FFB98671B17E37D003C3917 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB98661B17E37D003C3917 /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6F29E10D1B17A3C1009AE805 /* vpm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vpm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpv.1.17.0.dylib; path = /usr/local/lib/libmpv.1.17.0.dylib; sourceTree = "<group>"; };
+		6FFB98491B17E1C8003C3917 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = xcodejunk/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		6FFB984A1B17E1C8003C3917 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = xcodejunk/Info.plist; sourceTree = SOURCE_ROOT; };
+		6FFB984E1B17E20A003C3917 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6FFB984F1B17E20A003C3917 /* MpvJSBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpvJSBridge.h; sourceTree = "<group>"; };
+		6FFB98501B17E20A003C3917 /* VpmDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmDelegate.h; sourceTree = "<group>"; };
+		6FFB98511B17E20A003C3917 /* VpmDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmDelegate.m; sourceTree = "<group>"; };
+		6FFB98521B17E20A003C3917 /* VpmMpvController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmMpvController.h; sourceTree = "<group>"; };
+		6FFB98531B17E20A003C3917 /* VpmMpvController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmMpvController.m; sourceTree = "<group>"; };
+		6FFB98541B17E20A003C3917 /* VpmVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmVideoView.h; sourceTree = "<group>"; };
+		6FFB98551B17E20A003C3917 /* VpmVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmVideoView.m; sourceTree = "<group>"; };
+		6FFB98561B17E20A003C3917 /* VpmWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmWebView.h; sourceTree = "<group>"; };
+		6FFB98571B17E20A003C3917 /* VpmWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmWebView.m; sourceTree = "<group>"; };
+		6FFB98581B17E20A003C3917 /* VpmWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmWindow.h; sourceTree = "<group>"; };
+		6FFB98591B17E20A003C3917 /* VpmWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmWindow.m; sourceTree = "<group>"; };
+		6FFB98621B17E36E003C3917 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6FFB98641B17E375003C3917 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		6FFB98661B17E37D003C3917 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6F29E10A1B17A3C1009AE805 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FFB98671B17E37D003C3917 /* Cocoa.framework in Frameworks */,
+				6FFB98651B17E375003C3917 /* WebKit.framework in Frameworks */,
+				6FFB98631B17E36E003C3917 /* Foundation.framework in Frameworks */,
+				6F49C3261B17E80600826A3D /* libmpv.1.17.0.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6F29E1041B17A3C1009AE805 = {
+			isa = PBXGroup;
+			children = (
+				6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */,
+				6FFB98661B17E37D003C3917 /* Cocoa.framework */,
+				6FFB98641B17E375003C3917 /* WebKit.framework */,
+				6FFB98621B17E36E003C3917 /* Foundation.framework */,
+				6F29E10F1B17A3C1009AE805 /* vpm */,
+				6F29E10E1B17A3C1009AE805 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6F29E10E1B17A3C1009AE805 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6F29E10D1B17A3C1009AE805 /* vpm.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6F29E10F1B17A3C1009AE805 /* vpm */ = {
+			isa = PBXGroup;
+			children = (
+				6FFB98491B17E1C8003C3917 /* Images.xcassets */,
+				6FFB984D1B17E20A003C3917 /* src */,
+				6F29E1101B17A3C1009AE805 /* Supporting Files */,
+			);
+			path = vpm;
+			sourceTree = "<group>";
+		};
+		6F29E1101B17A3C1009AE805 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6FFB984A1B17E1C8003C3917 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6FFB984D1B17E20A003C3917 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				6FFB984E1B17E20A003C3917 /* main.m */,
+				6FFB984F1B17E20A003C3917 /* MpvJSBridge.h */,
+				6FFB98501B17E20A003C3917 /* VpmDelegate.h */,
+				6FFB98511B17E20A003C3917 /* VpmDelegate.m */,
+				6FFB98521B17E20A003C3917 /* VpmMpvController.h */,
+				6FFB98531B17E20A003C3917 /* VpmMpvController.m */,
+				6FFB98541B17E20A003C3917 /* VpmVideoView.h */,
+				6FFB98551B17E20A003C3917 /* VpmVideoView.m */,
+				6FFB98561B17E20A003C3917 /* VpmWebView.h */,
+				6FFB98571B17E20A003C3917 /* VpmWebView.m */,
+				6FFB98581B17E20A003C3917 /* VpmWindow.h */,
+				6FFB98591B17E20A003C3917 /* VpmWindow.m */,
+			);
+			path = src;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6F29E10C1B17A3C1009AE805 /* vpm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F29E12A1B17A3C1009AE805 /* Build configuration list for PBXNativeTarget "vpm" */;
+			buildPhases = (
+				6F29E1091B17A3C1009AE805 /* Sources */,
+				6F29E10A1B17A3C1009AE805 /* Frameworks */,
+				6F29E10B1B17A3C1009AE805 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vpm;
+			productName = vpm;
+			productReference = 6F29E10D1B17A3C1009AE805 /* vpm.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6F29E1051B17A3C1009AE805 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = unorg;
+				TargetAttributes = {
+					6F29E10C1B17A3C1009AE805 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 6F29E1081B17A3C1009AE805 /* Build configuration list for PBXProject "vpm" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6F29E1041B17A3C1009AE805;
+			productRefGroup = 6F29E10E1B17A3C1009AE805 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6F29E10C1B17A3C1009AE805 /* vpm */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6F29E10B1B17A3C1009AE805 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FFB984B1B17E1C8003C3917 /* Images.xcassets in Resources */,
+				6FFB984C1B17E1C8003C3917 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6F29E1091B17A3C1009AE805 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FFB985C1B17E20A003C3917 /* VpmMpvController.m in Sources */,
+				6FFB985B1B17E20A003C3917 /* VpmDelegate.m in Sources */,
+				6FFB985D1B17E20A003C3917 /* VpmVideoView.m in Sources */,
+				6FFB985F1B17E20A003C3917 /* VpmWindow.m in Sources */,
+				6FFB985A1B17E20A003C3917 /* main.m in Sources */,
+				6FFB985E1B17E20A003C3917 /* VpmWebView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6F29E1281B17A3C1009AE805 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		6F29E1291B17A3C1009AE805 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		6F29E12B1B17A3C1009AE805 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = /usr/local/lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/xcodejunk/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		6F29E12C1B17A3C1009AE805 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = /usr/local/lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/xcodejunk/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6F29E1081B17A3C1009AE805 /* Build configuration list for PBXProject "vpm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F29E1281B17A3C1009AE805 /* Debug */,
+				6F29E1291B17A3C1009AE805 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F29E12A1B17A3C1009AE805 /* Build configuration list for PBXNativeTarget "vpm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F29E12B1B17A3C1009AE805 /* Debug */,
+				6F29E12C1B17A3C1009AE805 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6F29E1051B17A3C1009AE805 /* Project object */;
+}

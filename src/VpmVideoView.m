@@ -1,6 +1,9 @@
+#import <mpv/client.h>
 #import <OpenGL/gl.h>
 
 #import "VpmVideoView.h"
+#import "VpmWebView.h"
+#import "VpmMpvController.h"
 
 static void glUpdate( void *ctx );
 static void *glProbe( void *ctx, const char *name) {

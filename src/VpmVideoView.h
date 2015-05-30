@@ -1,9 +1,8 @@
 #import <Cocoa/Cocoa.h>
 
-#import <mpv/client.h>
 #import <mpv/opengl_cb.h>
 
-#import "VpmWebView.h"
+@class VpmWebView;
 
 @interface VpmVideoView : NSOpenGLView
 

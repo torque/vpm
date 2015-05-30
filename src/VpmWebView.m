@@ -1,4 +1,5 @@
 #import "VpmWebView.h"
+#import "VpmMpvController.h"
 
 @implementation VpmWebView
 

@@ -1,6 +1,6 @@
 #import <Cocoa/Cocoa.h>
 
-#import "VpmVideoView.h"
+@class VpmVideoView;
 
 @interface VpmWindow : NSWindow
 

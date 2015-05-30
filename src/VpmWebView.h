@@ -1,7 +1,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
 
-#import "VpmMpvController.h"
+@class VpmMpvController;
 
 @interface VpmWebView : WebView
 

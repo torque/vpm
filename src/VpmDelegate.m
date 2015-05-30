@@ -4,6 +4,10 @@
 #import <stdlib.h>
 
 #import "VpmDelegate.h"
+#import "VpmWindow.h"
+#import "VpmVideoView.h"
+#import "VpmWebView.h"
+#import "VpmMpvController.h"
 
 @implementation VpmDelegate
 

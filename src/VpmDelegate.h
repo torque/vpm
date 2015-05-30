@@ -1,6 +1,6 @@
 #import <Cocoa/Cocoa.h>
 
-#import "VpmWindow.h"
+@class VpmWindow;
 
 @interface VpmDelegate : NSObject <NSApplicationDelegate>
 

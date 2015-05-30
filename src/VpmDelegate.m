@@ -40,7 +40,7 @@
 	NSString *videopath = nil;
 	NSString *htmlpath = nil;
 	// lazy and kind of bad.
-	bool launchedFromBundle = [[NSBundle mainBundle] bundleIdentifier];
+	bool launchedFromBundle = [NSBundle mainBundle].bundleIdentifier;
 	if (!launchedFromBundle) {
 		switch (args.count) {
 			case 3:

@@ -1,4 +1,9 @@
 #import "VpmMpvController.h"
+#import "VpmWindow.h"
+
+enum observed_properties {
+	DWIDTH_OBSERVATION = 1
+};
 
 static inline void check_error( int status ) {
 	if ( status < 0 ) {
@@ -28,6 +33,7 @@ static void wakeup( void *ctx ) {
 		}
 		// check error
 		mpv_initialize( self.mpv );
+		mpv_observe_property( self.mpv, DWIDTH_OBSERVATION, "dwidth", MPV_FORMAT_INT64 );
 		mpv_set_wakeup_callback( self.mpv, wakeup, (__bridge void *)self );
 		[self attachJS];
 	}
@@ -58,11 +64,29 @@ static void wakeup( void *ctx ) {
 		case MPV_EVENT_LOG_MESSAGE: {
 			struct mpv_event_log_message *msg = (struct mpv_event_log_message *)event->data;
 			NSLog( @"[%s] %s: %s", msg->prefix, msg->level, msg->text );
+			break;
 		}
 
-		default: {
-			NSLog( @"mpv event: %s", mpv_event_name(event->event_id) );
+		case MPV_EVENT_PROPERTY_CHANGE: {
+			// it's unclear to me if dispatching this in the mpv queue is a
+			// good idea or not.
+			dispatch_async( self.mpvQueue, ^{
+				if ( self.mpv ) {
+					int64_t width, height;
+					mpv_get_property( self.mpv, "video-params/dw", MPV_FORMAT_INT64, &width );
+					mpv_get_property( self.mpv, "video-params/dh", MPV_FORMAT_INT64, &height );
+					NSLog(@"resize");
+					// This is necessary because the resize will launch from
+					// whatever thread it was launched from, which can cause a
+					// crash.
+					dispatch_async( dispatch_get_main_queue( ), ^{
+						[self.window constrainedCenteredResize:NSMakeSize( width, height )];
+					} );
+				}
+			} );
+			break;
 		}
+		default: {}
 	}
 }
 
@@ -78,6 +102,7 @@ static void wakeup( void *ctx ) {
 }
 
 - (void)destroy {
+	mpv_unobserve_property( self.mpv, DWIDTH_OBSERVATION );
 	dispatch_sync( self.mpvQueue, ^{
 		mpv_terminate_destroy( self.mpv );
 		// have to set self.mpv explicitly to nil because the wakeup

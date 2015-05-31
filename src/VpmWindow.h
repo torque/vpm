@@ -6,6 +6,7 @@
 
 @property (nonatomic, strong) VpmVideoView *mainView;
 
+- (void)constrainedCenteredResize:(NSSize)newContentSize;
 -(void)destroy;
 
 @end

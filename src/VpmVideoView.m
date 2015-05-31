@@ -90,6 +90,7 @@ static void glUpdate( void *ctx ) {
 
 - (void)destroy {
 	mpv_opengl_cb_uninit_gl( self.mpv_gl );
+	self.mpv_gl = nil;
 	[self.webView destroy];
 }
 

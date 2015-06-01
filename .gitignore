@@ -2,6 +2,10 @@
 *.mp4
 *.mkv
 
+*.html
+*.css
+*.js
+
 *.pbxuser
 xcuserdata
 *.xccheckout

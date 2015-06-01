@@ -48,7 +48,9 @@ static void wakeup( void *ctx ) {
 	self.ctx[@"window"][@"onerror"] = ^( NSString *msg, NSString *url, NSNumber *line, NSNumber *col ) {
 		NSLog( @"%@:%d:%d - %@", url, [line intValue], [col intValue], msg );
 	};
-
+	self.ctx[@"console"][@"log"] = ^(NSString *msg) {
+		NSLog( @"Javascript: %@", msg );
+	};
 	self.ctx[@"vpm"] = self;
 }
 
@@ -118,7 +120,29 @@ static void wakeup( void *ctx ) {
 
 - (void)setPropertyString:(NSString *)name value:(NSString *)value {
 	dispatch_async( self.mpvQueue, ^{
-		mpv_set_property_string( self.mpv, [name UTF8String], [value UTF8String] );
+		if ( self.mpv )
+			mpv_set_property_string( self.mpv, [name UTF8String], [value UTF8String] );
+	} );
+}
+
+- (NSString *)getPropertyString:(NSString *)name {
+	if ( self.mpv ) {
+		char *str = mpv_get_property_string( self.mpv, [name UTF8String] );
+		NSString *res = str? [NSString stringWithCString:str encoding:NSUTF8StringEncoding]: nil;
+		mpv_free( str );
+		return res;
+	}
+	return nil;
+}
+
+- (void)getPropertyStringAsync:(NSString *)name withCallback:(JSValue *)callback {
+	dispatch_async( self.mpvQueue, ^{
+		if ( self.mpv ) {
+			char *str = mpv_get_property_string( self.mpv, [name UTF8String] );
+			NSString *res = str? [NSString stringWithCString:str encoding:NSUTF8StringEncoding]: nil;
+			mpv_free( str );
+			[callback callWithArguments:@[res]];
+		}
 	} );
 }
 

@@ -18,6 +18,7 @@
 	                            defer:deferCreation];
 	if ( self ) {
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
+		self.minSize = NSMakeSize( 300, 300 );
 		self.title = @"vpm";
 		self.mainView = [[VpmVideoView alloc] initWithFrame:[self.contentView frame]];
 		// bad.

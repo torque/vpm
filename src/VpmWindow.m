@@ -40,7 +40,7 @@
 	// if either of the differences are negative, the requested size is
 	// larger than the screen size.
 	if ( screenRect.size.width  - newContentSize.width  < 0 ||
-	     screenRect.size.height - newContentSize.height + titlebarHeight < 0 )
+	     screenRect.size.height - newContentSize.height - titlebarHeight < 0 )
 	{
 		CGFloat ar  = newContentSize.width/newContentSize.height;
 		CGFloat sar = screenRect.size.width/screenRect.size.height;
@@ -54,7 +54,8 @@
 			newSize.height += titlebarHeight;
 		}
 	} else {
-		newSize = newContentSize;
+		newSize.width = newContentSize.width;
+		newSize.height = newContentSize.height + titlebarHeight;
 	}
 
 	CGFloat dx = newSize.width - windowRect.size.width;

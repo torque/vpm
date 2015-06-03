@@ -3,11 +3,13 @@ html(lang='en')
 	head
 		meta(charset='utf-8')
 		style
-			include:stylus main.styl
+			include:stylus styles/main.styl
 	body
 		.bottombar-wrap
-			.bottombar
-				.playbutton.playing
-			.seekbar
+			#bottombar
+				#playbutton.playing
+			#seekbar
+				#elapsed
 		script
-			include:coffee-script main.coffee
+			include:coffee-script scripts/playButton.coffee
+			include:coffee-script scripts/seekBar.coffee

@@ -11,6 +11,7 @@
 @property(nonatomic, strong) dispatch_queue_t mpvQueue;
 @property(weak) JSContext *ctx;
 @property(weak) VpmWindow *window;
+@property BOOL fileLoaded;
 
 - (instancetype)initWithJSContext:(JSContext *)ctx;
 - (void)attachJS;

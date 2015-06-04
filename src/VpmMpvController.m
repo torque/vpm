@@ -23,6 +23,7 @@ static void wakeup( void *ctx ) {
 	self = [super init];
 	if ( self ) {
 		self.ctx = ctx;
+		self.fileLoaded = false;
 		self.mpvQueue = dispatch_queue_create( "mpv", DISPATCH_QUEUE_SERIAL );
 
 		// maybe run this in the mpv queue, so it doesn't slow down start up.
@@ -73,7 +74,7 @@ static void wakeup( void *ctx ) {
 			// it's unclear to me if dispatching this in the mpv queue is a
 			// good idea or not.
 			dispatch_async( self.mpvQueue, ^{
-				if ( self.mpv ) {
+				if ( self.mpv && self.fileLoaded ) {
 					int64_t width, height;
 					mpv_get_property( self.mpv, "video-params/dw", MPV_FORMAT_INT64, &width );
 					mpv_get_property( self.mpv, "video-params/dh", MPV_FORMAT_INT64, &height );
@@ -88,6 +89,17 @@ static void wakeup( void *ctx ) {
 			} );
 			break;
 		}
+
+		case MPV_EVENT_START_FILE: {
+			self.fileLoaded = true;
+			break;
+		}
+
+		case MPV_EVENT_END_FILE: {
+			self.fileLoaded = false;
+			break;
+		}
+
 		default: {}
 	}
 }

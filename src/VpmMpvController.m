@@ -153,8 +153,21 @@ static void wakeup( void *ctx ) {
 			char *str = mpv_get_property_string( self.mpv, [name UTF8String] );
 			NSString *res = str? [NSString stringWithCString:str encoding:NSUTF8StringEncoding]: nil;
 			mpv_free( str );
+			// har har this doesn't work because executing the callback on a
+			// different thread causes big problems everywhere. Sometimes.
 			[callback callWithArguments:@[res]];
 		}
+	} );
+}
+
+- (void)command:(NSArray *)arguments {
+	dispatch_async( self.mpvQueue, ^{
+		const char **cmd = calloc( [arguments count] + 1, sizeof(*cmd) );
+		for ( int i = 0; i < [arguments count]; i++ ) {
+			cmd[i] = [arguments[i] UTF8String];
+		}
+		check_error( mpv_command( self.mpv, cmd ) );
+		free( cmd );
 	} );
 }
 

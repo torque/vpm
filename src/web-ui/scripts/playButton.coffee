@@ -1,5 +1,6 @@
 element = document.querySelector '#playbutton'
-playing = true;
+playing = true
+
 element.addEventListener 'click', (ev) ->
 	playing = not playing
 	element.className = if playing then 'playing' else 'paused'

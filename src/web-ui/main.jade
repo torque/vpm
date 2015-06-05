@@ -5,11 +5,12 @@ html(lang='en')
 		style
 			include:stylus styles/main.styl
 	body
-		.bottombar-wrap
-			#bottombar
-				#playbutton.playing
-			#seekbar
-				#elapsed
+		#backing
+			.bottombar-wrap
+				#bottombar
+					#playbutton.playing
+				#seekbar
+					#elapsed
 		script
 			include:coffee-script scripts/playButton.coffee
 			include:coffee-script scripts/seekBar.coffee

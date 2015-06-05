@@ -32,7 +32,8 @@
 	NSMenuItem *item = [m addItemWithTitle:@"Apple" action:nil keyEquivalent:@""];
 	NSMenu *sm = [[NSMenu alloc] initWithTitle:@"Apple"];
 	[m setSubmenu:sm forItem:item];
-	[sm addItemWithTitle: @"quit" action:@selector(terminate:) keyEquivalent:@"q"];
+	[sm addItemWithTitle: @"Toggle Full Screen" action:@selector(toggleFullScreen:) keyEquivalent:@"f"];
+	[sm addItemWithTitle: @"Quit vpm" action:@selector(terminate:) keyEquivalent:@"q"];
 	[NSApp setMenu:m];
 	[NSApp activateIgnoringOtherApps:YES];
 }

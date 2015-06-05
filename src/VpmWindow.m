@@ -58,6 +58,8 @@
 		newSize.width = newContentSize.width;
 		newSize.height = newContentSize.height + titlebarHeight;
 	}
+	newSize.width  = MAX( self.minSize.width,  newSize.width );
+	newSize.height = MAX( self.minSize.height, newSize.height );
 
 	CGFloat dx = newSize.width - windowRect.size.width;
 	CGFloat dy = newSize.height - windowRect.size.height;

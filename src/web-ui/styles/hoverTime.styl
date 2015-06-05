@@ -1,39 +1,17 @@
-animation( )
-	-webkit-animation arguments
-	animation arguments
-
-transform( )
-	-webkit-transform arguments
-	transform arguments
-
-@keyframes fadeIn
-	0%
-		opacity 0
-	100%
-		opacity 1
-
-@keyframes fadeOut
-	0%
-		opacity 1
-		transform scaleY(1)
-	100%
-		opacity 0
-		transform scaleY(1)
-
 #hovertime
 	position absolute
 	text-align center
 	background-color #2D2D2D
 	color #D3D0C8
 	padding 0.25em 0.6em
+	opacity 0.001
 	transform scaleY(0)
+	transition opacity 0.25s, -webkit-transform 0.25s step-end
 
-	&.incoming
+	&.shown
+		opacity 1
 		transform scaleY(1)
-		animation fadeIn 0.25s
-
-	&.outgoing
-		animation fadeOut 0.25s
+		transition opacity 0.25s
 
 	.nib
 		position absolute

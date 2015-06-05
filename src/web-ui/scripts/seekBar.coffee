@@ -33,10 +33,10 @@ calculateEdges = ( x ) ->
 	hoverTime.style.bottom = '40px'
 
 seekBar.addEventListener 'mouseover', ( ev ) ->
-	hoverTime.className = 'incoming'
+	hoverTime.className = 'shown'
 
 seekBar.addEventListener 'mouseout', ( ev ) ->
-	hoverTime.className = 'outgoing'
+	hoverTime.className = ''
 
 lastX = -1
 seekBar.addEventListener 'mousemove', ( ev ) ->

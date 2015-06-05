@@ -56,10 +56,7 @@ static void wakeup( void *ctx ) {
 }
 
 - (void)loadVideo:(NSString *)fileName {
-	dispatch_async( self.mpvQueue, ^{
-		const char *cmd[] = { "loadfile", fileName.UTF8String, NULL };
-		check_error( mpv_command( self.mpv, cmd ) );
-	} );
+	[self command:@[@"loadfile", fileName]];
 }
 
 - (void)handleEvent:(mpv_event *)event {

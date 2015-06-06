@@ -14,4 +14,8 @@ JSExportAs( getPropertyStringAsync,
 
 - (void)command:(NSArray *)arguments;
 
+JSExportAs( observeProperty,
+	- (void)observeProperty:(NSString *)propertyName withIndex:(NSNumber *)index
+);
+
 @end

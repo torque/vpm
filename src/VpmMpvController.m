@@ -2,7 +2,8 @@
 #import "VpmWindow.h"
 
 enum observed_properties {
-	DWIDTH_OBSERVATION = 1
+	DWIDTH_OBSERVATION = 1,
+	JS_OBSERVED_PROPERTY_OFFSET
 };
 
 static inline void check_error( int status ) {
@@ -25,7 +26,8 @@ static void wakeup( void *ctx ) {
 		self.fileLoaded = false;
 		self.mpvQueue = dispatch_queue_create( "mpv", DISPATCH_QUEUE_SERIAL );
 
-		// maybe run this in the mpv queue, so it doesn't slow down start up.
+		self.eventIndices = [NSMutableArray new];
+
 		self.mpv = mpv_create( );
 		if ( !self.mpv ) {
 			puts( "Failed to create mpv context." );
@@ -67,22 +69,31 @@ static void wakeup( void *ctx ) {
 		}
 
 		case MPV_EVENT_PROPERTY_CHANGE: {
-			// it's unclear to me if dispatching this in the mpv queue is a
-			// good idea or not.
-			dispatch_async( self.mpvQueue, ^{
-				if ( self.mpv && self.fileLoaded ) {
-					int64_t width, height;
-					mpv_get_property( self.mpv, "video-params/dw", MPV_FORMAT_INT64, &width );
-					mpv_get_property( self.mpv, "video-params/dh", MPV_FORMAT_INT64, &height );
-					NSLog(@"resize");
-					// This is necessary because the resize will launch from
-					// whatever thread it was launched from, which can cause a
-					// crash.
-					dispatch_async( dispatch_get_main_queue( ), ^{
-						[self.window constrainedCenteredResize:NSMakeSize( width, height )];
+			switch (event->reply_userdata) {
+				case DWIDTH_OBSERVATION: {
+					dispatch_async( self.mpvQueue, ^{
+						if ( self.mpv && self.fileLoaded ) {
+							int64_t width, height;
+							mpv_get_property( self.mpv, "video-params/dw", MPV_FORMAT_INT64, &width );
+							mpv_get_property( self.mpv, "video-params/dh", MPV_FORMAT_INT64, &height );
+							NSLog(@"resize");
+							// This is necessary because the resize will launch from
+							// whatever thread it was launched from, which can cause a
+							// crash.
+							dispatch_async( dispatch_get_main_queue( ), ^{
+								[self.window constrainedCenteredResize:NSMakeSize( width, height )];
+							} );
+						}
 					} );
+					break;
 				}
-			} );
+				default: {
+					int eventIndex = event->reply_userdata - JS_OBSERVED_PROPERTY_OFFSET;
+					if ( event->reply_userdata >= JS_OBSERVED_PROPERTY_OFFSET && eventIndex < [self.eventIndices count]) {
+						[self sendJSEvent:eventIndex];
+					}
+				}
+			}
 			break;
 		}
 
@@ -97,6 +108,21 @@ static void wakeup( void *ctx ) {
 		}
 
 		default: {}
+	}
+}
+
+- (void)sendJSEvent:(int)index {
+	// dispatch js event. function signature is ( index, data ),
+	// and data is always a string.
+	char *value = mpv_get_property_string( self.mpv, [self.eventIndices[index] UTF8String] );
+	NSString *res = value? [NSString stringWithCString:value encoding:NSUTF8StringEncoding]: nil;
+	mpv_free(value);
+	if (res) {
+		// for mystery reasons that are probably very important, setTimeout
+		// can only be called if this is run on the main thread.
+		dispatch_async( dispatch_get_main_queue( ), ^{
+			[self.ctx[@"window"][@"signalMpvEvent"] callWithArguments:@[@(index), res]];
+		} );
 	}
 }
 
@@ -125,6 +151,12 @@ static void wakeup( void *ctx ) {
 }
 
 #pragma mark - MpvJSBridge
+
+- (void)observeProperty:(NSString *)propertyName withIndex:(NSNumber *)index {
+	int idx = [index intValue];
+	self.eventIndices[idx] = propertyName;
+	mpv_observe_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + idx, propertyName.UTF8String, MPV_FORMAT_STRING );
+}
 
 - (void)setPropertyString:(NSString *)name value:(NSString *)value {
 	dispatch_async( self.mpvQueue, ^{
@@ -156,6 +188,7 @@ static void wakeup( void *ctx ) {
 	} );
 }
 
+// jsexport is kind enough to convert all array members to NS-types
 - (void)command:(NSArray *)arguments {
 	dispatch_async( self.mpvQueue, ^{
 		const char **cmd = calloc( [arguments count] + 1, sizeof(*cmd) );

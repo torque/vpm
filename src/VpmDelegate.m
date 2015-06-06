@@ -19,8 +19,7 @@
 		                              (screenFrame.size.height - startHeight)/2 + screenFrame.origin.y,
 		                              startHeight, startHeight );
 
-	int mask = NSTitledWindowMask | NSClosableWindowMask |
-	           NSMiniaturizableWindowMask | NSResizableWindowMask;
+	int mask = NSBorderlessWindowMask | NSResizableWindowMask;
 
 	self.window = [[VpmWindow alloc]
 		initWithContentRect:windowRect

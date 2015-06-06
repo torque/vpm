@@ -4,9 +4,10 @@
 
 @interface VpmWindow : NSWindow
 
+@property NSPoint startPoint;
 @property (nonatomic, strong) VpmVideoView *mainView;
 
 - (void)constrainedCenteredResize:(NSSize)newContentSize;
--(void)destroy;
+- (void)destroy;
 
 @end

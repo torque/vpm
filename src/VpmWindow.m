@@ -7,6 +7,28 @@
 
 - (BOOL)canBecomeMainWindow { return YES; }
 - (BOOL)canBecomeKeyWindow { return YES; }
+- (BOOL)isMovableByWindowBackground { return YES; }
+
+- (void)mouseDown:(NSEvent *)theEvent {
+	self.startPoint = theEvent.locationInWindow;
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent {
+	NSRect screenRect = self.screen.visibleFrame;
+	NSRect windowRect = self.frame;
+	NSPoint newOrigin = windowRect.origin;
+
+	NSPoint currentLocation = theEvent.locationInWindow;
+	newOrigin.x += currentLocation.x - self.startPoint.x;
+	newOrigin.y += currentLocation.y - self.startPoint.y;
+
+	if (newOrigin.y + windowRect.size.height > screenRect.origin.y + screenRect.size.height) {
+		newOrigin.y = screenRect.origin.y + screenRect.size.height - windowRect.size.height;
+	}
+
+	self.frameOrigin = newOrigin;
+}
+
 - (instancetype)initWithContentRect:(NSRect)contentRect
                           styleMask:(NSUInteger)windowStyle
                             backing:(NSBackingStoreType)bufferingType
@@ -29,6 +51,24 @@
 	}
 
 	return self;
+}
+
+// it appears the more standard key handling chain is swallowing certain
+// keys such as tab and space for reasons that are profoundly unclear to
+// me. Is it WebView's fault? Need there be a witch hunt?
+- (void)sendEvent:(NSEvent *)theEvent {
+	switch ( theEvent.type ) {
+		case NSLeftMouseDown: {
+			[self mouseDown:theEvent];
+			break;
+		}
+		case NSLeftMouseDragged: {
+			[self mouseDragged:theEvent];
+			break;
+		}
+		default: {}
+	}
+	[super sendEvent:theEvent];
 }
 
 // This is a huge trainwreck, but hopefully a working one.

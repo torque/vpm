@@ -15,8 +15,10 @@ static void *glProbe( void *ctx, const char *name) {
 	       );
 }
 
-
 @implementation VpmVideoView
+
+- (BOOL)mouseDownCanMoveWindow { return YES; }
+
 - (instancetype)initWithFrame:(NSRect)frame {
 	NSOpenGLPixelFormatAttribute attributes[] = {
 		NSOpenGLPFAOpenGLProfile,

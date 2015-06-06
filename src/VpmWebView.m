@@ -3,6 +3,8 @@
 
 @implementation VpmWebView
 
+- (BOOL)mouseDownCanMoveWindow { return YES; }
+
 - (instancetype)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame
 	                  frameName:@"vpmWekitFrame"

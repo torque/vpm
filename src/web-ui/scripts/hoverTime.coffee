@@ -1,4 +1,4 @@
-seekBar = document.querySelector '#seekbarPad'
+seekBar = document.querySelector '#seekbar-pad'
 hoverTime = document.querySelector '#hovertime'
 hoverTimeText = document.querySelector '#hovertime .text'
 hoverTimeNib = document.querySelector '#hovertime .nib'

@@ -12,9 +12,12 @@ html(lang='en')
 			.bottombar-wrap
 				#bottombar
 					#playbutton.playing
-				#seekbar
-					#elapsed
+					.spacing
+				#seekbar-pad
+					#seekbar
+						#elapsed
 		script
+			include:coffee-script scripts/globals.coffee
 			include:coffee-script scripts/playButton.coffee
 			include:coffee-script scripts/seekBar.coffee
 			include:coffee-script scripts/hoverTime.coffee

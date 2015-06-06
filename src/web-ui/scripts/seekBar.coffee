@@ -1,4 +1,4 @@
-seekBar = document.querySelector '#seekbarPad'
+seekBar = document.querySelector '#seekbar-pad'
 elapsed = document.querySelector '#elapsed'
 
 seekBar.addEventListener 'click', ( ev ) ->

@@ -190,13 +190,32 @@ static void wakeup( void *ctx ) {
 
 // jsexport is kind enough to convert all array members to NS-types
 - (void)command:(NSArray *)arguments {
+	const char **cmd = calloc( [arguments count] + 1, sizeof(*cmd) );
+	for ( int i = 0; i < [arguments count]; i++ ) {
+		cmd[i] = [arguments[i] UTF8String];
+	}
+	check_error( mpv_command( self.mpv, cmd ) );
+	free( cmd );
+}
+
+// jsexport is kind enough to convert all array members to NS-types
+- (void)commandAsync:(NSArray *)arguments withCallback:(JSValue *)callback {
 	dispatch_async( self.mpvQueue, ^{
-		const char **cmd = calloc( [arguments count] + 1, sizeof(*cmd) );
-		for ( int i = 0; i < [arguments count]; i++ ) {
-			cmd[i] = [arguments[i] UTF8String];
+		if ( self.mpv ) {
+			const char **cmd = calloc( [arguments count] + 1, sizeof(*cmd) );
+			for ( int i = 0; i < [arguments count]; i++ ) {
+				cmd[i] = [arguments[i] UTF8String];
+			}
+			check_error( mpv_command( self.mpv, cmd ) );
+			free( cmd );
+
+			if ( callback ) {
+				dispatch_async( dispatch_get_main_queue( ), ^{
+					[self.ctx[@"setTimeout"] callWithArguments:@[callback, @0]];
+				} );
+			}
+
 		}
-		check_error( mpv_command( self.mpv, cmd ) );
-		free( cmd );
 	} );
 }
 

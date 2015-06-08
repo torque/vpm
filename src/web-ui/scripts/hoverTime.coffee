@@ -3,11 +3,36 @@ hoverTime = document.querySelector '#hovertime'
 hoverTimeText = document.querySelector '#hovertime .text'
 hoverTimeNib = document.querySelector '#hovertime .nib'
 
+lengthKnown = false
+length = 0
+
+zeroPad = ( number ) ->
+	if number < 10
+		return "0" + String number
+	else
+		return String number
+
 setPosition = ( x ) ->
 	seekBox = seekBar.getBoundingClientRect( )
 
-	percent = Math.round(x / seekBox.width * 100)
-	hoverTimeText.textContent = percent + '%'
+	percent = x / seekBox.width
+	if lengthKnown
+		time = percent * length
+		# javascript not having format strings means we have to do this
+		# manually.
+		seconds = zeroPad time.toFixed( ) % 60
+		minutes = (time/60).toFixed( ) % 60
+		hours = time/3600
+		timeString = seconds
+		if hours >= 1
+			timeString = "#{String hours.toFixed( )}:#{zeroPad minutes}:#{timeString}"
+		else
+			timeString = "#{minutes}:#{timeString}"
+
+		hoverTimeText.textContent = timeString
+	else
+		# hoverTimeText.textContent = Math.round( percent * 100 ) + '%'
+		hoverTimeText.textContent = '????'
 
 	hoverBox = hoverTime.getBoundingClientRect( )
 
@@ -44,3 +69,7 @@ seekBar.addEventListener 'mousemove', ( ev ) ->
 	if ev.clientX isnt lastX
 		setPosition ev.clientX
 		lastX = ev.clientX
+
+window.observeMpvProperty 'length', ( value ) ->
+	lengthKnown = true
+	length = Number value

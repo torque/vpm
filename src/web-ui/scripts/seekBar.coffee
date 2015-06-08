@@ -6,8 +6,6 @@ seekBar.addEventListener 'click', ( ev ) ->
 	percent = Math.round( ev.clientX / seekBox.width * 100 )
 	vpm.command [ "seek", String(percent), "absolute-percent", "keyframes" ]
 
-setInterval ->
-	position = vpm.getPropertyString 'percent-pos'
+window.observeMpvProperty 'percent-pos', ( position ) ->
 	return if position is undefined
 	elapsed.style.width = position + '%'
-, 200

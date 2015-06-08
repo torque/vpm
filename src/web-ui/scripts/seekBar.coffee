@@ -4,7 +4,7 @@ elapsed = document.querySelector '#elapsed'
 seekBar.addEventListener 'click', ( ev ) ->
 	seekBox  = seekBar.getBoundingClientRect( )
 	percent = Math.round( ev.clientX / seekBox.width * 100 )
-	vpm.command [ "seek", String(percent), "absolute-percent", "keyframes" ]
+	vpm.commandAsync [ 'seek', String( percent ), 'absolute-percent', 'keyframes' ]
 
 window.observeMpvProperty 'percent-pos', ( position ) ->
 	return if position is undefined

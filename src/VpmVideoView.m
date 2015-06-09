@@ -15,6 +15,13 @@ static void *glProbe( void *ctx, const char *name) {
 	       );
 }
 
+@interface VpmVideoView()
+
+@property(strong) NSLock *drawLock;
+@property(nonatomic, strong) dispatch_queue_t glQueue;
+
+@end
+
 @implementation VpmVideoView
 
 - (BOOL)mouseDownCanMoveWindow { return YES; }
@@ -38,16 +45,21 @@ static void *glProbe( void *ctx, const char *name) {
 		// Have to explicitly initialize this to nil.
 		self.mpv_gl = nil;
 
-		GLint swapInt = 1;
-		[[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+		self.glQueue = dispatch_queue_create( "org.unorg.vpm.gl", DISPATCH_QUEUE_SERIAL );
+		self.drawLock = [NSLock new];
 		self.webView = [[VpmWebView alloc] initWithFrame:self.bounds];
 		[self addSubview:self.webView];
 		// init mpv_gl stuff
-		[self initMpvGL];
 		[[self openGLContext] makeCurrentContext];
+		[self initMpvGL];
 	}
 
 	return self;
+}
+
+- (void)prepareOpenGL {
+	GLint swapInt = 1;
+	[[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 }
 
 - (void)initMpvGL {
@@ -71,28 +83,38 @@ static void *glProbe( void *ctx, const char *name) {
 
 static void glUpdate( void *ctx ) {
 	VpmVideoView *view = (__bridge VpmVideoView *)ctx;
-	dispatch_async( dispatch_get_main_queue( ), ^{
-		[view drawRect];
+	dispatch_async( view.glQueue, ^{
+		[view draw];
 	} );
 }
 
-- (void)drawRect {
+- (void)draw {
+	[self.drawLock lock];
+	[[self openGLContext] makeCurrentContext];
 	if ( self.mpv_gl ) {
-		mpv_opengl_cb_draw(self.mpv_gl, 0, self.bounds.size.width, -self.bounds.size.height);
+		mpv_opengl_cb_draw( self.mpv_gl, 0, self.frame.size.width, -self.frame.size.height );
 	} else {
-		glClearColor(0, 0, 0, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor( 0, 0, 0, 0 );
+		glClear( GL_COLOR_BUFFER_BIT );
 	}
 	[[self openGLContext] flushBuffer];
+	[self.drawLock unlock];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	[self drawRect];
+	[self draw];
+}
+
+- (void)unintMpvGl {
+	[self.drawLock lock];
+	[[self openGLContext] makeCurrentContext];
+	mpv_opengl_cb_uninit_gl( self.mpv_gl );
+	self.mpv_gl = nil;
+	[self.drawLock unlock];
 }
 
 - (void)destroy {
-	mpv_opengl_cb_uninit_gl( self.mpv_gl );
-	self.mpv_gl = nil;
+	[self unintMpvGl];
 	[self.webView destroy];
 }
 

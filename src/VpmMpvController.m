@@ -24,7 +24,7 @@ static void wakeup( void *ctx ) {
 	if ( self ) {
 		self.ctx = ctx;
 		self.fileLoaded = false;
-		self.mpvQueue = dispatch_queue_create( "mpv", DISPATCH_QUEUE_SERIAL );
+		self.mpvQueue = dispatch_queue_create( "org.unorg.vpm.mpv", DISPATCH_QUEUE_SERIAL );
 
 		self.eventIndices = [NSMutableArray new];
 
@@ -77,9 +77,7 @@ static void wakeup( void *ctx ) {
 							mpv_get_property( self.mpv, "video-params/dw", MPV_FORMAT_INT64, &width );
 							mpv_get_property( self.mpv, "video-params/dh", MPV_FORMAT_INT64, &height );
 							NSLog(@"resize");
-							// This is necessary because the resize will launch from
-							// whatever thread it was launched from, which can cause a
-							// crash.
+							// resize on the main thread.
 							dispatch_async( dispatch_get_main_queue( ), ^{
 								[self.window constrainedCenteredResize:NSMakeSize( width, height )];
 							} );

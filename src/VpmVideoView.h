@@ -10,7 +10,8 @@
 @property(nonatomic, strong) VpmWebView *webView;
 
 - (instancetype)initWithFrame:(NSRect)frame;
-- (void)drawRect;
+- (void)draw;
+- (void)unintMpvGl;
 - (void)destroy;
 
 @end

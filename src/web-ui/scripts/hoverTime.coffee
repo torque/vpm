@@ -70,6 +70,6 @@ seekBar.addEventListener 'mousemove', ( ev ) ->
 		setPosition ev.clientX
 		lastX = ev.clientX
 
-window.observeMpvProperty 'length', ( value ) ->
+window.observeMpvProperty 'duration', ( value ) ->
 	lengthKnown = true
 	length = Number value

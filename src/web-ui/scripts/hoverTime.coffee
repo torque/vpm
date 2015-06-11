@@ -20,14 +20,14 @@ setPosition = ( x ) ->
 		time = percent * length
 		# javascript not having format strings means we have to do this
 		# manually.
-		seconds = zeroPad time.toFixed( ) % 60
-		minutes = (time/60).toFixed( ) % 60
-		hours = time/3600
+		seconds = zeroPad Math.floor(time) % 60
+		minutes = Math.floor(time/60) % 60
+		hours = Math.floor(time/3600)
 		timeString = seconds
-		if hours >= 1
-			timeString = "#{String hours.toFixed( )}:#{zeroPad minutes}:#{timeString}"
-		else
+		if hours < 1
 			timeString = "#{minutes}:#{timeString}"
+		else
+			timeString = "#{hours}:#{zeroPad minutes}:#{timeString}"
 
 		hoverTimeText.textContent = timeString
 	else

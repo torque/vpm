@@ -17,6 +17,22 @@ static void wakeup( void *ctx ) {
 	[controller readEvents];
 }
 
+static const NSEventModifierFlags flaglist[] = {
+	NSAlphaShiftKeyMask, // caps lock, apparently?
+	NSShiftKeyMask,
+	NSControlKeyMask,
+	NSAlternateKeyMask,
+	NSCommandKeyMask,
+};
+
+static NSString *flagNames[] = {
+	@"Shift+",
+	@"Shift+",
+	@"Ctrl+",
+	@"Alt+",
+	@"Meta+",
+};
+
 @implementation VpmMpvController
 
 - (instancetype)initWithJSContext:(JSContext *)ctx {
@@ -25,6 +41,30 @@ static void wakeup( void *ctx ) {
 		self.ctx = ctx;
 		self.fileLoaded = false;
 		self.mpvQueue = dispatch_queue_create( "org.unorg.vpm.mpv", DISPATCH_QUEUE_SERIAL );
+		_inputMap = @{
+			// various unprintable keys are mapped to private-use unicode values.
+			@"\uF700": @"UP",
+			@"\uF701": @"DOWN",
+			@"\uF702": @"LEFT",
+			@"\uF703": @"RIGHT",
+			@"\uF72C": @"PGUP",
+			@"\uF72D": @"PGDWN",
+			@"\uF729": @"HOME",
+			@"\uF72B": @"END",
+			@"\uF728": @"DEL",
+			@"\uF706": @"F3",
+			@"\uF707": @"F4",
+			@"\uF709": @"F6",
+			@"\uF70A": @"F7",
+			@"\uF70B": @"F8",
+			@"\uF70C": @"F9",
+			@"\uF70D": @"F10",
+			@" ": @"SPACE",
+			@"#": @"SHARP",
+			@"\t": @"TAB",
+			@"\033": @"ESC",
+			@"\177": @"BS",
+		};
 
 		self.eventIndices = [NSMutableArray new];
 
@@ -58,6 +98,24 @@ static void wakeup( void *ctx ) {
 
 - (void)loadVideo:(NSString *)fileName {
 	[self command:@[@"loadfile", fileName]];
+}
+
+- (void)handleKeyEvent:(NSEvent *)theEvent {
+	NSEventModifierFlags flags = [NSEvent modifierFlags];
+	NSMutableString *keyString = [NSMutableString new];
+	for ( int i = 0; i < 5; i++ ){
+		if ( flags & flaglist[i])
+			[keyString appendString:flagNames[i]];
+	}
+	dispatch_async( self.mpvQueue, ^{
+		NSString *equivalent = self.inputMap[theEvent.charactersIgnoringModifiers];
+		if ( equivalent )
+			[keyString appendString:equivalent];
+		else
+			[keyString appendString:theEvent.charactersIgnoringModifiers];
+
+		[self command:@[@"keypress", keyString]];
+	} );
 }
 
 - (void)handleEvent:(mpv_event *)event {

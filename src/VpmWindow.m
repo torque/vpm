@@ -58,6 +58,11 @@
 // me. Is it WebView's fault? Need there be a witch hunt?
 - (void)sendEvent:(NSEvent *)theEvent {
 	switch ( theEvent.type ) {
+		case NSKeyDown: {
+			[self.mainView.webView.bridge handleKeyEvent:theEvent];
+			// don't fall through to default, because it causes error bells.
+			return;
+		}
 		case NSLeftMouseDown: {
 			[self mouseDown:theEvent];
 			break;

@@ -3,14 +3,8 @@
 	height 100%
 	width 60px
 
-	&.playing
-		background-image url('assets/pause.svg')
-		background-repeat no-repeat
-		background-size contain
-		background-position center
+	&.playing .play
+		display none
 
-	&.paused
-		background-image url('assets/play.svg')
-		background-repeat no-repeat
-		background-size contain
-		background-position center
+	&.paused .pause
+		display none

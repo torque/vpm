@@ -208,16 +208,18 @@ static NSString *flagNames[] = {
 
 #pragma mark - MpvJSBridge
 
-- (void)observeProperty:(NSString *)propertyName withIndex:(NSNumber *)index {
+- (BOOL)observeProperty:(NSString *)propertyName withIndex:(NSNumber *)index {
 	int idx = [index intValue];
+	if (mpv_observe_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + idx, propertyName.UTF8String, MPV_FORMAT_STRING ) < 0)
+		return false;
 	self.eventIndices[idx] = propertyName;
-	mpv_observe_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + idx, propertyName.UTF8String, MPV_FORMAT_STRING );
+	return true;
 }
 
 - (void)setPropertyString:(NSString *)name value:(NSString *)value {
 	dispatch_async( self.mpvQueue, ^{
 		if ( self.mpv )
-			mpv_set_property_string( self.mpv, [name UTF8String], [value UTF8String] );
+			check_error( mpv_set_property_string( self.mpv, [name UTF8String], [value UTF8String] ) );
 	} );
 }
 

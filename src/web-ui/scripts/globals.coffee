@@ -2,12 +2,14 @@ events = []
 callbacks = {}
 window.observeMpvProperty = ( name, callback ) ->
 	console.log "trying to observe #{name}"
-	if callbacks[name]
-		callbacks[name].push callback
-	else
+	unless callbacks[name]
+		unless vpm.observeProperty name, events.length
+			console.log "could not observe #{name}"
+			return
 		events.push name
 		callbacks[name] = [ callback ]
-		vpm.observeProperty name, events.length - 1
+
+	callbacks[name].push callback
 
 # poor man's event dispatch.
 window.signalMpvEvent = ( index, value ) ->

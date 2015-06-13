@@ -76,7 +76,7 @@
 	[super sendEvent:theEvent];
 }
 
-// This is a huge trainwreck, but hopefully a working one.
+// This is a huge trainwreck, but a working one.
 - (void)constrainedCenteredResize:(NSSize)newContentSize {
 	NSRect screenRect = self.screen.visibleFrame;
 	NSRect windowRect = self.frame;
@@ -121,8 +121,8 @@
 		newOrigin.y = screenRect.origin.y + screenRect.size.height - newSize.height;
 	}
 
-	NSRect newFrame = NSMakeRect( newOrigin.x,   newOrigin.y,
-		                            newSize.width, newSize.height);
+	NSRect newFrame = NSMakeRect( floor( newOrigin.x ),   floor( newOrigin.y ),
+		                            floor( newSize.width ), floor( newSize.height ) );
 	[self setFrame:newFrame
 	       display:YES
 	       animate:YES];

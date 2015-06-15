@@ -33,7 +33,9 @@ static NSString *flagNames[] = {
 	@"Meta+",
 };
 
-@implementation VpmMpvController
+@implementation VpmMpvController {
+	JSValue *_fscallback;
+}
 
 - (instancetype)initWithJSContext:(JSContext *)ctx {
 	self = [super init];
@@ -41,6 +43,7 @@ static NSString *flagNames[] = {
 		self.ctx = ctx;
 		self.fileLoaded = false;
 		self.mpvQueue = dispatch_queue_create( "org.unorg.vpm.mpv", DISPATCH_QUEUE_SERIAL );
+		_fscallback = nil;
 		_inputMap = @{
 			// various unprintable keys are mapped to private-use unicode values.
 			@"\uF700": @"UP",
@@ -280,6 +283,18 @@ static NSString *flagNames[] = {
 
 		}
 	} );
+}
+
+- (void)toggleFullScreen {
+	[self.window toggleFullScreen:self];
+	dispatch_async( dispatch_get_main_queue( ), ^{
+		[self.ctx[@"setTimeout"] callWithArguments:@[_fscallback, @0, @([self.window styleMask] & NSFullScreenWindowMask)]];
+		// _fscallback(@([self.window styleMask] & NSFullScreenWindowMask));
+	} );
+}
+
+- (void)setFullScreenCallback:(JSValue *)callback {
+	_fscallback = callback;
 }
 
 @end

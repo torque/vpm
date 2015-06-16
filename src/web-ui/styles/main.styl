@@ -5,6 +5,10 @@ body
 		margin auto
 		fill #ccc
 
+.button
+	&:hover
+		-webkit-filter drop-shadow(0 0 8px #CCC)
+
 #backing
 	position absolute
 	height 100%
@@ -14,3 +18,4 @@ body
 @require 'playButton'
 @require 'seekBar'
 @require 'hoverTime'
+@require 'fullscreenButton'

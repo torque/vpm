@@ -1,0 +1,47 @@
+#volumewidget
+	-webkit-flex-shrink 0
+	display -webkit-flex
+	-webkit-flex-direction row
+	height 100%
+	width 30px
+	overflow-x hidden
+	transition width 0.25s
+
+	&:hover
+		width 140 px
+
+	#volumebutton
+		-webkit-flex-shrink 0
+		height 100%
+		width 30px
+
+		&.muted
+			#volumelow
+				opacity 0
+			#volumehigh
+				opacity 0
+
+		&.low
+			#volumehigh
+				opacity 0
+
+	#volumesliderwrapper
+		display -webkit-flex
+		-webkit-flex-shrink 0
+		width 100px
+		height 100%
+		margin-left 2px
+		margin-right 8px
+
+		#volumeslider
+			width 100%
+			height 6px
+			border-radius 1px
+			background-color #CCC
+			margin auto
+
+			#currentvolume
+				width 50%
+				height 100%
+				background-color red
+				transition width 0.15s

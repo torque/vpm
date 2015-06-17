@@ -16,6 +16,15 @@ html(lang='en')
 							path(d='M8,6L8,21L21,13.5')
 						svg.pause(height='27', width='27', version='1.1', xmlns='http://www.w3.org/2000/svg')
 							path(d='M8,7L8,20L12,20L12,7M15,7L15,20L19,20L19,7')
+					#volumewidget
+						#volumebutton.high.button
+							svg.volume(height='27', width='27', version='1.1', xmlns='http://www.w3.org/2000/svg')
+								path(d='M5,11L9,11L14,7L14,21L9,17L5,17')
+								path#volumelow(d='M16,11L17,10C17,10,18.5,12,18.5,14C18.5,16,17,18,17,18L16,17C16,17,17,16,17,14C17,12,16,11,16,11')
+								path#volumehigh(d='M18.75,9L19.75,8C19.75,8,22,10.5,22,14C22,17.5,19.75,20,19.75,20L18.75,19C18.75,19,20.5,17.5,20.5,14C20.5,10.5,18.75,9,18.75,9')
+						#volumesliderwrapper
+							#volumeslider
+								#currentvolume
 					.spacing
 					#fullscreenbutton.button.windowed
 						svg.fullscreen(height='27', width='27', version='1.1', xmlns='http://www.w3.org/2000/svg')
@@ -28,6 +37,7 @@ html(lang='en')
 		script
 			include:coffee-script scripts/globals.coffee
 			include:coffee-script scripts/playButton.coffee
+			include:coffee-script scripts/volumeWidget.coffee
 			include:coffee-script scripts/fullscreenButton.coffee
 			include:coffee-script scripts/seekBar.coffee
 			include:coffee-script scripts/hoverTime.coffee

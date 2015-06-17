@@ -247,9 +247,13 @@ static NSString *flagNames[] = {
 			char *str = mpv_get_property_string( self.mpv, [name UTF8String] );
 			NSString *res = str? [NSString stringWithCString:str encoding:NSUTF8StringEncoding]: nil;
 			mpv_free( str );
-			// har har this doesn't work because executing the callback on a
-			// different thread causes big problems everywhere. Sometimes.
-			[callback callWithArguments:@[res]];
+			// this apparently works without murdering the javascript event
+			// loop?
+			if ( callback ) {
+				dispatch_async( dispatch_get_main_queue( ), ^{
+					[self.ctx[@"setTimeout"] callWithArguments:@[callback, @0, res]];
+				} );
+			}
 		}
 	} );
 }

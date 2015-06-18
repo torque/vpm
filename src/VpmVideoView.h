@@ -8,6 +8,7 @@
 
 @property mpv_opengl_cb_context *mpv_gl;
 @property(nonatomic, strong) VpmWebView *webView;
+@property NSSize backingSize;
 
 - (instancetype)initWithFrame:(NSRect)frame;
 - (void)draw;

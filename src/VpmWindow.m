@@ -1,4 +1,5 @@
 #import "VpmWindow.h"
+#import "VpmWindowDelegate.h"
 #import "VpmVideoView.h"
 #import "VpmWebView.h"
 #import "VpmMpvController.h"
@@ -39,6 +40,8 @@
 	                          backing:bufferingType
 	                            defer:deferCreation];
 	if ( self ) {
+		_delegateHolder = [VpmWindowDelegate new];
+		self.delegate = _delegateHolder;
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
 		self.minSize = NSMakeSize( 300, 300 );
 		self.title = @"vpm";
@@ -48,6 +51,7 @@
 		[self.contentView addSubview:self.mainView];
 		[self makeKeyAndOrderFront:nil];
 		[self makeMainWindow];
+		[self updateMainViewBounds];
 	}
 
 	return self;
@@ -78,11 +82,14 @@
 
 // This is a huge trainwreck, but a working one.
 - (void)constrainedCenteredResize:(NSSize)newContentSize {
+	newContentSize = [self.mainView convertSizeFromBacking:newContentSize];
 	NSRect screenRect = self.screen.visibleFrame;
 	NSRect windowRect = self.frame;
 	NSRect contentRect = [self.contentView frame];
-	NSSize newSize;
+	// not really necessary since we no longer have a titlebar, but probably
+	// should be kept regardless.
 	CGFloat titlebarHeight = windowRect.size.height - contentRect.size.height;
+	NSSize newSize;
 	// if either of the differences are negative, the requested size is
 	// larger than the screen size.
 	if ( screenRect.size.width  - newContentSize.width  < 0 ||
@@ -103,8 +110,10 @@
 		newSize.width = newContentSize.width;
 		newSize.height = newContentSize.height + titlebarHeight;
 	}
-	newSize.width  = MAX( self.minSize.width,  newSize.width );
-	newSize.height = MAX( self.minSize.height, newSize.height );
+
+	NSSize minSize = [self.mainView convertSizeFromBacking:self.minSize];
+	newSize.width  = MAX( minSize.width,  newSize.width );
+	newSize.height = MAX( minSize.height, newSize.height );
 
 	CGFloat dx = newSize.width - windowRect.size.width;
 	CGFloat dy = newSize.height - windowRect.size.height;
@@ -126,6 +135,10 @@
 	[self setFrame:newFrame
 	       display:YES
 	       animate:YES];
+}
+
+- (void)updateMainViewBounds {
+	self.mainView.backingSize = [self.mainView convertSizeToBacking:[self.contentView frame].size];
 }
 
 - (void)destroy {

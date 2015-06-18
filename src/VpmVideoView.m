@@ -92,7 +92,7 @@ static void glUpdate( void *ctx ) {
 	[self.drawLock lock];
 	[[self openGLContext] makeCurrentContext];
 	if ( self.mpv_gl ) {
-		mpv_opengl_cb_draw( self.mpv_gl, 0, self.frame.size.width, -self.frame.size.height );
+		mpv_opengl_cb_draw( self.mpv_gl, 0, self.backingSize.width, -self.backingSize.height );
 	} else {
 		glClearColor( 0, 0, 0, 0 );
 		glClear( GL_COLOR_BUFFER_BIT );

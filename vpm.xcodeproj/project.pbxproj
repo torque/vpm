@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6F48FD171B33D52E003A69AF /* VpmWindowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F48FD161B33D52E003A69AF /* VpmWindowDelegate.m */; };
 		6F49C3261B17E80600826A3D /* libmpv.1.17.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */; };
+		6FECAEAD1B3756DA001B8767 /* main.html in Resources */ = {isa = PBXBuildFile; fileRef = 6FECAEAC1B3756DA001B8767 /* main.html */; };
 		6FFB984B1B17E1C8003C3917 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FFB98491B17E1C8003C3917 /* Images.xcassets */; };
 		6FFB985A1B17E20A003C3917 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB984E1B17E20A003C3917 /* main.m */; };
 		6FFB985B1B17E20A003C3917 /* VpmDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98511B17E20A003C3917 /* VpmDelegate.m */; };
@@ -26,6 +27,7 @@
 		6F48FD151B33D52E003A69AF /* VpmWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmWindowDelegate.h; sourceTree = "<group>"; };
 		6F48FD161B33D52E003A69AF /* VpmWindowDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmWindowDelegate.m; sourceTree = "<group>"; };
 		6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpv.1.17.0.dylib; path = /usr/local/lib/libmpv.1.17.0.dylib; sourceTree = "<group>"; };
+		6FECAEAC1B3756DA001B8767 /* main.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = main.html; path = "../src/web-ui/main.html"; sourceTree = "<group>"; };
 		6FFB98491B17E1C8003C3917 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = xcodejunk/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		6FFB984A1B17E1C8003C3917 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = xcodejunk/Info.plist; sourceTree = SOURCE_ROOT; };
 		6FFB984E1B17E20A003C3917 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 		6F29E10F1B17A3C1009AE805 /* vpm */ = {
 			isa = PBXGroup;
 			children = (
+				6FECAEAE1B37570C001B8767 /* Interface */,
 				6FFB98491B17E1C8003C3917 /* Images.xcassets */,
 				6FFB984D1B17E20A003C3917 /* src */,
 				6F29E1101B17A3C1009AE805 /* Supporting Files */,
@@ -96,6 +99,14 @@
 				6FFB984A1B17E1C8003C3917 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6FECAEAE1B37570C001B8767 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				6FECAEAC1B3756DA001B8767 /* main.html */,
+			);
+			name = Interface;
 			sourceTree = "<group>";
 		};
 		6FFB984D1B17E20A003C3917 /* src */ = {
@@ -126,6 +137,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F29E12A1B17A3C1009AE805 /* Build configuration list for PBXNativeTarget "vpm" */;
 			buildPhases = (
+				6FECAEAF1B37570C001B8767 /* Compile Interface */,
 				6F29E1091B17A3C1009AE805 /* Sources */,
 				6F29E10A1B17A3C1009AE805 /* Frameworks */,
 				6F29E10B1B17A3C1009AE805 /* Resources */,
@@ -176,11 +188,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FECAEAD1B3756DA001B8767 /* main.html in Resources */,
 				6FFB984B1B17E1C8003C3917 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6FECAEAF1B37570C001B8767 /* Compile Interface */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Compile Interface";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "jade -P src/web-ui/main.jade";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6F29E1091B17A3C1009AE805 /* Sources */ = {

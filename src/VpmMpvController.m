@@ -8,7 +8,7 @@ enum observed_properties {
 
 static inline void check_error( int status ) {
 	if ( status < 0 ) {
-		printf( "mpv API error: %s\n", mpv_error_string( status ) );
+		NSLog( @"mpv API error: %s\n", mpv_error_string( status ) );
 	}
 }
 
@@ -77,7 +77,7 @@ static NSString *flagNames[] = {
 
 		self.mpv = mpv_create( );
 		if ( !self.mpv ) {
-			puts( "Failed to create mpv context." );
+			NSLog( @"Failed to create mpv context." );
 			// Actually handle the error?
 		}
 		// check error
@@ -98,7 +98,7 @@ static NSString *flagNames[] = {
 		NSLog( @"%@:%d:%d - %@", url, [line intValue], [col intValue], msg );
 	};
 	self.ctx[@"console"][@"log"] = ^(NSString *msg) {
-		NSLog( @"Javascript: %@", msg );
+		NSLog( @"JS: %@", msg );
 	};
 	self.ctx[@"vpm"] = self;
 }

@@ -9,11 +9,11 @@
 
 @property mpv_handle *mpv;
 @property(nonatomic, strong) dispatch_queue_t mpvQueue;
-@property(strong) NSMutableArray *eventIndices;
 @property(strong, readonly) NSDictionary *inputMap;
 @property(strong) JSContext *ctx;
 @property(weak) VpmWindow *window;
 @property BOOL fileLoaded;
+@property int jsObservedPropertyCount;
 
 - (instancetype)initWithJSContext:(JSContext *)ctx;
 - (void)attachJS;

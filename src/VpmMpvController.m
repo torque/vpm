@@ -73,8 +73,7 @@ static NSString *flagNames[] = {
 			@"\033": @"ESC",
 			@"\177": @"BS",
 		};
-
-		self.eventIndices = [NSMutableArray new];
+		self.jsObservedPropertyCount = 0;
 
 		self.mpv = mpv_create( );
 		if ( !self.mpv ) {
@@ -153,8 +152,8 @@ static NSString *flagNames[] = {
 				}
 				default: {
 					int eventIndex = event->reply_userdata - JS_OBSERVED_PROPERTY_OFFSET;
-					if ( event->reply_userdata >= JS_OBSERVED_PROPERTY_OFFSET && eventIndex < [self.eventIndices count]) {
-						[self sendJSEvent:eventIndex];
+					if ( event->reply_userdata >= JS_OBSERVED_PROPERTY_OFFSET && eventIndex < self.jsObservedPropertyCount + 1 ) {
+						[self sendJSPropChange:event->data];
 					}
 				}
 			}
@@ -175,18 +174,18 @@ static NSString *flagNames[] = {
 	}
 }
 
-- (void)sendJSEvent:(int)index {
-	// dispatch js event. function signature is ( index, data ),
-	// and data is always a string.
-	char *value = mpv_get_property_string( self.mpv, [self.eventIndices[index] UTF8String] );
-	NSString *res = value? [NSString stringWithCString:value encoding:NSUTF8StringEncoding]: nil;
-	mpv_free(value);
-	if (res) {
-		// for mystery reasons that are probably very important, setTimeout
-		// can only be called if this is run on the main thread.
-		dispatch_async( dispatch_get_main_queue( ), ^{
-			[self.ctx[@"window"][@"signalMpvEvent"] callWithArguments:@[@(index), res]];
-		} );
+- (void)sendJSPropChange:(mpv_event_property*)property {
+	if ( property->format == MPV_FORMAT_STRING ) {
+		const char *val = *(char **)property->data;
+		NSString *value = [NSString stringWithCString:val encoding:NSUTF8StringEncoding];
+		NSString *name = [NSString stringWithCString:property->name encoding:NSUTF8StringEncoding];
+		if (value) {
+			// for mystery reasons that are probably very important, setTimeout
+			// can only be called if this is run on the main thread.
+			dispatch_async( dispatch_get_main_queue( ), ^{
+				[self.ctx[@"window"][@"signalMpvPropChange"] callWithArguments:@[name, value]];
+			} );
+		}
 	}
 }
 
@@ -216,11 +215,10 @@ static NSString *flagNames[] = {
 
 #pragma mark - MpvJSBridge
 
-- (BOOL)observeProperty:(NSString *)propertyName withIndex:(NSNumber *)index {
-	int idx = [index intValue];
-	if (mpv_observe_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + idx, propertyName.UTF8String, MPV_FORMAT_STRING ) < 0)
+- (BOOL)observeProperty:(NSString *)propertyName {
+	if (mpv_observe_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + self.jsObservedPropertyCount, propertyName.UTF8String, MPV_FORMAT_STRING ) < 0)
 		return false;
-	self.eventIndices[idx] = propertyName;
+	self.jsObservedPropertyCount++;
 	return true;
 }
 

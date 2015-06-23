@@ -1,3 +1,4 @@
+volumeWidget = document.querySelector '#volumewidget'
 volumeButton = document.querySelector '#volumebutton'
 volumeSlider = document.querySelector '#volumesliderwrapper'
 currentVolume = document.querySelector '#currentvolume'
@@ -8,12 +9,12 @@ volumeButton.addEventListener 'click', ( ev ) ->
 
 shiftCoords = ( x ) ->
 	sliderbounds = volumeSlider.getBoundingClientRect( )
-	x - sliderbounds.left
+	Math.min x - sliderbounds.left, 100
 
 volumeSlider.addEventListener 'click', ( ev ) ->
 	vpm.setPropertyString 'volume', shiftCoords ev.clientX
 
-volumeCallback = ( value ) ->
+updateVolumeDisplay = ( value ) ->
 	currentVolume.style.width = value + '%'
 	value = Number value
 	if value is 0
@@ -23,7 +24,7 @@ volumeCallback = ( value ) ->
 	else
 		volumeButton.className = 'button high'
 
-window.observeMpvProperty 'volume', volumeCallback
+window.observeMpvProperty 'volume', updateVolumeDisplay
 
 window.observeMpvProperty 'mute', ( value ) ->
 	muted = value is 'yes'
@@ -31,4 +32,10 @@ window.observeMpvProperty 'mute', ( value ) ->
 		volumeButton.className = 'button muted'
 		currentVolume.style.width = '0%'
 	else
-		volumeCallback vpm.getPropertyString 'volume'
+		updateVolumeDisplay vpm.getPropertyString 'volume'
+
+window.observeMpvProperty 'aid', ( value ) ->
+	if value is "no"
+		volumeWidget.className = 'noaudio'
+	else
+		volumeWidget.className = ''

@@ -26,7 +26,10 @@ html(lang='en')
 						#volumesliderwrapper
 							#volumeslider
 								#currentvolume
-					#playbacktime 0:00:00/0:00:00
+					#playbacktime
+						span#timeElapsed 0:00:00
+						| /
+						span#timeTotal 0:00:00
 					.spacing
 					#fullscreenbutton.button.windowed
 						svg.fullscreen(height='27', width='27', version='1.1', xmlns='http://www.w3.org/2000/svg')
@@ -43,3 +46,4 @@ html(lang='en')
 			include:coffee-script scripts/fullscreenButton.coffee
 			include:coffee-script scripts/seekBar.coffee
 			include:coffee-script scripts/hoverTime.coffee
+			include:coffee-script scripts/playTime.coffee

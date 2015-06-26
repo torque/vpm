@@ -22,12 +22,10 @@ window.unobserveMpvProperty = ( name, callback ) ->
 	console.log "trying to unobserve #{name}"
 	for cb, i in callbacks[name]
 		if cb is callback
-			console.log "  - callback found"
 			callbacks[name].splice i, 1
 			break
 
 	if callbacks[name].length is 0
-		console.log "  - property unobserved"
 		callbacks[name] = undefined
 		vpm.unobserveProperty indices[name]
 

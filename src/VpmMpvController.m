@@ -73,7 +73,6 @@ static NSString *flagNames[] = {
 			@"\033": @"ESC",
 			@"\177": @"BS",
 		};
-		self.jsObservedPropertyCount = 0;
 
 		self.mpv = mpv_create( );
 		if ( !self.mpv ) {
@@ -151,10 +150,8 @@ static NSString *flagNames[] = {
 					break;
 				}
 				default: {
-					int eventIndex = event->reply_userdata - JS_OBSERVED_PROPERTY_OFFSET;
-					if ( event->reply_userdata >= JS_OBSERVED_PROPERTY_OFFSET && eventIndex < self.jsObservedPropertyCount + 1 ) {
+					if ( event->reply_userdata >= JS_OBSERVED_PROPERTY_OFFSET )
 						[self sendJSPropChange:event->data];
-					}
 				}
 			}
 			break;
@@ -215,11 +212,14 @@ static NSString *flagNames[] = {
 
 #pragma mark - MpvJSBridge
 
-- (BOOL)observeProperty:(NSString *)propertyName {
-	if (mpv_observe_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + self.jsObservedPropertyCount, propertyName.UTF8String, MPV_FORMAT_STRING ) < 0)
+- (BOOL)observeProperty:(NSString *)propertyName usingIndex:(NSNumber *)index {
+	if (mpv_observe_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + [index intValue], propertyName.UTF8String, MPV_FORMAT_STRING ) < 0)
 		return false;
-	self.jsObservedPropertyCount++;
 	return true;
+}
+
+- (void)unobserveProperty:(NSNumber *)index {
+	check_error( mpv_unobserve_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + [index intValue] ) );
 }
 
 - (void)setPropertyString:(NSString *)name value:(NSString *)value {

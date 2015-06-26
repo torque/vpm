@@ -13,7 +13,6 @@
 @property(strong) JSContext *ctx;
 @property(weak) VpmWindow *window;
 @property BOOL fileLoaded;
-@property int jsObservedPropertyCount;
 
 - (instancetype)initWithJSContext:(JSContext *)ctx;
 - (void)attachJS;

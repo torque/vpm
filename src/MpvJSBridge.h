@@ -18,7 +18,10 @@ JSExportAs( commandAsync,
 	- (void)commandAsync:(NSArray *)arguments withCallback:(JSValue *)callback
 );
 
-- (BOOL)observeProperty:(NSString *)propertyName;
+JSExportAs( observeProperty,
+	- (BOOL)observeProperty:(NSString *)propertyName usingIndex:(NSNumber *)index
+);
+- (void)unobserveProperty:(NSNumber *)index;
 
 // Probably should replace this with a generic interface for vpm properties, but
 // I can't actually think of any others at the moment, so that'll be deferred

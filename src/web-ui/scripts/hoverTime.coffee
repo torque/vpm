@@ -12,24 +12,24 @@ zeroPad = ( number ) ->
 	else
 		return String number
 
+formatTime = ( time ) ->
+	seconds = zeroPad Math.floor(time) % 60
+	minutes = Math.floor(time/60) % 60
+	hours = Math.floor(time/3600)
+	timeString = seconds
+	if hours < 1
+		timeString = "#{minutes}:#{timeString}"
+	else
+		timeString = "#{hours}:#{zeroPad minutes}:#{timeString}"
+
+	return timeString
+
 setPosition = ( x ) ->
 	seekBox = seekBar.getBoundingClientRect( )
 
 	percent = x / seekBox.width
 	if lengthKnown
-		time = percent * length
-		# javascript not having format strings means we have to do this
-		# manually.
-		seconds = zeroPad Math.floor(time) % 60
-		minutes = Math.floor(time/60) % 60
-		hours = Math.floor(time/3600)
-		timeString = seconds
-		if hours < 1
-			timeString = "#{minutes}:#{timeString}"
-		else
-			timeString = "#{hours}:#{zeroPad minutes}:#{timeString}"
-
-		hoverTimeText.textContent = timeString
+		hoverTimeText.textContent = formatTime percent*length
 	else
 		# hoverTimeText.textContent = Math.round( percent * 100 ) + '%'
 		hoverTimeText.textContent = '????'

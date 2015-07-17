@@ -141,6 +141,7 @@
 				6F29E1091B17A3C1009AE805 /* Sources */,
 				6F29E10A1B17A3C1009AE805 /* Frameworks */,
 				6F29E10B1B17A3C1009AE805 /* Resources */,
+				6FDFC6F81B5795C8004C7307 /* Collect Stray Libraries (Release Only) */,
 			);
 			buildRules = (
 			);
@@ -196,6 +197,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6FDFC6F81B5795C8004C7307 /* Collect Stray Libraries (Release Only) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Collect Stray Libraries (Release Only)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$CONFIGURATION\" = \"Release\" ]; then\n    ruby \"$SRCROOT/xcodejunk/collectlibs.rb\" \"$CONFIGURATION_BUILD_DIR\" \"vpm\"\nfi";
+			showEnvVarsInLog = 0;
+		};
 		6FECAEAF1B37570C001B8767 /* Compile Interface */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -209,6 +225,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "jade -P src/web-ui/video.jade";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

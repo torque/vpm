@@ -1,0 +1,5 @@
+// The code signing identity used for signing debug and release builds.
+CODE_SIGN_IDENTITY = Self-signed App
+
+// Sign bundled mpv and friends too.
+OTHER_CODE_SIGN_FLAGS = --deep

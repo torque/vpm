@@ -27,6 +27,7 @@
 		6F48FD151B33D52E003A69AF /* VpmWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmWindowDelegate.h; sourceTree = "<group>"; };
 		6F48FD161B33D52E003A69AF /* VpmWindowDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmWindowDelegate.m; sourceTree = "<group>"; };
 		6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpv.1.17.0.dylib; path = /usr/local/lib/libmpv.1.17.0.dylib; sourceTree = "<group>"; };
+		6F719EE31B5C581400AF1321 /* Signing Identity.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Signing Identity.xcconfig"; path = "xcodejunk/config/Signing Identity.xcconfig"; sourceTree = SOURCE_ROOT; };
 		6F87E1B21B37DD5500D0C2EC /* video.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = video.html; path = "../src/web-ui/video.html"; sourceTree = "<group>"; };
 		6FFB98491B17E1C8003C3917 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = xcodejunk/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		6FFB984A1B17E1C8003C3917 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = xcodejunk/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -96,6 +97,7 @@
 		6F29E1101B17A3C1009AE805 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6F719EE31B5C581400AF1321 /* Signing Identity.xcconfig */,
 				6FFB984A1B17E1C8003C3917 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -249,6 +251,7 @@
 /* Begin XCBuildConfiguration section */
 		6F29E1281B17A3C1009AE805 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F719EE31B5C581400AF1321 /* Signing Identity.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
@@ -264,7 +267,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -292,6 +294,7 @@
 		};
 		6F29E1291B17A3C1009AE805 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F719EE31B5C581400AF1321 /* Signing Identity.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
@@ -307,7 +310,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;

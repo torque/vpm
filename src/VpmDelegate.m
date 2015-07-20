@@ -65,6 +65,12 @@
 				[NSURL fileURLWithPath:htmlpath isDirectory:NO]
 			]
 		];
+	} else {
+		[[self.window.mainView.webView mainFrame] loadRequest:
+			[NSURLRequest requestWithURL:
+				[[NSBundle mainBundle] URLForResource:@"video" withExtension:@"html"]
+			]
+		];
 	}
 
 	// this is also bad

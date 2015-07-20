@@ -1,10 +1,6 @@
 #import "VpmMpvController.h"
 #import "VpmWindow.h"
-
-enum observed_properties {
-	DWIDTH_OBSERVATION = 1,
-	JS_OBSERVED_PROPERTY_OFFSET
-};
+#import "VpmPropertyWrapper.h"
 
 static inline void check_error( int status ) {
 	if ( status < 0 ) {
@@ -33,9 +29,7 @@ static NSString *flagNames[] = {
 	@"Meta+",
 };
 
-@implementation VpmMpvController {
-	JSValue *_fscallback;
-}
+@implementation VpmMpvController
 
 - (instancetype)initWithJSContext:(JSContext *)ctx {
 	self = [super init];
@@ -43,7 +37,7 @@ static NSString *flagNames[] = {
 		self.ctx = ctx;
 		self.fileLoaded = false;
 		self.mpvQueue = dispatch_queue_create( "org.unorg.vpm.mpv", DISPATCH_QUEUE_SERIAL );
-		_fscallback = nil;
+		self.properties = [[VpmPropertyWrapper alloc] initWithMpvController:self];
 		_inputMap = @{
 			// various unprintable keys are mapped to private-use unicode values.
 			@"\uF700": @"UP",
@@ -80,8 +74,19 @@ static NSString *flagNames[] = {
 			// Actually handle the error?
 		}
 		// check error
+		mpv_set_option_string( self.mpv, "msg-level", "trace" );
+		mpv_set_option_string( self.mpv, "terminal", "yes" );
+		mpv_set_option_string( self.mpv, "config", "yes" );
+		mpv_set_option_string( self.mpv, "load-scripts", "no" );
 		mpv_initialize( self.mpv );
-		mpv_observe_property( self.mpv, DWIDTH_OBSERVATION, "dwidth", MPV_FORMAT_INT64 );
+		// This should probably be moved to the window class.
+		[self.properties observeProperty:@"dwidth" withCallback:^(NSString* name, NSString *value) {
+			CGFloat width = value.doubleValue;
+			CGFloat height = [self getMpvProperty:@"dheight"].doubleValue;
+			dispatch_async( dispatch_get_main_queue( ), ^{
+				[self.window constrainedCenteredResize:NSMakeSize( width, height )];
+			});
+		}];
 		mpv_set_wakeup_callback( self.mpv, wakeup, (__bridge void *)self );
 		[self attachJS];
 	}
@@ -133,31 +138,11 @@ static NSString *flagNames[] = {
 		}
 
 		case MPV_EVENT_PROPERTY_CHANGE: {
-			switch (event->reply_userdata) {
-				case DWIDTH_OBSERVATION: {
-					dispatch_async( self.mpvQueue, ^{
-						if ( self.mpv && self.fileLoaded ) {
-							int64_t width, height;
-							mpv_get_property( self.mpv, "video-params/dw", MPV_FORMAT_INT64, &width );
-							mpv_get_property( self.mpv, "video-params/dh", MPV_FORMAT_INT64, &height );
-							NSLog(@"resize");
-							// resize on the main thread.
-							dispatch_async( dispatch_get_main_queue( ), ^{
-								[self.window constrainedCenteredResize:NSMakeSize( width, height )];
-							} );
-						}
-					} );
-					break;
-				}
-				default: {
-					if ( event->reply_userdata >= JS_OBSERVED_PROPERTY_OFFSET )
-						[self sendJSPropChange:event->data];
-				}
-			}
+			[self.properties handleMpvPropertyChange:event->data];
 			break;
 		}
 
-		case MPV_EVENT_START_FILE: {
+		case MPV_EVENT_FILE_LOADED: {
 			self.fileLoaded = true;
 			break;
 		}
@@ -171,19 +156,25 @@ static NSString *flagNames[] = {
 	}
 }
 
-- (void)sendJSPropChange:(mpv_event_property*)property {
-	if ( property->format == MPV_FORMAT_STRING ) {
-		const char *val = *(char **)property->data;
-		NSString *value = [NSString stringWithCString:val encoding:NSUTF8StringEncoding];
-		NSString *name = [NSString stringWithCString:property->name encoding:NSUTF8StringEncoding];
-		if (value) {
-			// for mystery reasons that are probably very important, setTimeout
-			// can only be called if this is run on the main thread.
-			dispatch_async( dispatch_get_main_queue( ), ^{
-				[self.ctx[@"window"][@"signalMpvPropChange"] callWithArguments:@[name, value]];
-			} );
-		}
-	}
+- (NSString *)getMpvProperty:(NSString *)name {
+	char *value = mpv_get_property_string( self.mpv, name.UTF8String );
+	if ( value )
+		return [NSString stringWithCString:value encoding:NSUTF8StringEncoding];
+	return nil;
+}
+
+- (void)setMpvProperty:(NSString *)name toValue:(NSString *)value {
+	mpv_set_property_string( self.mpv, name.UTF8String, value.UTF8String );
+}
+
+- (BOOL)observeMpvProperty:(NSString *)propertyName usingIndex:(NSInteger)index {
+	if (mpv_observe_property( self.mpv, index, propertyName.UTF8String, MPV_FORMAT_STRING ) < 0)
+		return false;
+	return true;
+}
+
+- (void)unobserveMpvProperty:(NSInteger)index {
+	mpv_unobserve_property( self.mpv, index );
 }
 
 - (void)readEvents {
@@ -198,7 +189,6 @@ static NSString *flagNames[] = {
 }
 
 - (void)destroy {
-	mpv_unobserve_property( self.mpv, DWIDTH_OBSERVATION );
 	dispatch_sync( self.mpvQueue, ^{
 		mpv_terminate_destroy( self.mpv );
 		// have to set self.mpv explicitly to nil because the wakeup
@@ -210,51 +200,11 @@ static NSString *flagNames[] = {
 	} );
 }
 
+- (void)toggleFullScreen {
+	self.properties[@"fullscreen"] = (self.window.styleMask & NSFullScreenWindowMask)? @"no": @"yes";
+}
+
 #pragma mark - MpvJSBridge
-
-- (BOOL)observeProperty:(NSString *)propertyName usingIndex:(NSNumber *)index {
-	if (mpv_observe_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + [index intValue], propertyName.UTF8String, MPV_FORMAT_STRING ) < 0)
-		return false;
-	return true;
-}
-
-- (void)unobserveProperty:(NSNumber *)index {
-	check_error( mpv_unobserve_property( self.mpv, JS_OBSERVED_PROPERTY_OFFSET + [index intValue] ) );
-}
-
-- (void)setPropertyString:(NSString *)name value:(NSString *)value {
-	dispatch_async( self.mpvQueue, ^{
-		if ( self.mpv )
-			check_error( mpv_set_property_string( self.mpv, [name UTF8String], [value UTF8String] ) );
-	} );
-}
-
-- (NSString *)getPropertyString:(NSString *)name {
-	if ( self.mpv ) {
-		char *str = mpv_get_property_string( self.mpv, [name UTF8String] );
-		NSString *res = str? [NSString stringWithCString:str encoding:NSUTF8StringEncoding]: nil;
-		mpv_free( str );
-		return res;
-	}
-	return nil;
-}
-
-- (void)getPropertyStringAsync:(NSString *)name withCallback:(JSValue *)callback {
-	dispatch_async( self.mpvQueue, ^{
-		if ( self.mpv ) {
-			char *str = mpv_get_property_string( self.mpv, [name UTF8String] );
-			NSString *res = str? [NSString stringWithCString:str encoding:NSUTF8StringEncoding]: nil;
-			mpv_free( str );
-			// this apparently works without murdering the javascript event
-			// loop?
-			if ( callback ) {
-				dispatch_async( dispatch_get_main_queue( ), ^{
-					[self.ctx[@"setTimeout"] callWithArguments:@[callback, @0, res]];
-				} );
-			}
-		}
-	} );
-}
 
 // jsexport is kind enough to convert all array members to NS-types
 - (void)command:(NSArray *)arguments {
@@ -266,7 +216,6 @@ static NSString *flagNames[] = {
 	free( cmd );
 }
 
-// jsexport is kind enough to convert all array members to NS-types
 - (void)commandAsync:(NSArray *)arguments withCallback:(JSValue *)callback {
 	dispatch_async( self.mpvQueue, ^{
 		if ( self.mpv ) {
@@ -287,16 +236,21 @@ static NSString *flagNames[] = {
 	} );
 }
 
-- (void)toggleFullScreen {
-	[self.window toggleFullScreen:self];
-	dispatch_async( dispatch_get_main_queue( ), ^{
-		[self.ctx[@"setTimeout"] callWithArguments:@[_fscallback, @0, @([self.window styleMask] & NSFullScreenWindowMask)]];
-		// _fscallback(@([self.window styleMask] & NSFullScreenWindowMask));
-	} );
+- (void)setProperty:(NSString *)name value:(NSString *)value {
+	self.properties[name] = value;
 }
 
-- (void)setFullScreenCallback:(JSValue *)callback {
-	_fscallback = callback;
+- (NSString *)getProperty:(NSString *)name {
+	return self.properties[name];
+}
+
+- (BOOL)observeProperty:(NSString *)name {
+	[self.properties addJSCallbackForProperty:name];
+	return YES;
+}
+
+- (void)unobserveProperty:(NSString *)name {
+	[self.properties removeJSCallbackForProperty:name];
 }
 
 @end

@@ -5,14 +5,14 @@ currentVolume = document.querySelector '#currentvolume'
 muted = false
 
 volumeButton.addEventListener 'click', ( ev ) ->
-	vpm.setPropertyString 'mute', if muted then 'no' else 'yes'
+	vpm.setProperty 'mute', if muted then 'no' else 'yes'
 
 shiftCoords = ( x ) ->
 	sliderbounds = volumeSlider.getBoundingClientRect( )
 	Math.min x - sliderbounds.left, 100
 
 volumeSlider.addEventListener 'click', ( ev ) ->
-	vpm.setPropertyString 'volume', shiftCoords ev.clientX
+	vpm.setProperty 'volume', shiftCoords ev.clientX
 
 updateVolumeDisplay = ( value ) ->
 	currentVolume.style.width = value + '%'
@@ -24,17 +24,17 @@ updateVolumeDisplay = ( value ) ->
 	else
 		volumeButton.className = 'button high'
 
-window.observeMpvProperty 'volume', updateVolumeDisplay
+window.observeProperty 'volume', updateVolumeDisplay
 
-window.observeMpvProperty 'mute', ( value ) ->
+window.observeProperty 'mute', ( value ) ->
 	muted = value is 'yes'
 	if muted
 		volumeButton.className = 'button muted'
 		currentVolume.style.width = '0%'
 	else
-		updateVolumeDisplay vpm.getPropertyString 'volume'
+		updateVolumeDisplay vpm.getProperty 'volume'
 
-window.observeMpvProperty 'aid', ( value ) ->
+window.observeProperty 'aid', ( value ) ->
 	if value is "no"
 		volumeWidget.className = 'noaudio'
 	else

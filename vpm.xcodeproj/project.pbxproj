@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F084E691B5C6E950029E926 /* VpmPropertyWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F084E681B5C6E950029E926 /* VpmPropertyWrapper.m */; };
 		6F48FD171B33D52E003A69AF /* VpmWindowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F48FD161B33D52E003A69AF /* VpmWindowDelegate.m */; };
 		6F49C3261B17E80600826A3D /* libmpv.1.17.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */; };
 		6F87E1B31B37DD5500D0C2EC /* video.html in Resources */ = {isa = PBXBuildFile; fileRef = 6F87E1B21B37DD5500D0C2EC /* video.html */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F084E671B5C6E950029E926 /* VpmPropertyWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmPropertyWrapper.h; sourceTree = "<group>"; };
+		6F084E681B5C6E950029E926 /* VpmPropertyWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmPropertyWrapper.m; sourceTree = "<group>"; };
 		6F29E10D1B17A3C1009AE805 /* vpm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vpm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F48FD151B33D52E003A69AF /* VpmWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmWindowDelegate.h; sourceTree = "<group>"; };
 		6F48FD161B33D52E003A69AF /* VpmWindowDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmWindowDelegate.m; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 				6FFB984E1B17E20A003C3917 /* main.m */,
 				6FFB984F1B17E20A003C3917 /* MpvJSBridge.h */,
 				6FFB98501B17E20A003C3917 /* VpmDelegate.h */,
+				6F084E671B5C6E950029E926 /* VpmPropertyWrapper.h */,
+				6F084E681B5C6E950029E926 /* VpmPropertyWrapper.m */,
 				6FFB98511B17E20A003C3917 /* VpmDelegate.m */,
 				6FFB98521B17E20A003C3917 /* VpmMpvController.h */,
 				6FFB98531B17E20A003C3917 /* VpmMpvController.m */,
@@ -236,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F084E691B5C6E950029E926 /* VpmPropertyWrapper.m in Sources */,
 				6FFB985C1B17E20A003C3917 /* VpmMpvController.m in Sources */,
 				6FFB985B1B17E20A003C3917 /* VpmDelegate.m in Sources */,
 				6FFB985D1B17E20A003C3917 /* VpmVideoView.m in Sources */,

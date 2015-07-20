@@ -20,7 +20,7 @@ formatTime = ( time ) ->
 	return timeString
 
 updateElapsed = ->
-	position = vpm.getPropertyString 'time-pos'
+	position = vpm.getProperty 'time-pos'
 	return if position is undefined
 	elapsed.textContent = formatTime position
 
@@ -29,15 +29,15 @@ updateTimer = setInterval updateElapsed, 200
 observePos = ( position ) ->
 	elapsed.textContent = formatTime position
 
-window.observeMpvProperty 'pause', ( paused ) ->
+window.observeProperty 'pause', ( paused ) ->
 	if paused is 'yes'
 		clearInterval updateTimer
 		updateTimer = false
-		window.observeMpvProperty 'time-pos', observePos
+		window.observeProperty 'time-pos', observePos
 	else if not updateTimer
-		window.unobserveMpvProperty 'time-pos', observePos
+		window.unobserveProperty 'time-pos', observePos
 		updateTimer = setInterval updateElapsed, 200
 
-window.observeMpvProperty 'duration', ( duration ) ->
+window.observeProperty 'duration', ( duration ) ->
 	haveHours = Math.floor(duration/3600) > 1
 	total.textContent = formatTime duration

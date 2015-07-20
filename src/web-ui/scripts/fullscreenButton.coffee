@@ -1,7 +1,12 @@
 element = document.querySelector '#fullscreenbutton'
+fullscreen = false
 
 element.addEventListener 'click', ( ev ) ->
-	vpm.toggleFullScreen( )
+	vpm.setProperty 'fullscreen', if fullscreen then "no" else "yes"
 
-vpm.setFullScreenCallback ( fullscreen ) ->
-	element.className = if fullscreen then 'button fullscreen' else 'button windowed'
+window.observeProperty 'fullscreen', ( value ) ->
+	fullscreen = value isnt 'no'
+	if fullscreen
+		element.classList.add 'fullscreen'
+	else
+		element.classList.remove 'fullscreen'

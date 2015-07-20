@@ -1,8 +1,10 @@
 #playbutton
 	width 50px
-
-	&.playing .play
+	.pause
 		display none
 
-	&.paused .pause
-		display none
+	&.playing
+		.play
+			display none
+		.pause
+			display block

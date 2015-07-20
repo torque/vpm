@@ -2,7 +2,7 @@ seekBar = document.querySelector '#seekbar-pad'
 elapsed = document.querySelector '#elapsed'
 
 updateElapsed = ->
-	position = vpm.getPropertyString 'percent-pos'
+	position = vpm.getProperty 'percent-pos'
 	return if position is undefined
 	elapsed.style.width = position + '%'
 
@@ -16,11 +16,11 @@ updateTimer = setInterval updateElapsed, 200
 observePos = ( position ) ->
 	elapsed.style.width = position + '%'
 
-window.observeMpvProperty 'pause', ( paused ) ->
+window.observeProperty 'pause', ( paused ) ->
 	if paused is 'yes'
 		clearInterval updateTimer
 		updateTimer = false
-		window.observeMpvProperty 'percent-pos', observePos
+		window.observeProperty 'percent-pos', observePos
 	else if not updateTimer
-		window.unobserveMpvProperty 'percent-pos', observePos
+		window.unobserveProperty 'percent-pos', observePos
 		updateTimer = setInterval updateElapsed, 200

@@ -4,6 +4,7 @@
 
 #import "MpvJSBridge.h"
 @class VpmWindow;
+@class VpmPropertyWrapper;
 
 @interface VpmMpvController : NSObject <MpvJSBridge>
 
@@ -12,6 +13,7 @@
 @property(strong, readonly) NSDictionary *inputMap;
 @property(strong) JSContext *ctx;
 @property(weak) VpmWindow *window;
+@property(strong) VpmPropertyWrapper *properties;
 @property BOOL fileLoaded;
 
 - (instancetype)initWithJSContext:(JSContext *)ctx;
@@ -20,8 +22,11 @@
 - (void)handleKeyEvent:(NSEvent *)theEvent;
 - (void)handleEvent:(mpv_event *)event;
 - (void)readEvents;
+- (NSString *)getMpvProperty:(NSString *)name;
+- (void)setMpvProperty:(NSString *)name toValue:(NSString *)value;
+- (BOOL)observeMpvProperty:(NSString *)propertyName usingIndex:(NSInteger)index;
+- (void)unobserveMpvProperty:(NSInteger)index;
+- (void)toggleFullScreen;
 - (void)destroy;
 
-#pragma mark - MpvJSBridge
-- (void)setPropertyString:(NSString *)name value:(NSString *)value;
 @end

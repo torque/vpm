@@ -1,8 +1,10 @@
 #fullscreenbutton
 	width 40px
-
-	&.windowed .window
+	.window
 		display none
 
-	&.fullscreen .fullscreen
-		display none
+	&.fullscreen
+		.fullscreen
+			display none
+		.window
+			display initial

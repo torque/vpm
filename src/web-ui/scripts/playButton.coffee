@@ -1,9 +1,12 @@
 element = document.querySelector '#playbutton'
-paused = false
+playing = true
 
 element.addEventListener 'click', ( ev ) ->
-	vpm.setPropertyString 'pause', if paused then 'no' else 'yes'
+	vpm.setProperty 'pause', if playing then 'yes' else 'no'
 
-window.observeMpvProperty 'pause', ( value ) ->
-	paused = value is 'yes'
-	element.className = if paused then 'button paused' else 'button playing'
+window.observeProperty 'pause', ( value ) ->
+	playing = value is 'no'
+	if playing
+		element.classList.add 'playing'
+	else
+		element.classList.remove 'playing'

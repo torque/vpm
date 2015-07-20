@@ -1,10 +1,13 @@
 *.o
 *.mp4
 *.mkv
+*.ass
 
 *.html
 *.css
 *.js
+
+*.ai
 
 build
 *.pbxuser
@@ -12,3 +15,4 @@ xcuserdata
 *.xccheckout
 DerivedData
 *.xcuserstate
+.idea

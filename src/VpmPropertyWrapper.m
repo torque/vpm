@@ -39,6 +39,7 @@
 @property NSInteger mpvObservationCount;
 @property(strong) ValueChangedCallback javascriptCallback;
 @property NSMutableDictionary *backingDictionary;
+@property(strong) dispatch_queue_t callbackQueue;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (void)setUpDefaultCallbacks;
@@ -69,6 +70,7 @@
 	) {
 		self.controller = controller;
 		self.mpvObservationCount = 0;
+		self.callbackQueue = dispatch_queue_create( "org.unorg.vpm.PropertyWrapper.cbq", DISPATCH_QUEUE_SERIAL );
 		[self setUpDefaultCallbacks];
 	}
 
@@ -85,8 +87,10 @@
 	};
 
 	[self observeProperty:@"fullscreen" withCallback:^(NSString *name, NSString *value) {
-		if ( controller )
-			[controller.window toggleFullScreen:controller];
+		dispatch_async( dispatch_get_main_queue( ), ^{
+			if ( controller )
+				[controller.window toggleFullScreen:controller];
+		} );
 	}];
 }
 
@@ -119,10 +123,8 @@
 		obj.mpvObservationIndex = ++self.mpvObservationCount;
 		obj.activeObserver = YES;
 		[obj.callbackArray addObject:callback];
-		// NSLog( @"  observation succeeded." );
 		return obj;
 	}
-	// NSLog( @"  observation failed." );
 	return nil;
 }
 
@@ -142,8 +144,10 @@
 	PropertyWrapperBackingObject *obj = self.backingDictionary[key];
 	if ( obj != nil ) {
 		if ( obj.value != value ) {
-			for ( ValueChangedCallback callback in obj.callbackArray )
-				callback( key, value );
+			dispatch_async( self.callbackQueue, ^{
+				for ( ValueChangedCallback callback in obj.callbackArray )
+					callback( key, value );
+			} );
 
 			obj.value = value;
 			if ( obj.mpvObservationIndex > 0 )
@@ -154,22 +158,17 @@
 }
 
 - (void)observeProperty:(NSString *)name withCallback:(ValueChangedCallback)callback {
-	// NSLog( @"Attempting to observe %@", name );
 	PropertyWrapperBackingObject *obj = self.backingDictionary[name];
 	if ( obj != nil ) {
-		// NSLog( @"  object exists." );
 		if ( !obj.activeObserver && obj.mpvObservationIndex > 0 ) {
-			// NSLog( @"  re-observing mpv property." );
 			[self.controller observeMpvProperty:name usingIndex:obj.mpvObservationIndex];
 		}
 
 		[obj.callbackArray addObject:callback];
 		obj.activeObserver = YES;
 	} else {
-		// NSLog( @"  Object doesn't exist." );
 		obj = [self createMpvObserver:name withCallback:callback];
 		if ( obj ) {
-			// NSLog( @"  Adding to dictionary." );
 			self.backingDictionary[name] = obj;
 		}
 	}

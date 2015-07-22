@@ -103,7 +103,7 @@
 			NSString *name = [NSString stringWithCString:property->name encoding:NSUTF8StringEncoding];
 			if ( value ) {
 				PropertyWrapperBackingObject *obj = self.backingDictionary[name];
-				if ( obj )
+				if ( obj && obj.value != value )
 					[self updateObject:obj forKey:name withValue:value];
 			}
 		}
@@ -174,9 +174,8 @@
 		obj.activeObserver = YES;
 	} else {
 		obj = [self createMpvObserver:name withCallback:callback];
-		if ( obj ) {
+		if ( obj )
 			self.backingDictionary[name] = obj;
-		}
 	}
 }
 

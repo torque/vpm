@@ -43,6 +43,7 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (void)setUpDefaultCallbacks;
+- (void)updateObject:(PropertyWrapperBackingObject *)obj forKey:(NSString *)key withValue:(NSString *)newValue;
 - (PropertyWrapperBackingObject *)createMpvObserver:(NSString *)name withCallback:(ValueChangedCallback)callback;
 
 @end
@@ -100,8 +101,11 @@
 			const char *val = *(char **)property->data;
 			NSString *value = [NSString stringWithCString:val encoding:NSUTF8StringEncoding];
 			NSString *name = [NSString stringWithCString:property->name encoding:NSUTF8StringEncoding];
-			if ( value )
-				self[name] = value;
+			if ( value ) {
+				PropertyWrapperBackingObject *obj = self.backingDictionary[name];
+				if ( obj )
+					[self updateObject:obj forKey:name withValue:value];
+			}
 		}
 		default: {}
 	}
@@ -138,17 +142,20 @@
 		return [self.controller getMpvProperty:key];
 }
 
+- (void)updateObject:(PropertyWrapperBackingObject *)obj forKey:(NSString *)key withValue:(NSString *)newValue {
+	NSString *oldValue = obj.value;
+	obj.value = newValue;
+	dispatch_async( self.callbackQueue, ^{
+		for ( ValueChangedCallback callback in obj.callbackArray )
+			callback( key, newValue, oldValue );
+	} );
+}
+
 - (void)setObject:(NSString *)value forKeyedSubscript:(NSString *)key {
 	PropertyWrapperBackingObject *obj = self.backingDictionary[key];
 	if ( obj != nil ) {
 		if ( obj.value != value ) {
-			NSString *oldValue = obj.value;
-			dispatch_async( self.callbackQueue, ^{
-				for ( ValueChangedCallback callback in obj.callbackArray )
-					callback( key, value, oldValue );
-			} );
-
-			obj.value = value;
+			[self updateObject:obj forKey:key withValue:value];
 			if ( obj.mpvObservationIndex > 0 )
 				[self.controller setMpvProperty:key toValue:value];
 		}

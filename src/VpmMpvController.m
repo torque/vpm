@@ -80,7 +80,7 @@ static NSString *flagNames[] = {
 
 		self.properties = [[VpmPropertyWrapper alloc] initWithMpvController:self];
 		// This should probably be moved to the window class.
-		[self.properties observeProperty:@"dwidth" withCallback:^(NSString* name, NSString *value) {
+		[self.properties observeProperty:@"dwidth" withCallback:^(NSString* name, NSString *value, NSString *oldValue) {
 			CGFloat width = value.doubleValue;
 			CGFloat height = [self getMpvProperty:@"dheight"].doubleValue;
 			dispatch_async( dispatch_get_main_queue( ), ^{

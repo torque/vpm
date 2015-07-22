@@ -79,14 +79,14 @@
 
 - (void)setUpDefaultCallbacks {
 	VpmMpvController *controller = self.controller;
-	self.javascriptCallback = ^(NSString *name, NSString *value) {
+	self.javascriptCallback = ^(NSString *name, NSString *value, NSString *oldValue) {
 		dispatch_async( dispatch_get_main_queue( ), ^{
 			if ( controller )
-				[controller.ctx[@"window"][@"signalPropertyChange"] callWithArguments:@[name, value]];
+				[controller.ctx[@"window"][@"signalPropertyChange"] callWithArguments:@[name, value, oldValue]];
 		} );
 	};
 
-	[self observeProperty:@"fullscreen" withCallback:^(NSString *name, NSString *value) {
+	[self observeProperty:@"fullscreen" withCallback:^(NSString *name, NSString *value, NSString *oldValue) {
 		dispatch_async( dispatch_get_main_queue( ), ^{
 			if ( controller )
 				[controller.window toggleFullScreen:controller];
@@ -100,10 +100,8 @@
 			const char *val = *(char **)property->data;
 			NSString *value = [NSString stringWithCString:val encoding:NSUTF8StringEncoding];
 			NSString *name = [NSString stringWithCString:property->name encoding:NSUTF8StringEncoding];
-			// NSLog( @"mpv prop change: %@: %@", name, value );
-			if ( value ) {
+			if ( value )
 				self[name] = value;
-			}
 		}
 		default: {}
 	}
@@ -144,9 +142,10 @@
 	PropertyWrapperBackingObject *obj = self.backingDictionary[key];
 	if ( obj != nil ) {
 		if ( obj.value != value ) {
+			NSString *oldValue = obj.value;
 			dispatch_async( self.callbackQueue, ^{
 				for ( ValueChangedCallback callback in obj.callbackArray )
-					callback( key, value );
+					callback( key, value, oldValue );
 			} );
 
 			obj.value = value;

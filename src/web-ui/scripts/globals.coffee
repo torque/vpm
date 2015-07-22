@@ -23,9 +23,9 @@ window.unobserveProperty = ( name, callback ) ->
 		callbacks[name] = undefined
 		vpm.unobserveProperty name
 
-window.signalPropertyChange = ( name, value ) ->
+window.signalPropertyChange = ( name, value, oldValue ) ->
 	setTimeout ->
 		return unless callbacks[name]
 		for callback in callbacks[name]
-			callback value
+			callback value, oldValue
 	, 0

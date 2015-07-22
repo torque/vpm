@@ -1,7 +1,7 @@
 @import Foundation;
 #import <mpv/client.h>
 
-typedef void (^ValueChangedCallback)(NSString *name, NSString *value);
+typedef void (^ValueChangedCallback)(NSString *name, NSString *value, NSString *oldValue);
 
 @class VpmMpvController;
 

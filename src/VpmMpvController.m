@@ -32,12 +32,10 @@ static NSString *flagNames[] = {
 @implementation VpmMpvController
 
 - (instancetype)initWithJSContext:(JSContext *)ctx {
-	self = [super init];
-	if ( self ) {
+	if ( self = [super init] ) {
 		self.ctx = ctx;
 		self.fileLoaded = false;
 		self.mpvQueue = dispatch_queue_create( "org.unorg.vpm.mpv", DISPATCH_QUEUE_SERIAL );
-		self.properties = [[VpmPropertyWrapper alloc] initWithMpvController:self];
 		_inputMap = @{
 			// various unprintable keys are mapped to private-use unicode values.
 			@"\uF700": @"UP",
@@ -71,14 +69,16 @@ static NSString *flagNames[] = {
 		self.mpv = mpv_create( );
 		if ( !self.mpv ) {
 			NSLog( @"Failed to create mpv context." );
-			// Actually handle the error?
+			// top tier error handling
+			exit( 1 );
 		}
 		// check error
 		mpv_set_option_string( self.mpv, "msg-level", "trace" );
 		mpv_set_option_string( self.mpv, "terminal", "yes" );
 		mpv_set_option_string( self.mpv, "config", "yes" );
 		mpv_set_option_string( self.mpv, "load-scripts", "no" );
-		mpv_initialize( self.mpv );
+
+		self.properties = [[VpmPropertyWrapper alloc] initWithMpvController:self];
 		// This should probably be moved to the window class.
 		[self.properties observeProperty:@"dwidth" withCallback:^(NSString* name, NSString *value) {
 			CGFloat width = value.doubleValue;
@@ -87,8 +87,10 @@ static NSString *flagNames[] = {
 				[self.window constrainedCenteredResize:NSMakeSize( width, height )];
 			});
 		}];
-		mpv_set_wakeup_callback( self.mpv, wakeup, (__bridge void *)self );
 		[self attachJS];
+
+		mpv_set_wakeup_callback( self.mpv, wakeup, (__bridge void *)self );
+		mpv_initialize( self.mpv );
 	}
 	return self;
 }

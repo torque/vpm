@@ -191,4 +191,7 @@
 	}
 }
 
+- (void)destroy {
+}
+
 @end

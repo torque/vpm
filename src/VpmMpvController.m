@@ -191,19 +191,17 @@ static NSString *flagNames[] = {
 }
 
 - (void)destroy {
-	dispatch_sync( self.mpvQueue, ^{
-		mpv_terminate_destroy( self.mpv );
-		// have to set self.mpv explicitly to nil because the wakeup
-		// callback will queue events in this dispatch queue that will not
-		// run until after this block is finished. This happens whether or
-		// not the termination happens in the mpv queue, but is far less
-		// deterministic if it doesn't.
-		self.mpv = nil;
-	} );
+	[self.properties destroy];
 }
 
 - (void)toggleFullScreen {
 	self.properties[@"fullscreen"] = (self.window.styleMask & NSFullScreenWindowMask)? @"no": @"yes";
+}
+
+#pragma mark - WebkitFrameLoadDelegate
+
+- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame*)frame {
+	NSLog( @"Webview frame load finished." );
 }
 
 #pragma mark - MpvJSBridge

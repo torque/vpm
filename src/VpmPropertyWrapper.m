@@ -83,7 +83,7 @@
 	self.javascriptCallback = ^(NSString *name, NSString *value, NSString *oldValue) {
 		dispatch_async( dispatch_get_main_queue( ), ^{
 			if ( controller )
-				[controller.ctx[@"window"][@"signalPropertyChange"] callWithArguments:@[name, value, oldValue]];
+				[controller.ctx[@"window"][@"signalPropertyChange"] callWithArguments:@[name? name: [NSNull null], value? value: [NSNull null], oldValue? oldValue: [NSNull null]]];
 		} );
 	};
 

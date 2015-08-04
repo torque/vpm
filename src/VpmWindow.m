@@ -1,3 +1,4 @@
+#import "CommonLog.h"
 #import "VpmWindow.h"
 #import "VpmWindowDelegate.h"
 #import "VpmVideoView.h"
@@ -63,6 +64,7 @@
 - (void)sendEvent:(NSEvent *)theEvent {
 	switch ( theEvent.type ) {
 		case NSKeyDown: {
+			DDLogVerbose( @"Keydown: %@, U+%04X", theEvent.characters, [theEvent.characters characterAtIndex:0] );
 			[self.mainView.webView.bridge handleKeyEvent:theEvent];
 			// don't fall through to default, because it causes error bells.
 			return;
@@ -90,6 +92,7 @@
 	// should be kept regardless.
 	CGFloat titlebarHeight = windowRect.size.height - contentRect.size.height;
 	NSSize newSize;
+	DDLogVerbose( @"Titlebar height: %g", titlebarHeight );
 	// if either of the differences are negative, the requested size is
 	// larger than the screen size.
 	if ( screenRect.size.width  - newContentSize.width  < 0 ||
@@ -115,6 +118,8 @@
 	newSize.width  = MAX( minSize.width,  newSize.width );
 	newSize.height = MAX( minSize.height, newSize.height );
 
+	DDLogVerbose( @"s: (%g, %g) -> (%g, %g)", windowRect.size.width, windowRect.size.height, newSize.width, newSize.height);
+
 	CGFloat dx = newSize.width - windowRect.size.width;
 	CGFloat dy = newSize.height - windowRect.size.height;
 	NSPoint newOrigin = NSMakePoint(windowRect.origin.x - dx/2.0, windowRect.origin.y - dy/2.0);
@@ -130,6 +135,7 @@
 		newOrigin.y = screenRect.origin.y + screenRect.size.height - newSize.height;
 	}
 
+	DDLogVerbose( @"o: (%g, %g) -> (%g, %g)", windowRect.origin.x, windowRect.origin.y, newOrigin.x, newOrigin.y);
 	NSRect newFrame = NSMakeRect( floor( newOrigin.x ),   floor( newOrigin.y ),
 		                            floor( newSize.width ), floor( newSize.height ) );
 	[self setFrame:newFrame

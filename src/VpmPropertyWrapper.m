@@ -1,3 +1,4 @@
+#import "CommonLog.h"
 #import "VpmPropertyWrapper.h"
 #import "VpmWindow.h"
 #import "VpmMpvController.h"
@@ -82,6 +83,7 @@
 	VpmMpvController *controller = self.controller;
 	self.javascriptCallback = ^(NSString *name, NSString *value, NSString *oldValue) {
 		dispatch_async( dispatch_get_main_queue( ), ^{
+			DDLogVerbose( @"%@: %@ -> %@, running Javascript callback.", name, oldValue, value );
 			if ( controller )
 				[controller.ctx[@"window"][@"signalPropertyChange"] callWithArguments:@[name? name: [NSNull null], value? value: [NSNull null], oldValue? oldValue: [NSNull null]]];
 		} );
@@ -112,10 +114,12 @@
 }
 
 - (void)addJSCallbackForProperty:(NSString *)name {
+	DDLogVerbose(@"observing property %@ from JS", name);
 	[self observeProperty:name withCallback:self.javascriptCallback];
 }
 
 - (void)removeJSCallbackForProperty:(NSString *)name {
+	DDLogVerbose(@"unobserving property %@ from JS", name);
 	[self unobserveProperty:name withCallback:self.javascriptCallback];
 }
 
@@ -146,15 +150,19 @@
 	NSString *oldValue = obj.value;
 	obj.value = newValue;
 	dispatch_async( self.callbackQueue, ^{
-		for ( ValueChangedCallback callback in obj.callbackArray )
+		DDLogVerbose( @"In callback queue for %@", key );
+		for ( ValueChangedCallback callback in obj.callbackArray ) {
+			DDLogVerbose( @"%@: %@ -> %@, running a callback.", key, oldValue, newValue );
 			callback( key, newValue, oldValue );
+		}
 	} );
 }
 
 - (void)setObject:(NSString *)value forKeyedSubscript:(NSString *)key {
 	PropertyWrapperBackingObject *obj = self.backingDictionary[key];
 	if ( obj != nil ) {
-		if ( obj.value != value ) {
+		if ( obj.value != value && obj.activeObserver ) {
+			DDLogVerbose( @"%@ changed, running callbacks with %@", key, value );
 			[self updateObject:obj forKey:key withValue:value];
 			if ( obj.mpvObservationIndex > 0 )
 				[self.controller setMpvProperty:key toValue:value];

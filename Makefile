@@ -3,12 +3,12 @@
 all: debug
 
 debug:
-	xctool -reporter pretty -project vpm.xcodeproj -scheme vpm -configuration Debug build OBJROOT="build" SYMROOT="build"
-	# xcodebuild -project vpm.xcodeproj -target vpm -configuration Debug build OBJROOT="build" SYMROOT="build"
+	xctool -reporter pretty -project vpm.xcodeproj -scheme vpm -configuration Debug
+	# xcodebuild -project vpm.xcodeproj -target vpm -configuration Debug
 
 release:
-	xctool -project vpm.xcodeproj -scheme vpm -configuration Release build OBJROOT="build" SYMROOT="build"
-	# xcodebuild -project vpm.xcodeproj -target vpm -configuration Release build OBJROOT="build" SYMROOT="build"
+	xctool -project vpm.xcodeproj -scheme vpm -configuration Release
+	# xcodebuild -project vpm.xcodeproj -target vpm -configuration Release
 
 clean:
 	rm -rf build

@@ -3,6 +3,7 @@
 #import <stdio.h>
 #import <stdlib.h>
 
+#import "CommonLog.h"
 #import "VpmDelegate.h"
 #import "VpmWindow.h"
 #import "VpmVideoView.h"
@@ -39,6 +40,12 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+	// set up logging
+	// apple system log
+	[DDLog addLogger:[DDASLLogger sharedInstance]];
+	// terminal log
+	[DDLog addLogger:[DDTTYLogger sharedInstance]];
+
 	// Read filename
 	NSArray *args = [NSProcessInfo processInfo].arguments;
 	NSString *videopath = nil;
@@ -48,10 +55,10 @@
 	if (!launchedFromBundle) {
 		switch (args.count) {
 			case 3:
-				NSLog( @"%@", args[2] );
+				DDLogVerbose( @"%@", args[2] );
 				htmlpath = args[2];
 			case 2:
-				NSLog( @"%@", args[1] );
+				DDLogVerbose( @"%@", args[1] );
 				videopath = args[1];
 		}
 	}
@@ -85,7 +92,7 @@
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-	NSLog( @"Shutting down." );
+	DDLogVerbose( @"Shutting down." );
 	[self.window destroy];
 	return NSTerminateNow;
 }

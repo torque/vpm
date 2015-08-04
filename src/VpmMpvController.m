@@ -1,10 +1,13 @@
+#import <WebKit/WebKit.h>
+
+#import "CommonLog.h"
 #import "VpmMpvController.h"
 #import "VpmWindow.h"
 #import "VpmPropertyWrapper.h"
 
 static inline void check_error( int status ) {
 	if ( status < 0 ) {
-		NSLog( @"mpv API error: %s\n", mpv_error_string( status ) );
+		DDLogWarn( @"mpv API error: %s\n", mpv_error_string( status ) );
 	}
 }
 
@@ -68,7 +71,7 @@ static NSString *flagNames[] = {
 
 		self.mpv = mpv_create( );
 		if ( !self.mpv ) {
-			NSLog( @"Failed to create mpv context." );
+			DDLogError( @"Failed to create mpv context." );
 			// top tier error handling
 			exit( 1 );
 		}
@@ -100,11 +103,11 @@ static NSString *flagNames[] = {
 	// exceptions thrown from the javascript executed by a loaded page.
 	// Unfortunately, webkit does not pass a stack trace to this listener,
 	// so a better system should probably be devised.
-	self.ctx[@"window"][@"onerror"] = ^( NSString *msg, NSString *url, NSNumber *line, NSNumber *col ) {
-		NSLog( @"%@:%d:%d - %@", url, [line intValue], [col intValue], msg );
+	self.ctx[@"window"][@"onerror"] = ^(NSString *msg, NSString *url, NSNumber *line, NSNumber *col) {
+		DDLogWarn( @"%@:%d:%d - %@", url, [line intValue], [col intValue], msg );
 	};
 	self.ctx[@"console"][@"log"] = ^(NSString *msg) {
-		NSLog( @"JS: %@", msg );
+		DDLogDebug( @"JS: %@", msg );
 	};
 	self.ctx[@"vpm"] = self;
 }
@@ -135,7 +138,7 @@ static NSString *flagNames[] = {
 	switch (event->event_id) {
 		case MPV_EVENT_LOG_MESSAGE: {
 			struct mpv_event_log_message *msg = (struct mpv_event_log_message *)event->data;
-			NSLog( @"[%s] %s: %s", msg->prefix, msg->level, msg->text );
+			DDLogDebug( @"[%s] %s: %s", msg->prefix, msg->level, msg->text );
 			break;
 		}
 

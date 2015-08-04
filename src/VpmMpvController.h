@@ -14,7 +14,6 @@
 @property(strong) JSContext *ctx;
 @property(weak) VpmWindow *window;
 @property(strong) VpmPropertyWrapper *properties;
-@property BOOL fileLoaded;
 
 - (instancetype)initWithJSContext:(JSContext *)ctx;
 - (void)attachJS;

@@ -37,7 +37,6 @@ static NSString *flagNames[] = {
 - (instancetype)initWithJSContext:(JSContext *)ctx {
 	if ( self = [super init] ) {
 		self.ctx = ctx;
-		self.fileLoaded = false;
 		self.mpvQueue = dispatch_queue_create( "org.unorg.vpm.mpv", DISPATCH_QUEUE_SERIAL );
 		_inputMap = @{
 			// various unprintable keys are mapped to private-use unicode values.
@@ -148,12 +147,13 @@ static NSString *flagNames[] = {
 		}
 
 		case MPV_EVENT_FILE_LOADED: {
-			self.fileLoaded = true;
+			DDLogVerbose( @"file_loaded" );
+			self.properties[@"fileLoaded"] = @"yes";
 			break;
 		}
 
 		case MPV_EVENT_END_FILE: {
-			self.fileLoaded = false;
+			self.properties[@"fileLoaded"] = @"no";
 			break;
 		}
 
@@ -204,7 +204,7 @@ static NSString *flagNames[] = {
 #pragma mark - WebkitFrameLoadDelegate
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame*)frame {
-	NSLog( @"Webview frame load finished." );
+	self.properties[@"interfaceLoaded"] = @"yes";
 }
 
 #pragma mark - MpvJSBridge

@@ -15,6 +15,7 @@
 		self.drawsBackground = NO;
 		self.ctx = [JSContext contextWithJSGlobalContextRef:self.mainFrame.globalContext];
 		self.bridge = [[VpmMpvController alloc] initWithJSContext:self.ctx];
+		self.frameLoadDelegate = self.bridge;
 	}
 
 	return self;

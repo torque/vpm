@@ -32,13 +32,23 @@ static NSString *flagNames[] = {
 	@"Meta+",
 };
 
+#pragma mark - VpmMpvController Private Category
+
+@interface VpmMpvController()
+
+@property(strong) NSDictionary *inputMap;
+
+@end
+
+#pragma mark - VpmMpvController Implementation
+
 @implementation VpmMpvController
 
 - (instancetype)initWithJSContext:(JSContext *)ctx {
 	if ( self = [super init] ) {
 		self.ctx = ctx;
 		self.mpvQueue = dispatch_queue_create( "org.unorg.vpm.mpv", DISPATCH_QUEUE_SERIAL );
-		_inputMap = @{
+		self.inputMap = @{
 			// various unprintable keys are mapped to private-use unicode values.
 			@"\uF700": @"UP",
 			@"\uF701": @"DOWN",

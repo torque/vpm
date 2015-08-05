@@ -90,6 +90,9 @@ static NSString *flagNames[] = {
 		mpv_set_option_string( self.mpv, "config", "yes" );
 		mpv_set_option_string( self.mpv, "load-scripts", "no" );
 
+		mpv_set_wakeup_callback( self.mpv, wakeup, (__bridge void *)self );
+		mpv_initialize( self.mpv );
+
 		self.properties = [[VpmPropertyWrapper alloc] initWithMpvController:self];
 		// this can't really go in VpmWindow conveniently due to the use of
 		// getMpvProperty.
@@ -108,10 +111,8 @@ static NSString *flagNames[] = {
 			} );
 		}];
 		[self attachJS];
-
-		mpv_set_wakeup_callback( self.mpv, wakeup, (__bridge void *)self );
-		mpv_initialize( self.mpv );
 	}
+
 	return self;
 }
 

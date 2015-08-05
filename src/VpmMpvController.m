@@ -91,13 +91,21 @@ static NSString *flagNames[] = {
 		mpv_set_option_string( self.mpv, "load-scripts", "no" );
 
 		self.properties = [[VpmPropertyWrapper alloc] initWithMpvController:self];
-		// This should probably be moved to the window class.
+		// this can't really go in VpmWindow conveniently due to the use of
+		// getMpvProperty.
 		[self.properties observeProperty:@"dwidth" withCallback:^(NSString* name, NSString *value, NSString *oldValue) {
 			CGFloat width = value.doubleValue;
 			CGFloat height = [self getMpvProperty:@"dheight"].doubleValue;
 			dispatch_async( dispatch_get_main_queue( ), ^{
 				[self.window constrainedCenteredResize:NSMakeSize( width, height )];
 			});
+		}];
+		// for some reason toggleFullScreen does nothing when sent by the window to
+		// itself.
+		[self.properties observeProperty:@"fullscreen" withCallback:^(NSString *name, NSString *value, NSString *oldValue) {
+			dispatch_async( dispatch_get_main_queue( ), ^{
+				[self.window toggleFullScreen:self.window];
+			} );
 		}];
 		[self attachJS];
 

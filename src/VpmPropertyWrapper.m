@@ -88,13 +88,6 @@
 				[controller.ctx[@"window"][@"signalPropertyChange"] callWithArguments:@[name? name: [NSNull null], value? value: [NSNull null], oldValue? oldValue: [NSNull null]]];
 		} );
 	};
-
-	[self observeProperty:@"fullscreen" withCallback:^(NSString *name, NSString *value, NSString *oldValue) {
-		dispatch_async( dispatch_get_main_queue( ), ^{
-			if ( controller )
-				[controller.window toggleFullScreen:controller];
-		} );
-	}];
 }
 
 - (void)handleMpvPropertyChange:(mpv_event_property*)property {

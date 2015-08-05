@@ -67,7 +67,10 @@
 	// All vpm native properties, the ones that aren't backed by mpv properties,
 	// are initialized in this dictionary.
 	if ( self = [self initWithDictionary:@{
-	     	@"fullscreen": ([controller.window styleMask] & NSFullScreenWindowMask)? @"yes": @"no"
+	     	@"fullscreen": ([controller.window styleMask] & NSFullScreenWindowMask)? @"yes": @"no",
+	     	@"fileLoaded": @"no",
+	     	@"interface": @"video",
+	     	@"interfaceLoaded": @"no"
 	     }]
 	) {
 		self.controller = controller;

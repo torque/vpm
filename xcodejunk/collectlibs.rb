@@ -171,4 +171,3 @@ end
 
 vpm = OSXBundle.new ARGV[0], ARGV[1]
 vpm.bundle
-# p ARGV

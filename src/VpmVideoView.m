@@ -1,6 +1,7 @@
 #import <mpv/client.h>
 #import <OpenGL/gl.h>
 
+#import "CommonLog.h"
 #import "VpmVideoView.h"
 #import "VpmWebView.h"
 #import "VpmMpvController.h"
@@ -68,14 +69,14 @@ static void *glProbe( void *ctx, const char *name) {
 	mpv_set_option_string( mpv, "vo", "opengl-cb" );
 	self.mpv_gl = mpv_get_sub_api( mpv, MPV_SUB_API_OPENGL_CB );
 	if ( !self.mpv_gl ) {
-		puts( "libmpv does not have the opengl-cb sub-API." );
-		// handle error.
+		DDLogError( @"libmpv does not have the opengl-cb sub-API." );
+		exit( 0 );
 	}
 
 	int r = mpv_opengl_cb_init_gl( self.mpv_gl, NULL, glProbe, NULL );
 	if ( r < 0 ) {
-		puts( "gl init has failed." );
-		// handle error.
+		DDLogError( @"gl init has failed." );
+		exit( 0 );
 	}
 
 	mpv_opengl_cb_set_update_callback( self.mpv_gl, glUpdate, (__bridge void *)self );

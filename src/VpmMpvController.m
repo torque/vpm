@@ -156,7 +156,7 @@ static NSString *flagNames[] = {
 	switch (event->event_id) {
 		case MPV_EVENT_LOG_MESSAGE: {
 			struct mpv_event_log_message *msg = (struct mpv_event_log_message *)event->data;
-			DDLogDebug( @"[%s] %s: %s", msg->prefix, msg->level, msg->text );
+			DDLogDebug( @"[%s] %s: %.*s", msg->prefix, msg->level, (int)strlen(msg->text)-1, msg->text );
 			break;
 		}
 

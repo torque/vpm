@@ -99,6 +99,8 @@ static void glUpdate( void *ctx ) {
 		glClear( GL_COLOR_BUFFER_BIT );
 	}
 	[[self openGLContext] flushBuffer];
+	if (self.mpv_gl)
+		mpv_opengl_cb_report_flip( self.mpv_gl, 0 );
 	[self.drawLock unlock];
 }
 

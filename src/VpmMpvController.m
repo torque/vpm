@@ -84,11 +84,11 @@ static NSString *flagNames[] = {
 			// top tier error handling
 			exit( 1 );
 		}
-		// check error
-		mpv_set_option_string( self.mpv, "msg-level", "trace" );
-		mpv_set_option_string( self.mpv, "terminal", "yes" );
 		mpv_set_option_string( self.mpv, "config", "yes" );
-		mpv_set_option_string( self.mpv, "load-scripts", "no" );
+		mpv_set_option_string( self.mpv, "config-dir", [[NSBundle mainBundle].resourcePath stringByAppendingString:@"/mpv-defaults"].UTF8String );
+		mpv_set_option_string( self.mpv, "osc", "no" );
+		mpv_set_option_string( self.mpv, "osd-level", "0" );
+		mpv_set_option_string( self.mpv, "input-default-bindings", "yes" );
 
 		mpv_set_wakeup_callback( self.mpv, wakeup, (__bridge void *)self );
 		mpv_initialize( self.mpv );

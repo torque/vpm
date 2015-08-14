@@ -12,7 +12,7 @@
 		6F49C3261B17E80600826A3D /* libmpv.1.17.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */; };
 		6F87E1B31B37DD5500D0C2EC /* video.html in Resources */ = {isa = PBXBuildFile; fileRef = 6F87E1B21B37DD5500D0C2EC /* video.html */; };
 		6FC030051B70567700300E15 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FC02FF51B7055EB00300E15 /* CocoaLumberjack.framework */; };
-		6FC0300B1B70909700300E15 /* CocoaLumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6FC02FF11B7055EB00300E15 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FC0300B1B70909700300E15 /* CocoaLumberjack.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6FC02FF11B7055EB00300E15 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FFB984B1B17E1C8003C3917 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FFB98491B17E1C8003C3917 /* Images.xcassets */; };
 		6FFB985A1B17E20A003C3917 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB984E1B17E20A003C3917 /* main.m */; };
 		6FFB985B1B17E20A003C3917 /* VpmDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98511B17E20A003C3917 /* VpmDelegate.m */; };
@@ -99,14 +99,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		6FC0300A1B70907800300E15 /* CopyFiles */ = {
+		6FC0300A1B70907800300E15 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6FC0300B1B70909700300E15 /* CocoaLumberjack.framework in CopyFiles */,
+				6FC0300B1B70909700300E15 /* CocoaLumberjack.framework in Copy Frameworks */,
 			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -265,7 +266,7 @@
 				6F29E1091B17A3C1009AE805 /* Sources */,
 				6F29E10A1B17A3C1009AE805 /* Frameworks */,
 				6F29E10B1B17A3C1009AE805 /* Resources */,
-				6FC0300A1B70907800300E15 /* CopyFiles */,
+				6FC0300A1B70907800300E15 /* Copy Frameworks */,
 				6FDFC6F81B5795C8004C7307 /* Collect Stray Libraries (Release Only) */,
 			);
 			buildRules = (

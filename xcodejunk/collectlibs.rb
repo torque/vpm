@@ -10,7 +10,8 @@
 
 class OSXBundle
 
-	SystemLibDirs   = /^(\/System\/Library|\/usr\/lib)/
+	SystemLibDirs    = /^(\/System\/Library|\/usr\/lib)/
+	SpecialLinkPaths = /^(@rpath|@loader_path|@executable_path)/
 	# https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/dyld.1.html
 	# The default DYLD_FALLBACK_LIBRARY_PATH is $(HOME)/lib:/usr/local/lib:/lib:/usr/lib.
 
@@ -94,15 +95,26 @@ class OSXBundle
 
 	def collectLibs( exe )
 		# Need to fix exe name because collectLibs will be called with a broken
-		# library name if one exists. Sed strips off the first line, and awk strips
-		# the leading tab and version information.
-		linkedLibs = `otool -LX #{File.exist?( exe )? exe: fixLib( exe )} | sed '1d' | awk '{print $1}'`
+		# library name if one exists. awk strips the leading tab and version
+		# information. Universally stripping the first line with sed is a bad idea
+		# because only dylibs have install names, it must be determined if the exe
+		# has an install name.
+		fixedExe = File.exist?( exe )? exe: fixLib( exe )
+		installName = `otool -DX #{fixedExe}`.chomp
+		if installName != ''
+			linkedLibs = `otool -LX #{fixedExe} | sed '1d' | awk '{print $1}'`
+		else
+			linkedLibs = `otool -LX #{fixedExe} | awk '{print $1}'`
+		end
 		unless @libTree[exe] || linkedLibs == ""
 			@libTree[exe] = []
 			lines = linkedLibs.split( /\n/ )
 			lines.each do |lib|
+				if lib.match( SpecialLinkPaths )
+					next
+				end
 				fixedLib = lib
-				unless File.exist? lib
+				unless File.exist?( lib )
 					fixedLib = fixLib lib
 				end
 				# `otool -L` lists the library identification name at the top, so we

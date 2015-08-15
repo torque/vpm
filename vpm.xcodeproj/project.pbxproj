@@ -9,10 +9,9 @@
 /* Begin PBXBuildFile section */
 		6F084E691B5C6E950029E926 /* VpmPropertyWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F084E681B5C6E950029E926 /* VpmPropertyWrapper.m */; };
 		6F48FD171B33D52E003A69AF /* VpmWindowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F48FD161B33D52E003A69AF /* VpmWindowDelegate.m */; };
-		6F49C3261B17E80600826A3D /* libmpv.1.17.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */; };
 		6F87E1B31B37DD5500D0C2EC /* video.html in Resources */ = {isa = PBXBuildFile; fileRef = 6F87E1B21B37DD5500D0C2EC /* video.html */; };
-		6FC030051B70567700300E15 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FC02FF51B7055EB00300E15 /* CocoaLumberjack.framework */; };
 		6FC0300B1B70909700300E15 /* CocoaLumberjack.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6FC02FF11B7055EB00300E15 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FC5D8F41B7F0D0E000BD920 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FC02FF11B7055EB00300E15 /* CocoaLumberjack.framework */; };
 		6FFB984B1B17E1C8003C3917 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FFB98491B17E1C8003C3917 /* Images.xcassets */; };
 		6FFB985A1B17E20A003C3917 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB984E1B17E20A003C3917 /* main.m */; };
 		6FFB985B1B17E20A003C3917 /* VpmDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98511B17E20A003C3917 /* VpmDelegate.m */; };
@@ -89,7 +88,7 @@
 			remoteGlobalIDString = 18F3BFF21A81E0C700692297;
 			remoteInfo = iOSLibStaticTest;
 		};
-		6FC030021B70562A00300E15 /* PBXContainerItemProxy */ = {
+		6FC5D8F21B7F0CD2000BD920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6FC02FE41B7055EB00300E15 /* Lumberjack.xcodeproj */;
 			proxyType = 1;
@@ -118,7 +117,6 @@
 		6F29E10D1B17A3C1009AE805 /* vpm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vpm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F48FD151B33D52E003A69AF /* VpmWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmWindowDelegate.h; sourceTree = "<group>"; };
 		6F48FD161B33D52E003A69AF /* VpmWindowDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmWindowDelegate.m; sourceTree = "<group>"; };
-		6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpv.1.17.0.dylib; path = /usr/local/lib/libmpv.1.17.0.dylib; sourceTree = "<absolute>"; };
 		6F719EE31B5C581400AF1321 /* Signing Identity.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Signing Identity.xcconfig"; path = "xcodejunk/config/Signing Identity.xcconfig"; sourceTree = SOURCE_ROOT; };
 		6F87E1B21B37DD5500D0C2EC /* video.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = video.html; path = "../src/web-ui/video.html"; sourceTree = "<group>"; };
 		6FC02FE41B7055EB00300E15 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = deps/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
@@ -147,11 +145,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FC030051B70567700300E15 /* CocoaLumberjack.framework in Frameworks */,
+				6FC5D8F41B7F0D0E000BD920 /* CocoaLumberjack.framework in Frameworks */,
 				6FFB98671B17E37D003C3917 /* Cocoa.framework in Frameworks */,
 				6FFB98651B17E375003C3917 /* WebKit.framework in Frameworks */,
 				6FFB98631B17E36E003C3917 /* Foundation.framework in Frameworks */,
-				6F49C3261B17E80600826A3D /* libmpv.1.17.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,7 +196,6 @@
 			isa = PBXGroup;
 			children = (
 				6FC02FE41B7055EB00300E15 /* Lumberjack.xcodeproj */,
-				6F49C3251B17E80600826A3D /* libmpv.1.17.0.dylib */,
 				6FFB98661B17E37D003C3917 /* Cocoa.framework */,
 				6FFB98641B17E375003C3917 /* WebKit.framework */,
 				6FFB98621B17E36E003C3917 /* Foundation.framework */,
@@ -262,6 +258,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F29E12A1B17A3C1009AE805 /* Build configuration list for PBXNativeTarget "vpm" */;
 			buildPhases = (
+				6FC5D8EF1B7E785B000BD920 /* Build libmpv */,
 				6FECAEAF1B37570C001B8767 /* Compile Interface */,
 				6F29E1091B17A3C1009AE805 /* Sources */,
 				6F29E10A1B17A3C1009AE805 /* Frameworks */,
@@ -272,7 +269,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				6FC030031B70562A00300E15 /* PBXTargetDependency */,
+				6FC5D8F31B7F0CD2000BD920 /* PBXTargetDependency */,
 			);
 			name = vpm;
 			productName = vpm;
@@ -396,6 +393,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6FC5D8EF1B7E785B000BD920 /* Build libmpv */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build libmpv";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "pushd \"$SRCROOT/deps/mpv\"\n\ngrep -e \"--prefix=$CONFIGURATION_BUILD_DIR/deps\" build/config.h\nif ! [ $? -eq 0 ]; then\n    ./bootstrap.py\n    ./waf configure --prefix=\"$CONFIGURATION_BUILD_DIR/deps\" --lua=luajit --disable-cplayer --enable-libmpv-shared --disable-encoding\nfi\n\n./waf build\n./waf install";
+		};
 		6FDFC6F81B5795C8004C7307 /* Collect Stray Libraries (Release Only) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -447,10 +458,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6FC030031B70562A00300E15 /* PBXTargetDependency */ = {
+		6FC5D8F31B7F0CD2000BD920 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CocoaLumberjack;
-			targetProxy = 6FC030021B70562A00300E15 /* PBXContainerItemProxy */;
+			targetProxy = 6FC5D8F21B7F0CD2000BD920 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -558,6 +569,7 @@
 					100000000,
 					"-pagezero_size",
 					10000,
+					"$(CONFIGURATION_BUILD_DIR)/deps/lib/libmpv.dylib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -576,6 +588,7 @@
 					100000000,
 					"-pagezero_size",
 					10000,
+					"$(CONFIGURATION_BUILD_DIR)/deps/lib/libmpv.dylib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

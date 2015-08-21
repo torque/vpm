@@ -2,13 +2,10 @@
 #import "VpmDelegate.h"
 
 int main(int argc, const char * argv[]) {
-	@autoreleasepool {
-		NSApplication *app = [NSApplication sharedApplication];
-		app.activationPolicy = NSApplicationActivationPolicyRegular;
+	NSApplication *app = [NSApplication sharedApplication];
 
-		VpmDelegate *delegate = [VpmDelegate new];
-		app.delegate = delegate;
-		[app run];
-	}
+	VpmDelegate *delegate = [VpmDelegate new];
+	app.delegate = delegate;
+	[app run];
 	return 0;
 }

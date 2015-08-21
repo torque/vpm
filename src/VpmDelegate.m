@@ -13,12 +13,12 @@
 @implementation VpmDelegate
 
 - (void)createWindow {
-	int startHeight = 300;
+	const int height = 396, width = 704;
 	NSRect screenFrame = [NSScreen mainScreen].visibleFrame;
 
-	NSRect windowRect = NSMakeRect( (screenFrame.size.width - startHeight)/2 + screenFrame.origin.x,
-		                              (screenFrame.size.height - startHeight)/2 + screenFrame.origin.y,
-		                              startHeight, startHeight );
+	NSRect windowRect = NSMakeRect( (screenFrame.size.width - width)/2 + screenFrame.origin.x,
+		                              (screenFrame.size.height - height)/2 + screenFrame.origin.y,
+		                              width, height );
 
 	int mask = NSBorderlessWindowMask | NSResizableWindowMask;
 

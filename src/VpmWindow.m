@@ -44,7 +44,8 @@
 		_delegateHolder = [VpmWindowDelegate new];
 		self.delegate = _delegateHolder;
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
-		self.minSize = NSMakeSize( 300, 300 );
+		self.minSize = NSMakeSize( 50, 50 );
+		self.targetSize = NSMakeSize( self.frame.size.width, self.frame.size.height );
 		self.title = @"vpm";
 		self.mainView = [[VpmVideoView alloc] initWithFrame:[self.contentView frame]];
 		// bad.

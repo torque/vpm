@@ -5,6 +5,7 @@
 
 #import "CommonLog.h"
 #import "VpmDelegate.h"
+#import "VpmCLIServer.h"
 #import "VpmWindow.h"
 #import "VpmVideoView.h"
 #import "VpmWebView.h"
@@ -40,50 +41,31 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+	if (![NSBundle mainBundle].bundleIdentifier) {
+		puts( "vpm is not meant to be run from outside its bundle." );
+		exit( 1 );
+	}
 	// set up logging
-	// apple system log
+	// apple system log (console)
 	[DDLog addLogger:[DDASLLogger sharedInstance]];
 	// terminal log
 	[DDLog addLogger:[DDTTYLogger sharedInstance]];
 
-	// Read filename
-	NSArray *args = [NSProcessInfo processInfo].arguments;
-	NSString *videopath = nil;
-	NSString *htmlpath = nil;
-	// lazy and kind of bad.
-	bool launchedFromBundle = [NSBundle mainBundle].bundleIdentifier;
-	if (!launchedFromBundle) {
-		switch (args.count) {
-			case 3:
-				DDLogVerbose( @"%@", args[2] );
-				htmlpath = args[2];
-			case 2:
-				DDLogVerbose( @"%@", args[1] );
-				videopath = args[1];
-		}
-	}
+	self.server = [VpmCLIServer new];
 
 	[self createWindow];
 
-	// this is bad
-	if ( htmlpath ) {
-		[[self.window.mainView.webView mainFrame] loadRequest:
-			[NSURLRequest requestWithURL:
-				[NSURL fileURLWithPath:htmlpath isDirectory:NO]
-			]
-		];
-	} else {
-		[[self.window.mainView.webView mainFrame] loadRequest:
-			[NSURLRequest requestWithURL:
-				[[NSBundle mainBundle] URLForResource:@"video" withExtension:@"html"]
-			]
-		];
-	}
+	[[self.window.mainView.webView mainFrame] loadRequest:
+		[NSURLRequest requestWithURL:
+			[[NSBundle mainBundle] URLForResource:@"video" withExtension:@"html"]
+		]
+	];
+}
 
-	// this is also bad
-	if ( videopath ) {
-		[self.window.mainView.webView.bridge loadVideo:videopath];
-	}
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames {
+	NSLog( @"Application, open files." );
+	for ( NSString *file in filenames )
+		NSLog( @"open: %@", file );
 }
 
 // quit when the window is closed.

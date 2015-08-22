@@ -12,6 +12,9 @@
 		6F87E1B31B37DD5500D0C2EC /* video.html in Resources */ = {isa = PBXBuildFile; fileRef = 6F87E1B21B37DD5500D0C2EC /* video.html */; };
 		6FC0300B1B70909700300E15 /* CocoaLumberjack.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6FC02FF11B7055EB00300E15 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FC5D8F41B7F0D0E000BD920 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FC02FF11B7055EB00300E15 /* CocoaLumberjack.framework */; };
+		6FD580FB1B87D56F00561370 /* VpmCLIServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD580FA1B87D56F00561370 /* VpmCLIServer.m */; };
+		6FD581071B87DD6F00561370 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD580F61B87D52500561370 /* main.m */; };
+		6FD581081B87DD7F00561370 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB98661B17E37D003C3917 /* Cocoa.framework */; };
 		6FFB984B1B17E1C8003C3917 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FFB98491B17E1C8003C3917 /* Images.xcassets */; };
 		6FFB985A1B17E20A003C3917 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB984E1B17E20A003C3917 /* main.m */; };
 		6FFB985B1B17E20A003C3917 /* VpmDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFB98511B17E20A003C3917 /* VpmDelegate.m */; };
@@ -95,6 +98,13 @@
 			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
 			remoteInfo = CocoaLumberjack;
 		};
+		6FD581091B87DD9E00561370 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F29E1051B17A3C1009AE805 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6FD580FF1B87D86B00561370;
+			remoteInfo = vpmCLI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -109,6 +119,15 @@
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6FD580FE1B87D86B00561370 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +140,11 @@
 		6F87E1B21B37DD5500D0C2EC /* video.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = video.html; path = "../src/web-ui/video.html"; sourceTree = "<group>"; };
 		6FC02FE41B7055EB00300E15 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = deps/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		6FC0300E1B7185A100300E15 /* CommonLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonLog.h; sourceTree = "<group>"; };
+		6FD580F61B87D52500561370 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = cli/main.m; sourceTree = "<group>"; };
+		6FD580F71B87D52500561370 /* VpmCLI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VpmCLI.h; path = cli/VpmCLI.h; sourceTree = "<group>"; };
+		6FD580F91B87D56F00561370 /* VpmCLIServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmCLIServer.h; sourceTree = "<group>"; };
+		6FD580FA1B87D56F00561370 /* VpmCLIServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmCLIServer.m; sourceTree = "<group>"; };
+		6FD581001B87D86B00561370 /* vpm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vpm; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FFB98491B17E1C8003C3917 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = xcodejunk/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		6FFB984A1B17E1C8003C3917 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = xcodejunk/Info.plist; sourceTree = SOURCE_ROOT; };
 		6FFB984E1B17E20A003C3917 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -152,6 +176,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6FD580FD1B87D86B00561370 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FD581081B87DD7F00561370 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -168,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				6F29E10D1B17A3C1009AE805 /* vpm.app */,
+				6FD581001B87D86B00561370 /* vpm */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,6 +252,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6FD580F81B87D52A00561370 /* cli */ = {
+			isa = PBXGroup;
+			children = (
+				6FD580F61B87D52500561370 /* main.m */,
+				6FD580F71B87D52500561370 /* VpmCLI.h */,
+				6FD580F91B87D56F00561370 /* VpmCLIServer.h */,
+				6FD580FA1B87D56F00561370 /* VpmCLIServer.m */,
+			);
+			name = cli;
+			sourceTree = "<group>";
+		};
 		6FECAEAE1B37570C001B8767 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +274,7 @@
 		6FFB984D1B17E20A003C3917 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				6FD580F81B87D52A00561370 /* cli */,
 				6FC0300E1B7185A100300E15 /* CommonLog.h */,
 				6FFB984E1B17E20A003C3917 /* main.m */,
 				6FFB984F1B17E20A003C3917 /* MpvJSBridge.h */,
@@ -269,12 +314,30 @@
 			buildRules = (
 			);
 			dependencies = (
+				6FD5810A1B87DD9E00561370 /* PBXTargetDependency */,
 				6FC5D8F31B7F0CD2000BD920 /* PBXTargetDependency */,
 			);
 			name = vpm;
 			productName = vpm;
 			productReference = 6F29E10D1B17A3C1009AE805 /* vpm.app */;
 			productType = "com.apple.product-type.application";
+		};
+		6FD580FF1B87D86B00561370 /* vpmCLI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FD581041B87D86B00561370 /* Build configuration list for PBXNativeTarget "vpmCLI" */;
+			buildPhases = (
+				6FD580FC1B87D86B00561370 /* Sources */,
+				6FD580FD1B87D86B00561370 /* Frameworks */,
+				6FD580FE1B87D86B00561370 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vpmCLI;
+			productName = vpmCLI;
+			productReference = 6FD581001B87D86B00561370 /* vpm */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -287,6 +350,9 @@
 				TargetAttributes = {
 					6F29E10C1B17A3C1009AE805 = {
 						CreatedOnToolsVersion = 6.3.1;
+					};
+					6FD580FF1B87D86B00561370 = {
+						CreatedOnToolsVersion = 7.0;
 					};
 				};
 			};
@@ -310,6 +376,7 @@
 			projectRoot = "";
 			targets = (
 				6F29E10C1B17A3C1009AE805 /* vpm */,
+				6FD580FF1B87D86B00561370 /* vpmCLI */,
 			);
 		};
 /* End PBXProject section */
@@ -405,7 +472,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "pushd \"$SRCROOT/deps/mpv\"\n\ngrep -e \"--prefix=$CONFIGURATION_BUILD_DIR/deps\" build/config.h\nif ! [ $? -eq 0 ]; then\n    ./bootstrap.py\n    ./waf configure --prefix=\"$CONFIGURATION_BUILD_DIR/deps\" --lua=luajit --disable-cplayer --enable-libmpv-shared --disable-encoding\nfi\n\n./waf build\n./waf install";
+			shellScript = "pushd \"$SRCROOT/deps/mpv\"\n\ngrep -e \"--prefix=$CONFIGURATION_BUILD_DIR/deps\" build/config.h > /dev/null\nif ! [ $? -eq 0 ]; then\n    ./bootstrap.py\n    ./waf configure --prefix=\"$CONFIGURATION_BUILD_DIR/deps\" --lua=luajit --disable-cplayer --enable-libmpv-shared --disable-encoding\nfi\n\n./waf build\n./waf install";
+			showEnvVarsInLog = 0;
 		};
 		6FDFC6F81B5795C8004C7307 /* Collect Stray Libraries (Release Only) */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -450,8 +518,17 @@
 				6FFB985D1B17E20A003C3917 /* VpmVideoView.m in Sources */,
 				6FFB985F1B17E20A003C3917 /* VpmWindow.m in Sources */,
 				6FFB985A1B17E20A003C3917 /* main.m in Sources */,
+				6FD580FB1B87D56F00561370 /* VpmCLIServer.m in Sources */,
 				6FFB985E1B17E20A003C3917 /* VpmWebView.m in Sources */,
 				6F48FD171B33D52E003A69AF /* VpmWindowDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FD580FC1B87D86B00561370 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FD581071B87DD6F00561370 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +539,11 @@
 			isa = PBXTargetDependency;
 			name = CocoaLumberjack;
 			targetProxy = 6FC5D8F21B7F0CD2000BD920 /* PBXContainerItemProxy */;
+		};
+		6FD5810A1B87DD9E00561370 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6FD580FF1B87D86B00561370 /* vpmCLI */;
+			targetProxy = 6FD581091B87DD9E00561370 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -594,6 +676,31 @@
 			};
 			name = Release;
 		};
+		6FD581051B87D86B00561370 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_NAME = vpm;
+			};
+			name = Debug;
+		};
+		6FD581061B87D86B00561370 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_NAME = vpm;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -614,6 +721,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6FD581041B87D86B00561370 /* Build configuration list for PBXNativeTarget "vpmCLI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FD581051B87D86B00561370 /* Debug */,
+				6FD581061B87D86B00561370 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

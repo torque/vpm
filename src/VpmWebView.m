@@ -14,8 +14,8 @@
 		self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		self.drawsBackground = NO;
 		self.ctx = [JSContext contextWithJSGlobalContextRef:self.mainFrame.globalContext];
-		self.bridge = [[VpmMpvController alloc] initWithJSContext:self.ctx];
-		self.frameLoadDelegate = self.bridge;
+		self.bridge = [VpmMpvController new];
+		[self.bridge attachJSContext:self.ctx];
 	}
 
 	return self;

@@ -15,8 +15,8 @@
 @property(weak) VpmWindow *window;
 @property(strong) VpmPropertyWrapper *properties;
 
-- (instancetype)initWithJSContext:(JSContext *)ctx;
-- (void)attachJS;
+- (instancetype)init;
+- (void)attachJSContext:(JSContext *)ctx;
 - (void)loadVideo:(NSString *)fileName;
 - (void)handleKeyEvent:(NSEvent *)theEvent;
 - (void)handleEvent:(mpv_event *)event;

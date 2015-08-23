@@ -44,9 +44,8 @@ static NSString *flagNames[] = {
 
 @implementation VpmMpvController
 
-- (instancetype)initWithJSContext:(JSContext *)ctx {
+- (instancetype)init {
 	if ( self = [super init] ) {
-		self.ctx = ctx;
 		self.mpvQueue = dispatch_queue_create( "org.unorg.vpm.mpv", DISPATCH_QUEUE_SERIAL );
 		self.inputMap = @{
 			// various unprintable keys are mapped to private-use unicode values.
@@ -110,13 +109,13 @@ static NSString *flagNames[] = {
 				[self.window toggleFullScreen:self.window];
 			} );
 		}];
-		[self attachJS];
 	}
 
 	return self;
 }
 
-- (void)attachJS {
+- (void)attachJSContext:(JSContext *)ctx {
+	self.ctx = ctx;
 	// poor man's error reporting. self.ctx.exceptionHandler doesn't catch
 	// exceptions thrown from the javascript executed by a loaded page.
 	// Unfortunately, webkit does not pass a stack trace to this listener,

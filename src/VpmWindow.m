@@ -5,6 +5,13 @@
 #import "VpmWebView.h"
 #import "VpmMpvController.h"
 
+@interface VpmWindow()
+
+@property (nonatomic, strong) VpmMpvController *controller;
+@property (nonatomic, strong) VpmWindowDelegate *delegateHolder;
+
+@end
+
 @implementation VpmWindow
 
 - (BOOL)canBecomeMainWindow { return YES; }
@@ -31,25 +38,30 @@
 	self.frameOrigin = newOrigin;
 }
 
-- (instancetype)initWithContentRect:(NSRect)contentRect
-                          styleMask:(NSUInteger)windowStyle
-                            backing:(NSBackingStoreType)bufferingType
-                              defer:(BOOL)deferCreation
-{
+- (instancetype)initWithController:(VpmMpvController *)controller {
+	const int height = 396, width = 704;
+	NSRect screenFrame = [NSScreen mainScreen].visibleFrame;
+	NSRect contentRect = NSMakeRect( (screenFrame.size.width - width)/2 + screenFrame.origin.x,
+	                                (screenFrame.size.height - height)/2 + screenFrame.origin.y,
+	                                width, height );
+	int styleMask = NSBorderlessWindowMask | NSResizableWindowMask;
+	NSBackingStoreType backing = NSBackingStoreBuffered;
+	BOOL defer = NO;
+
 	self = [super initWithContentRect:contentRect
-	                        styleMask:windowStyle
-	                          backing:bufferingType
-	                            defer:deferCreation];
+	                        styleMask:styleMask
+	                          backing:backing
+	                            defer:defer];
 	if ( self ) {
-		_delegateHolder = [VpmWindowDelegate new];
-		self.delegate = _delegateHolder;
+		self.delegateHolder = [VpmWindowDelegate new];
+		self.delegate = self.delegateHolder;
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
 		self.minSize = NSMakeSize( 50, 50 );
 		self.targetSize = NSMakeSize( self.frame.size.width, self.frame.size.height );
 		self.title = @"vpm";
-		self.mainView = [[VpmVideoView alloc] initWithFrame:[self.contentView frame]];
 		// bad.
 		self.mainView.webView.bridge.window = self;
+		self.controller = controller;
 		[self.contentView addSubview:self.mainView];
 		[self makeKeyAndOrderFront:nil];
 		[self makeMainWindow];
@@ -66,7 +78,7 @@
 	switch ( theEvent.type ) {
 		case NSKeyDown: {
 			DDLogVerbose( @"Keydown: %@, U+%04X", theEvent.characters, [theEvent.characters characterAtIndex:0] );
-			[self.mainView.webView.bridge handleKeyEvent:theEvent];
+			[self.controller handleKeyEvent:theEvent];
 			// don't fall through to default, because it causes error bells.
 			return;
 		}

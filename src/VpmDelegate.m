@@ -13,22 +13,9 @@
 
 @implementation VpmDelegate
 
+
 - (void)createWindow {
-	const int height = 396, width = 704;
-	NSRect screenFrame = [NSScreen mainScreen].visibleFrame;
-
-	NSRect windowRect = NSMakeRect( (screenFrame.size.width - width)/2 + screenFrame.origin.x,
-		                              (screenFrame.size.height - height)/2 + screenFrame.origin.y,
-		                              width, height );
-
-	int mask = NSBorderlessWindowMask | NSResizableWindowMask;
-
-	self.window = [[VpmWindow alloc]
-		initWithContentRect:windowRect
-		          styleMask:mask
-		            backing:NSBackingStoreBuffered
-		              defer:NO];
-
+	self.window = [[VpmWindow alloc] initWithController:self.controller];
 	NSMenu *m = [[NSMenu alloc] initWithTitle:@"AMainMenu"];
 	NSMenuItem *item = [m addItemWithTitle:@"Apple" action:nil keyEquivalent:@""];
 	NSMenu *sm = [[NSMenu alloc] initWithTitle:@"Apple"];

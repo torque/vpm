@@ -23,7 +23,13 @@ int main( int argc, char **argv ) {
 		// messages. This causes NSDistantObject to act like a piece of shit unless
 		// it's explicitly declared with the protocol, and then it still needs to be
 		// cast on assignment to avoid a stupid "incompatible pointer" warning.
-		server = (NSDistantObject<VpmCLI> *)[NSConnection rootProxyForConnectionWithRegisteredName:VpmServerID host:nil];
+		@try {
+			server = (NSDistantObject<VpmCLI> *)[NSConnection rootProxyForConnectionWithRegisteredName:VpmServerID host:nil];
+		}
+		@catch ( NSException *exception ) {
+			NSLog( @"NSConnection threw an exception. vpm crashed?" );
+			return 1;
+		}
 		if ( !server ) {
 			// check timeout and loop again
 			NSTimeInterval waitLength = [start timeIntervalSinceNow];

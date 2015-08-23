@@ -8,7 +8,6 @@
 
 @property NSPoint startPoint;
 @property (nonatomic, strong) VpmVideoView *mainView;
-@property (nonatomic, readonly, strong) VpmWindowDelegate *delegateHolder;
 
 - (instancetype)initWithController:(VpmMpvController *)controller;
 - (void)constrainedCenteredResize:(NSSize)newContentSize;

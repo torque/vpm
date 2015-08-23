@@ -19,7 +19,13 @@ static void *glProbe( void *ctx, const char *name) {
 @interface VpmVideoView()
 
 @property(strong) NSLock *drawLock;
+@property mpv_opengl_cb_context *mpv_gl;
 @property(nonatomic, strong) dispatch_queue_t glQueue;
+@property(nonatomic, strong) VpmMpvController *controller;
+
+- (void)initMpvGL;
+- (void)draw;
+- (void)unintMpvGl;
 
 @end
 
@@ -27,7 +33,7 @@ static void *glProbe( void *ctx, const char *name) {
 
 - (BOOL)mouseDownCanMoveWindow { return YES; }
 
-- (instancetype)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame controller:(VpmMpvController *)controller {
 	NSOpenGLPixelFormatAttribute attributes[] = {
 		NSOpenGLPFAOpenGLProfile,
 		NSOpenGLProfileVersion3_2Core,
@@ -40,6 +46,7 @@ static void *glProbe( void *ctx, const char *name) {
 	                              initWithAttributes:attributes]];
 
 	if ( self ) {
+		self.controller = controller;
 		self.wantsBestResolutionOpenGLSurface = YES;
 		self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		self.wantsLayer = YES;
@@ -48,7 +55,7 @@ static void *glProbe( void *ctx, const char *name) {
 
 		self.glQueue = dispatch_queue_create( "org.unorg.vpm.gl", DISPATCH_QUEUE_SERIAL );
 		self.drawLock = [NSLock new];
-		self.webView = [[VpmWebView alloc] initWithFrame:self.bounds];
+		self.webView = [[VpmWebView alloc] initWithFrame:self.bounds controller:controller];
 		[self addSubview:self.webView];
 		// init mpv_gl stuff
 		[[self openGLContext] makeCurrentContext];
@@ -64,7 +71,7 @@ static void *glProbe( void *ctx, const char *name) {
 }
 
 - (void)initMpvGL {
-	mpv_handle *mpv = self.webView.bridge.mpv;
+	mpv_handle *mpv = self.controller.mpv;
 	// re-add error checking at some point.
 	mpv_set_option_string( mpv, "vo", "opengl-cb" );
 	self.mpv_gl = mpv_get_sub_api( mpv, MPV_SUB_API_OPENGL_CB );

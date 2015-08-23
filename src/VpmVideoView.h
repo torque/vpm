@@ -3,16 +3,14 @@
 #import <mpv/opengl_cb.h>
 
 @class VpmWebView;
+@class VpmMpvController;
 
 @interface VpmVideoView : NSOpenGLView
 
-@property mpv_opengl_cb_context *mpv_gl;
-@property(nonatomic, strong) VpmWebView *webView;
 @property NSSize backingSize;
+@property(nonatomic, strong) VpmWebView *webView;
 
-- (instancetype)initWithFrame:(NSRect)frame;
-- (void)draw;
-- (void)unintMpvGl;
+- (instancetype)initWithFrame:(NSRect)frame controller:(VpmMpvController *)controller;
 - (void)destroy;
 
 @end

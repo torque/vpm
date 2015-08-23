@@ -59,9 +59,10 @@
 		self.minSize = NSMakeSize( 50, 50 );
 		self.targetSize = NSMakeSize( self.frame.size.width, self.frame.size.height );
 		self.title = @"vpm";
-		// bad.
-		self.mainView.webView.bridge.window = self;
 		self.controller = controller;
+		// Kind of bad? less bad than before.
+		controller.window = self;
+		self.mainView = [[VpmVideoView alloc] initWithFrame:[self.contentView frame] controller:controller];
 		[self.contentView addSubview:self.mainView];
 		[self makeKeyAndOrderFront:nil];
 		[self makeMainWindow];

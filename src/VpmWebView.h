@@ -6,9 +6,9 @@
 @interface VpmWebView : WebView
 
 @property(weak) JSContext *ctx;
-@property(strong) VpmMpvController *bridge;
+@property(strong) VpmMpvController *controller;
 
-- (instancetype)initWithFrame:(NSRect)frame;
+- (instancetype)initWithFrame:(NSRect)frame controller:(VpmMpvController *)controller;
 - (void)destroy;
 
 @end

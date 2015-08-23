@@ -6,6 +6,7 @@
 - (BOOL)mouseDownCanMoveWindow { return YES; }
 
 - (instancetype)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame controller:(VpmMpvController *)controller{
 	self = [super initWithFrame:frame
 	                  frameName:@"vpmWekitFrame"
 	                  groupName:@"vpmWebkitGroup"];
@@ -14,15 +15,21 @@
 		self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		self.drawsBackground = NO;
 		self.ctx = [JSContext contextWithJSGlobalContextRef:self.mainFrame.globalContext];
-		self.bridge = [VpmMpvController new];
-		[self.bridge attachJSContext:self.ctx];
+		[controller attachJSContext:self.ctx];
+		self.controller = controller;
+		self.frameLoadDelegate = controller;
+		[self.mainFrame loadRequest:
+			[NSURLRequest requestWithURL:
+				[[NSBundle mainBundle] URLForResource:@"video" withExtension:@"html"]
+			]
+		];
 	}
 
 	return self;
 }
 
 - (void)destroy {
-	[self.bridge destroy];
+	[self.controller destroy];
 }
 
 @end

@@ -12,7 +12,15 @@
 #import "VpmMpvController.h"
 
 @implementation VpmDelegate
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
+	NSLog( @"Application should open untitled file? No." );
+	return NO;
+}
 
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
+	NSLog( @"Application should handle reopen? No." );
+	return NO;
+}
 
 - (void)createWindow {
 	self.window = [[VpmWindow alloc] initWithController:self.controller];
@@ -21,7 +29,7 @@
 	NSMenu *sm = [[NSMenu alloc] initWithTitle:@"Apple"];
 	[m setSubmenu:sm forItem:item];
 	NSMenuItem *fs = [sm addItemWithTitle: @"Toggle Full Screen" action:@selector(toggleFullScreen) keyEquivalent:@"f"];
-	fs.target = self.window.mainView.webView.bridge;
+	fs.target = self.controller;
 	[sm addItemWithTitle: @"Quit vpm" action:@selector(terminate:) keyEquivalent:@"q"];
 	[NSApp setMenu:m];
 	[NSApp activateIgnoringOtherApps:YES];
@@ -38,15 +46,10 @@
 	// terminal log
 	[DDLog addLogger:[DDTTYLogger sharedInstance]];
 
+	self.controller = [VpmMpvController new];
 	self.server = [VpmCLIServer new];
 
 	[self createWindow];
-
-	[[self.window.mainView.webView mainFrame] loadRequest:
-		[NSURLRequest requestWithURL:
-			[[NSBundle mainBundle] URLForResource:@"video" withExtension:@"html"]
-		]
-	];
 }
 
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames {

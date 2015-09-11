@@ -3,19 +3,21 @@
 
 @implementation VpmCLIServer
 
-- (instancetype)init {
+- (instancetype)initWithController:(VpmMpvController *)controller {
 	if ( self = [super init] ) {
 		self.server = [NSConnection serviceConnectionWithName:VpmServerID rootObject:self];
 		if ( !self.server ) return nil;
+
+		self.controller = controller;
 		DDLogInfo( @"Server is listening" );
 	}
 
 	return self;
 }
 
-- (BOOL)sayHello:(NSString *)message {
-	DDLogWarn( @"CLI says: %@", message );
-	return YES;
+- (void)loadFiles:(NSArray *)files {
+	for ( NSString* file in files )
+		DDLogInfo( @"file: %@", file );
 }
 
 @end

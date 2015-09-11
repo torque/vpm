@@ -42,7 +42,7 @@
 		exit( 1 );
 	}
 	self.controller = [VpmMpvController new];
-	self.server = [VpmCLIServer new];
+	self.server = [[VpmCLIServer alloc] initWithController:self.controller];
 
 	[self createWindow];
 }

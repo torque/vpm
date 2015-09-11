@@ -4,6 +4,6 @@
 
 @protocol VpmCLI
 
-- (BOOL)sayHello:(NSString *)message;
+- (void)loadFiles:(NSArray *)files;
 
 @end

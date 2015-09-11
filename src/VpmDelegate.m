@@ -13,12 +13,12 @@
 
 @implementation VpmDelegate
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
-	NSLog( @"Application should open untitled file? No." );
+	DDLogVerbose( @"Application should open untitled file? No." );
 	return NO;
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
-	NSLog( @"Application should handle reopen? No." );
+	DDLogVerbose( @"Application should handle reopen? No." );
 	return NO;
 }
 
@@ -36,26 +36,22 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+	DDLogVerbose( @"app finish lunch." );
 	if (![NSBundle mainBundle].bundleIdentifier) {
-		puts( "vpm is not meant to be run from outside its bundle." );
+		DDLogWarn( @"vpm will not run properly outside its bundle." );
 		exit( 1 );
 	}
-	// set up logging
-	// apple system log (console)
-	[DDLog addLogger:[DDASLLogger sharedInstance]];
-	// terminal log
-	[DDLog addLogger:[DDTTYLogger sharedInstance]];
-
 	self.controller = [VpmMpvController new];
 	self.server = [VpmCLIServer new];
 
 	[self createWindow];
 }
 
+// This is called before applicationDidFinishLaunching when opening a file
+// launches the app, so we need to store an array of files to open to be used
+// when the controller is initialized.
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames {
-	NSLog( @"Application, open files." );
-	for ( NSString *file in filenames )
-		NSLog( @"open: %@", file );
+	DDLogVerbose( @"Application, open files." );
 }
 
 // quit when the window is closed.

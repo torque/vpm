@@ -28,8 +28,8 @@ VIDEO_INTERFACE_DEPS += src/web-ui/styles/volumeWidget.styl
 all: debug
 
 debug:
-	@# @xctool -reporter pretty -project vpm.xcodeproj -scheme vpm -configuration Debug
-	@xcodebuild -project vpm.xcodeproj -target vpm -configuration Debug
+	@xctool -reporter pretty -project vpm.xcodeproj -scheme vpm -configuration Debug
+# @xcodebuild -project vpm.xcodeproj -target vpm -configuration Debug
 
 release: MPVCFLAGS += -DNDEBUG
 release:
@@ -56,7 +56,7 @@ $(PREFIX)/lib/libmpv.dylib: $(BASE)/deps/mpv/build/config.h
 # well as determining when to reconfigure mpv, but I'd rather have it not run in
 # every case it should than run in cases it shouldn't. The xcode script handles
 # the awkward case of switching between debug and release prefixes.
-$(BASE)/deps/mpv/build/config.h: ffmpeg $(BASE)/deps/mpv/waf | $(PREFIX)
+$(BASE)/deps/mpv/build/config.h: $(PREFIX)/lib/libavcodec.dylib $(BASE)/deps/mpv/waf | $(PREFIX)
 	@echo waf configure
 	@cd $(BASE)/deps/mpv && CFLAGS="$(MPVCFLAGS)" LINKFLAGS="$(MPVLDFLAGS)" ./waf configure --lua=luajit --disable-cplayer --enable-libmpv-shared --disable-encoding "--prefix=$(realpath $(PREFIX))" >/dev/null 2>&1
 	@# clear out personal filesystem details from the configuration header, since
@@ -66,9 +66,9 @@ $(BASE)/deps/mpv/build/config.h: ffmpeg $(BASE)/deps/mpv/waf | $(PREFIX)
 $(BASE)/deps/mpv/waf:
 	@cd $(BASE)/deps/mpv && ./bootstrap.py
 
-ffmpeg: $(PREFIX)/lib/libavcodec.a
+ffmpeg: $(PREFIX)/lib/libavcodec.dylib
 
-$(PREFIX)/lib/libavcodec.a: $(BASE)/deps/FFmpeg/config.h
+$(PREFIX)/lib/libavcodec.dylib: $(BASE)/deps/FFmpeg/config.h
 	@echo ffmpeg build
 	@$(MAKE) -C $(BASE)/deps/FFmpeg install
 

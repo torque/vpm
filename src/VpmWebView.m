@@ -5,7 +5,6 @@
 
 - (BOOL)mouseDownCanMoveWindow { return YES; }
 
-- (instancetype)initWithFrame:(NSRect)frame {
 - (instancetype)initWithFrame:(NSRect)frame controller:(VpmMpvController *)controller{
 	self = [super initWithFrame:frame
 	                  frameName:@"vpmWekitFrame"

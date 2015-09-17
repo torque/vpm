@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <mpv/client.h>
 
@@ -6,7 +7,7 @@
 @class VpmWindow;
 @class VpmPropertyWrapper;
 
-@interface VpmMpvController : NSObject <MpvJSBridge>
+@interface VpmMpvController : NSObject <MpvJSBridge, WebFrameLoadDelegate>
 
 @property mpv_handle *mpv;
 @property(nonatomic, strong) dispatch_queue_t mpvQueue;

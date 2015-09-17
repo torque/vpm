@@ -220,7 +220,7 @@ static NSString *flagNames[] = {
 	self.properties[@"fullscreen"] = (self.window.styleMask & NSFullScreenWindowMask)? @"no": @"yes";
 }
 
-#pragma mark - WebkitFrameLoadDelegate
+#pragma mark - WebFrameLoadDelegate
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame*)frame {
 	self.properties[@"interfaceLoaded"] = @"yes";

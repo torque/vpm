@@ -9,5 +9,6 @@
 @property(nonatomic, strong) VpmWindow *window;
 @property(nonatomic, strong) VpmCLIServer *server;
 @property(nonatomic, strong) VpmMpvController *controller;
+@property(nonatomic, strong) NSMutableArray *files;
 
 @end

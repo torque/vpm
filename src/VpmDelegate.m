@@ -22,6 +22,14 @@
 	return NO;
 }
 
+- (instancetype)init {
+	if ( self = [super init] ) {
+		self.files = nil;
+		self.controller = nil;
+	}
+	return self;
+}
+
 - (void)createWindow {
 	self.window = [[VpmWindow alloc] initWithController:self.controller];
 	NSMenu *m = [[NSMenu alloc] initWithTitle:@"AMainMenu"];
@@ -45,6 +53,8 @@
 	self.server = [[VpmCLIServer alloc] initWithController:self.controller];
 
 	[self createWindow];
+	if ( self.files )
+		[self.controller loadFiles:self.files];
 }
 
 // This is called before applicationDidFinishLaunching when opening a file
@@ -52,6 +62,10 @@
 // when the controller is initialized.
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames {
 	DDLogVerbose( @"Application, open files." );
+	if ( !self.files )
+		self.files = [NSMutableArray arrayWithArray:filenames];
+	if ( self.controller )
+		[self.controller loadFiles:self.files];
 }
 
 // quit when the window is closed.

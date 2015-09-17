@@ -2,8 +2,10 @@ PREFIX := build/deps
 BASE := .
 
 # stop talloc from dumping debug strings everywhere.
-MPVCFLAGS := -DTA_NO_WRAPPERS=1 -I$(realpath $(PREFIX))/include
+MPVCFLAGS := -DTA_NO_WRAPPERS -I$(realpath $(PREFIX))/include
 MPVLDFLAGS := -L$(realpath $(PREFIX))/lib
+PKG_CONFIG_PATH := $(realpath $(PREFIX))/lib/pkgconfig:/usr/local/lib/pkgconfig
+FFMPEG_CONFIGURE_FLAGS := --disable-static --enable-shared --enable-gpl --enable-version3 --enable-nonfree --enable-pthreads --enable-videotoolbox --enable-vda --disable-programs --disable-encoders --disable-muxers --enable-lto --enable-hardcoded-tables "--prefix=$(realpath $(PREFIX))"
 
 VIDEO_INTERFACE_DEPS := src/web-ui/scripts/fullscreenButton.coffee
 VIDEO_INTERFACE_DEPS += src/web-ui/scripts/globals.coffee
@@ -73,7 +75,7 @@ $(PREFIX)/lib/libavcodec.dylib: $(BASE)/deps/FFmpeg/config.h
 	@$(MAKE) -C $(BASE)/deps/FFmpeg install
 
 $(BASE)/deps/FFmpeg/config.h: | $(PREFIX)
-	@cd $(BASE)/deps/FFmpeg && ./configure --disable-static --enable-shared --enable-gpl --enable-version3 --enable-nonfree --enable-videotoolbox --disable-programs --disable-encoders --disable-decoders --disable-muxers --enable-lto --enable-hardcoded-tables "--prefix=$(realpath $(PREFIX))"
+	@cd $(BASE)/deps/FFmpeg && PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) ./configure $(FFMPEG_CONFIGURE_FLAGS)
 	@sed -e "s:$(realpath $(PREFIX))::g" -i .bak $@
 
 $(PREFIX):

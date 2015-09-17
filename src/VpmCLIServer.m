@@ -1,5 +1,6 @@
 #import "CommonLog.h"
 #import "VpmCLIServer.h"
+#import "VpmMpvController.h"
 
 @implementation VpmCLIServer
 
@@ -16,8 +17,7 @@
 }
 
 - (void)loadFiles:(NSArray *)files {
-	for ( NSString* file in files )
-		DDLogInfo( @"file: %@", file );
+	[self.controller loadFiles:files];
 }
 
 @end

@@ -129,8 +129,9 @@ static NSString *flagNames[] = {
 	self.ctx[@"vpm"] = self;
 }
 
-- (void)loadVideo:(NSString *)fileName {
-	[self command:@[@"loadfile", fileName]];
+- (void)loadFiles:(NSArray *)files {
+	for ( NSString *file in files )
+		[self command:@[@"loadfile", file, @"append-play"]];
 }
 
 - (void)handleKeyEvent:(NSEvent *)theEvent {

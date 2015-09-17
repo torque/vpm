@@ -17,7 +17,7 @@
 
 - (instancetype)init;
 - (void)attachJSContext:(JSContext *)ctx;
-- (void)loadVideo:(NSString *)fileName;
+- (void)loadFiles:(NSArray *)files;
 - (void)handleKeyEvent:(NSEvent *)theEvent;
 - (void)handleEvent:(mpv_event *)event;
 - (void)readEvents;

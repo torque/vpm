@@ -14,6 +14,7 @@ VIDEO_INTERFACE_DEPS += src/web-ui/scripts/playButton.coffee
 VIDEO_INTERFACE_DEPS += src/web-ui/scripts/playTime.coffee
 VIDEO_INTERFACE_DEPS += src/web-ui/scripts/seekBar.coffee
 VIDEO_INTERFACE_DEPS += src/web-ui/scripts/volumeWidget.coffee
+VIDEO_INTERFACE_DEPS += src/web-ui/scripts/about.coffee
 
 VIDEO_INTERFACE_DEPS += src/web-ui/styles/bottomBar.styl
 VIDEO_INTERFACE_DEPS += src/web-ui/styles/fullscreenButton.styl

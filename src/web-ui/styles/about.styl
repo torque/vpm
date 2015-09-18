@@ -1,0 +1,33 @@
+@require 'mixins'
+
+@keyframes rotate
+	0%
+		transform rotate(0deg)
+	100%
+		transform rotate(360deg)
+
+#about
+	position fixed
+	display flex
+	flex-direction column
+	width 100%
+	height 100%
+	#slug
+		margin auto
+		display flex
+		flex-direction column
+		// centers along the main axis
+		justify-content center
+		// centers along the secondary axis
+		align-items center
+
+		.appIcon
+			width 128px
+			height 128px
+			animation: rotate 60s linear infinite;
+
+		.blurb
+			color #FFF
+			font-family "San Francisco", "Helvetica Neue", sans-serif
+			font-size 2em
+			font-weight 200

@@ -472,7 +472,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PREFIX=\"$CONFIGURATION_BUILD_DIR/deps\"\n\ngrep -e \"--prefix=$PREFIX\" -m 1 deps/FFmpeg/config.log > /dev/null\nif ! [ $? -eq 0 ]; then\n    rm -f deps/FFmpeg/config.h\nfi\n\ngrep -e \"--prefix=$PREFIX\" -m 1 deps/mpv/build/config.log > /dev/null\nif ! [ $? -eq 0 ]; then\n    rm -f deps/mpv/build/config.h\nfi\n\n# TODO: fix: when compiling from the command line, running make here prints a jobserver error and drops down to -j1. I have absolutely no idea how to fix this, besides perhaps using a separate makefile.\nmake -s libmpv \"PREFIX=$PREFIX\"";
+			shellScript = "PREFIX=\"$CONFIGURATION_BUILD_DIR/deps\"\n\ngrep -e \"--prefix=$PREFIX\" -m 1 deps/FFmpeg/config.log > /dev/null\nif ! [ $? -eq 0 ]; then\n    rm -f deps/FFmpeg/config.h\nfi\n\ngrep -e \"--prefix=$PREFIX\" -m 1 deps/mpv/build/config.log > /dev/null\nif ! [ $? -eq 0 ]; then\n    rm -f deps/mpv/build/config.h\nfi\n\n# TODO: fix: when compiling from the command line, running make here\n# prints a jobserver error and drops down to -j1. I have absolutely no\n# idea how to fix this, besides perhaps using a separate makefile. I\n# expect that won't work, though, and my Professional Engineering\n# Solution for now is to tell stderr precisely where it can go.\nmake -s libmpv \"PREFIX=$PREFIX\" 2> /dev/null";
 			showEnvVarsInLog = 0;
 		};
 		6FDFC6F81B5795C8004C7307 /* Collect Stray Libraries (Release Only) */ = {
@@ -502,7 +502,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -s video-interface";
+			shellScript = "make -s video-interface 2> /dev/null";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

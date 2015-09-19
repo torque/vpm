@@ -22,9 +22,19 @@
 				[[NSBundle mainBundle] URLForResource:@"video" withExtension:@"html"]
 			]
 		];
+		[self registerForDraggedTypes:@[NSFilenamesPboardType, NSURLPboardType]];
 	}
 
 	return self;
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
+	NSPasteboard *pboard = [sender draggingPasteboard];
+	if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
+		NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+		[self.controller loadFiles:files];
+	}
+	return YES;
 }
 
 - (void)destroy {

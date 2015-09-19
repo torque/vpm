@@ -3,7 +3,7 @@
 
 @class VpmMpvController;
 
-@interface VpmWebView : WebView
+@interface VpmWebView : WebView <NSDraggingDestination>
 
 @property(weak) JSContext *ctx;
 @property(strong) VpmMpvController *controller;

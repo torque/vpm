@@ -25,6 +25,8 @@ VIDEO_INTERFACE_DEPS += src/web-ui/styles/playButton.styl
 VIDEO_INTERFACE_DEPS += src/web-ui/styles/playTime.styl
 VIDEO_INTERFACE_DEPS += src/web-ui/styles/seekBar.styl
 VIDEO_INTERFACE_DEPS += src/web-ui/styles/volumeWidget.styl
+VIDEO_INTERFACE_DEPS += src/web-ui/styles/about.styl
+VIDEO_INTERFACE_DEPS += src/web-ui/styles/titlebar.styl
 
 .PHONY: all libmpv ffmpeg video-interface debug release clean
 

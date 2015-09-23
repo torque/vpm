@@ -25,6 +25,7 @@
 		6FFB98631B17E36E003C3917 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB98621B17E36E003C3917 /* Foundation.framework */; };
 		6FFB98651B17E375003C3917 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB98641B17E375003C3917 /* WebKit.framework */; };
 		6FFB98671B17E37D003C3917 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB98661B17E37D003C3917 /* Cocoa.framework */; };
+		6FFC865D1BB25241005333FE /* VpmStandardWindowButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFC865C1BB25241005333FE /* VpmStandardWindowButtonView.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,8 @@
 		6FFB98621B17E36E003C3917 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6FFB98641B17E375003C3917 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		6FFB98661B17E37D003C3917 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		6FFC865B1BB25241005333FE /* VpmStandardWindowButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VpmStandardWindowButtonView.h; sourceTree = "<group>"; };
+		6FFC865C1BB25241005333FE /* VpmStandardWindowButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VpmStandardWindowButtonView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +287,8 @@
 				6FFB98511B17E20A003C3917 /* VpmDelegate.m */,
 				6FFB98521B17E20A003C3917 /* VpmMpvController.h */,
 				6FFB98531B17E20A003C3917 /* VpmMpvController.m */,
+				6FFC865B1BB25241005333FE /* VpmStandardWindowButtonView.h */,
+				6FFC865C1BB25241005333FE /* VpmStandardWindowButtonView.m */,
 				6FFB98541B17E20A003C3917 /* VpmVideoView.h */,
 				6FFB98551B17E20A003C3917 /* VpmVideoView.m */,
 				6FFB98561B17E20A003C3917 /* VpmWebView.h */,
@@ -517,6 +522,7 @@
 				6FFB985B1B17E20A003C3917 /* VpmDelegate.m in Sources */,
 				6FFB985D1B17E20A003C3917 /* VpmVideoView.m in Sources */,
 				6FFB985F1B17E20A003C3917 /* VpmWindow.m in Sources */,
+				6FFC865D1BB25241005333FE /* VpmStandardWindowButtonView.m in Sources */,
 				6FFB985A1B17E20A003C3917 /* main.m in Sources */,
 				6FD580FB1B87D56F00561370 /* VpmCLIServer.m in Sources */,
 				6FFB985E1B17E20A003C3917 /* VpmWebView.m in Sources */,

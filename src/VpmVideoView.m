@@ -50,6 +50,8 @@ static void *glProbe( void *ctx, const char *name) {
 		self.wantsBestResolutionOpenGLSurface = YES;
 		self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		self.wantsLayer = YES;
+		self.layer.cornerRadius = 5;
+		self.layer.masksToBounds = YES;
 		// Have to explicitly initialize this to nil.
 		self.mpv_gl = nil;
 

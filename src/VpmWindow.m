@@ -56,7 +56,9 @@
 		self.delegateHolder = [VpmWindowDelegate new];
 		self.delegate = self.delegateHolder;
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
-		self.minSize = NSMakeSize( 50, 50 );
+		self.backgroundColor = [NSColor clearColor];
+		self.opaque = NO;
+		self.minSize = NSMakeSize( 150, 150 );
 		self.targetSize = NSMakeSize( self.frame.size.width, self.frame.size.height );
 		self.title = @"vpm";
 		self.controller = controller;

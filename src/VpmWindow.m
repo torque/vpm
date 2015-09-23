@@ -61,6 +61,7 @@
 		self.minSize = NSMakeSize( 150, 150 );
 		self.targetSize = NSMakeSize( self.frame.size.width, self.frame.size.height );
 		self.title = @"vpm";
+		self.releasedWhenClosed = NO;
 		self.controller = controller;
 		// Kind of bad? less bad than before.
 		controller.window = self;

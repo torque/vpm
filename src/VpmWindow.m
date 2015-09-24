@@ -74,10 +74,11 @@
 		// Kind of bad? less bad than before.
 		controller.window = self;
 		self.mainView = [[VpmVideoView alloc] initWithFrame:[self.contentView frame] controller:controller];
-		[self.contentView addSubview:self.mainView];
+		self.contentView = self.mainView;
+
 		[self makeKeyAndOrderFront:nil];
 		[self makeMainWindow];
-		[self updateMainViewBounds];
+		[self updateViewBounds];
 	}
 
 	return self;
@@ -168,7 +169,7 @@
 	       animate:YES];
 }
 
-- (void)updateMainViewBounds {
+- (void)updateViewBounds {
 	self.mainView.backingSize = [self.mainView convertSizeToBacking:[self.contentView frame].size];
 }
 

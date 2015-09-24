@@ -4,7 +4,7 @@
 @implementation VpmWindowDelegate
 
 - (void)windowDidResize:(NSNotification *)notification {
-	[[notification object] updateMainViewBounds];
+	[[notification object] updateViewBounds];
 }
 
 @end

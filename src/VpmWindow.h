@@ -11,7 +11,7 @@
 
 - (instancetype)initWithController:(VpmMpvController *)controller;
 - (void)constrainedCenteredResize:(NSSize)newContentSize;
-- (void)updateMainViewBounds;
+- (void)updateViewBounds;
 - (void)destroy;
 
 @end

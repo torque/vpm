@@ -16,13 +16,21 @@
 
 - (BOOL)canBecomeMainWindow { return YES; }
 - (BOOL)canBecomeKeyWindow { return YES; }
-- (BOOL)isMovableByWindowBackground { return YES; }
+- (BOOL)isMovableByWindowBackground { return NO; }
 
-- (void)mouseDown:(NSEvent *)theEvent {
-	self.startPoint = theEvent.locationInWindow;
+- (void)dragStartCheck:(NSEvent *)theEvent {
+	NSPoint location = theEvent.locationInWindow;
+	// coordinate origin is bottom-left on OSX.
+	if ( location.y < 51 )
+		self.startPoint = NSMakePoint( -1, -1 );
+	else
+		self.startPoint = location;
 }
 
-- (void)mouseDragged:(NSEvent *)theEvent {
+- (void)moveWithDrag:(NSEvent *)theEvent {
+	if ( self.startPoint.x < 0 )
+		return;
+
 	NSRect screenRect = self.screen.visibleFrame;
 	NSRect windowRect = self.frame;
 	NSPoint newOrigin = windowRect.origin;
@@ -87,11 +95,11 @@
 			return;
 		}
 		case NSLeftMouseDown: {
-			[self mouseDown:theEvent];
+			[self dragStartCheck:theEvent];
 			break;
 		}
 		case NSLeftMouseDragged: {
-			[self mouseDragged:theEvent];
+			[self moveWithDrag:theEvent];
 			break;
 		}
 		default: {}

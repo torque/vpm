@@ -1,5 +1,6 @@
 #import "VpmStandardWindowButtonView.h"
 #import "CommonLog.h"
+#import "VpmMpvController.h"
 
 @interface VpmStandardWindowButtonView()
 
@@ -13,7 +14,9 @@
 
 @implementation VpmStandardWindowButtonView
 
-- (instancetype)init {
+- (BOOL)mouseDownCanMoveWindow { return NO; }
+
+- (instancetype)initWithController:(VpmMpvController*)controller {
 	DDLogInfo( @"init" );
 	if ( self = [super initWithFrame:NSMakeRect(0, 0, 58, 14)] ) {
 		self.translatesAutoresizingMaskIntoConstraints = NO;
@@ -29,6 +32,8 @@
 		self.closeButton.translatesAutoresizingMaskIntoConstraints = NO;
 		self.minButton.translatesAutoresizingMaskIntoConstraints = NO;
 		self.maxButton.translatesAutoresizingMaskIntoConstraints = NO;
+		self.maxButton.target = controller;
+		self.maxButton.action = @selector(toggleFullScreen);
 
 		[self addSubview:self.closeButton];
 		[self addSubview:self.minButton];
@@ -59,18 +64,21 @@
 	                                                   owner:self
 	                                                userInfo:nil];
 	[self addTrackingArea:self.trackingArea];
+	[self setNeedsDisplay];
 }
 
 - (void)mouseEntered:(NSEvent *)event {
 	[super mouseEntered:event];
 	self.mouseOver = YES;
 	[self setNeedsDisplay];
+	[[self animator] setAlphaValue:1.0];
 }
 
 - (void)mouseExited:(NSEvent *)event {
 	[super mouseExited:event];
 	self.mouseOver = NO;
 	[self setNeedsDisplay];
+	[[self animator] setAlphaValue:0.0];
 }
 
 // Magic method called by the standard window buttons to determine if they

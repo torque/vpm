@@ -34,6 +34,16 @@
 		NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
 		[self.controller loadFiles:files];
 	}
+	if ( [[pboard types] containsObject:NSURLPboardType] ) {
+		NSURL *url = [NSURL URLFromPasteboard:pboard];
+		if ( url.fileURL )
+			[self.controller loadFiles:@[url.path]];
+		else {
+			NSString *urlStr = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+			if ( urlStr )
+				[self.controller loadFiles:@[urlStr]];
+		}
+	}
 	return YES;
 }
 

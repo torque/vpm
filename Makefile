@@ -5,6 +5,7 @@ BASE := .
 MPVCFLAGS := -DTA_NO_WRAPPERS -I$(realpath $(PREFIX))/include
 MPVLDFLAGS := -L$(realpath $(PREFIX))/lib
 PKG_CONFIG_PATH := $(realpath $(PREFIX))/lib/pkgconfig:/usr/local/lib/pkgconfig
+LIBMPV_CONFIGURE_FLAGS := --lua=luajit --disable-cplayer --disable-vapoursynth --disable-vapoursynth-lazy --enable-libmpv-shared --disable-encoding "--prefix=$(realpath $(PREFIX))"
 FFMPEG_CONFIGURE_FLAGS := --disable-static --enable-shared --enable-gpl --enable-version3 --enable-nonfree --enable-pthreads --enable-videotoolbox --enable-vda --disable-programs --disable-encoders --disable-muxers --enable-lto --enable-hardcoded-tables "--prefix=$(realpath $(PREFIX))"
 
 VIDEO_INTERFACE_DEPS := src/web-ui/scripts/fullscreenButton.coffee
@@ -63,7 +64,7 @@ $(PREFIX)/lib/libmpv.dylib: $(BASE)/deps/mpv/build/config.h
 # the awkward case of switching between debug and release prefixes.
 $(BASE)/deps/mpv/build/config.h: $(PREFIX)/lib/libavcodec.dylib $(BASE)/deps/mpv/waf | $(PREFIX)
 	@echo waf configure
-	@cd $(BASE)/deps/mpv && CFLAGS="$(MPVCFLAGS)" LINKFLAGS="$(MPVLDFLAGS)" ./waf configure --lua=luajit --disable-cplayer --enable-libmpv-shared --disable-encoding "--prefix=$(realpath $(PREFIX))" >/dev/null 2>&1
+	@cd $(BASE)/deps/mpv && CFLAGS="$(MPVCFLAGS)" LINKFLAGS="$(MPVLDFLAGS)" ./waf configure $(LIBMPV_CONFIGURE_FLAGS) >/dev/null 2>&1
 	@# clear out personal filesystem details from the configuration header, since
 	@# they get baked into the binary.
 	@sed -e "s:$(realpath $(PREFIX))::g" -i .bak $@

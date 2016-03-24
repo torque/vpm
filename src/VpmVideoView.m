@@ -4,6 +4,7 @@
 #import "CommonLog.h"
 #import "VpmVideoView.h"
 #import "VpmWebView.h"
+#import "VpmStandardWindowButtonView.h"
 #import "VpmMpvController.h"
 
 static void glUpdate( void *ctx );
@@ -22,6 +23,7 @@ static void *glProbe( void *ctx, const char *name) {
 @property mpv_opengl_cb_context *mpv_gl;
 @property(nonatomic, strong) dispatch_queue_t glQueue;
 @property(nonatomic, strong) VpmMpvController *controller;
+@property(nonatomic, strong) VpmStandardWindowButtonView *buttonView;
 
 - (void)initMpvGL;
 - (void)draw;
@@ -59,11 +61,25 @@ static void *glProbe( void *ctx, const char *name) {
 		self.drawLock = [NSLock new];
 		self.webView = [[VpmWebView alloc] initWithFrame:self.bounds controller:controller];
 		[self addSubview:self.webView];
+
+		self.buttonView = [[VpmStandardWindowButtonView alloc] initWithController:controller];
+		[self addSubview:self.buttonView];
+
+		NSDictionary *views = @{@"buttonView": self.buttonView};
+		NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-14-[buttonView(size)]"
+		                                           options:0
+		                                           metrics:@{@"size": @(self.buttonView.frame.size.height)}
+		                                           views:views];
+		[self addConstraints:constraints];
+		constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-14-[buttonView(size)]"
+		                                           options:0
+		                                           metrics:@{@"size": @(self.buttonView.frame.size.width)}
+		                                           views:views];
+		[self addConstraints:constraints];
 		// init mpv_gl stuff
 		[[self openGLContext] makeCurrentContext];
 		[self initMpvGL];
 	}
-
 	return self;
 }
 

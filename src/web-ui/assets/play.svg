@@ -1,3 +1,6 @@
-<svg height="27" width="27" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 27 27" version="1.1" xmlns="http://www.w3.org/2000/svg">
 	<path d="M8,6L8,21L21,13.5"/>
+	<!-- <svg:filter id="f1">
+		<svg:feGaussianBlur stdDeviation="3"/>
+	</svg:filter> -->
 </svg>

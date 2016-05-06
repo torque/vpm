@@ -1,10 +1,10 @@
 element = document.querySelector '#playbutton'
-playing = true
+playing = false
 
 element.addEventListener 'click', ( ev ) ->
 	vpm.setProperty 'pause', if playing then 'yes' else 'no'
 
-window.observeProperty 'pause', ( value ) ->
+window.getInitialValueAndObserve 'pause', ( value ) ->
 	playing = value is 'no'
 	if playing
 		element.classList.add 'playing'

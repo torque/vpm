@@ -38,6 +38,6 @@ window.observeProperty 'pause', ( paused ) ->
 		window.unobserveProperty 'time-pos', observePos
 		updateTimer = setInterval updateElapsed, 200
 
-window.observeProperty 'duration', ( duration ) ->
+window.getInitialValueAndObserve 'duration', ( duration ) ->
 	haveHours = Math.floor(duration/3600) > 1
 	total.textContent = formatTime duration

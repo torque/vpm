@@ -4,7 +4,7 @@ fullscreen = false
 element.addEventListener 'click', ( ev ) ->
 	vpm.setProperty 'fullscreen', if fullscreen then "no" else "yes"
 
-window.observeProperty 'fullscreen', ( value ) ->
+window.getInitialValueAndObserve 'fullscreen', ( value ) ->
 	fullscreen = value isnt 'no'
 	if fullscreen
 		element.classList.add 'fullscreen'

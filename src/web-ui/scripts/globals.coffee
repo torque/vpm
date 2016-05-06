@@ -29,3 +29,9 @@ window.signalPropertyChange = ( name, value, oldValue ) ->
 		for callback in callbacks[name]
 			callback value, oldValue
 	, 0
+
+window.getInitialValueAndObserve = ( name, callback ) ->
+	if value = vpm.getProperty name
+		callback value
+
+	window.observeProperty name, callback

@@ -24,18 +24,18 @@ updateVolumeDisplay = ( value ) ->
 	else
 		volumeButton.className = 'button high'
 
-window.observeProperty 'volume', updateVolumeDisplay
+window.getInitialValueAndObserve 'aid', ( value ) ->
+	if value is 'no'
+		volumeWidget.className = 'noaudio'
+	else
+		volumeWidget.className = ''
 
-window.observeProperty 'mute', ( value ) ->
+window.getInitialValueAndObserve 'volume', updateVolumeDisplay
+
+window.getInitialValueAndObserve 'mute', ( value ) ->
 	muted = value is 'yes'
 	if muted
 		volumeButton.className = 'button muted'
 		currentVolume.style.width = '0%'
 	else
 		updateVolumeDisplay vpm.getProperty 'volume'
-
-window.observeProperty 'aid', ( value ) ->
-	if value is "no"
-		volumeWidget.className = 'noaudio'
-	else
-		volumeWidget.className = ''

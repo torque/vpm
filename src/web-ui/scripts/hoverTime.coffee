@@ -54,9 +54,6 @@ setPosition = ( x ) ->
 		hoverTimeNib.style.left = '50%'
 
 	hoverTime.style.left = left + 'px'
-	# this positioning is kind of dependent on the seekbarPad div height,
-	# since the nib sits inside that div. Currently, it looks fine.
-	hoverTime.style.top = seekBox.top - hoverBox.height + 'px'
 
 seekBar.addEventListener 'mouseover', ( ev ) ->
 	hoverTime.className = 'shown'

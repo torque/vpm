@@ -12,6 +12,20 @@
 	flex-direction column
 	width 100%
 	height 100%
+
+	path
+		transition fill 2s
+
+	&.gone
+		display none
+
+	&.blackout
+		path
+			fill black
+
+		#slug .blurb
+			color #000
+
 	#slug
 		margin auto
 		display flex
@@ -24,9 +38,10 @@
 		.appIcon
 			width 128px
 			height 128px
-			animation: rotate 60s linear infinite;
+			animation rotate 60s linear infinite
 
 		.blurb
+			transition color 2s linear
 			color #FFF
 			font-family "San Francisco", "Helvetica Neue", sans-serif
 			font-size 2em

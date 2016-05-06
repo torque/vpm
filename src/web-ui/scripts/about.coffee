@@ -3,7 +3,9 @@ display = element.style.display
 
 window.getInitialValueAndObserve 'idle', ( value ) ->
 	if value is 'no'
-		element.style.display = 'none'
+		element.classList.add 'gone'
 	else
-		element.style.display = display
-
+		element.classList.remove 'gone'
+		window.setTimeout ->
+			element.classList.remove 'blackout'
+		, 0
